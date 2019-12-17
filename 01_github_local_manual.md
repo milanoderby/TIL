@@ -1,11 +1,4 @@
-# Github TIL
-
-## 1. TIL?
-
-> - TIL은 **T**oday **I** **L**earned의 줄임말로 개발자 사이에서 매일 자신이 학습한 내용을  commit(기록)하는 것
-> - github, bitbucket, gitlab과 같은 원격 저장소에서 제공하는 1commit-1grass의 흥미 요소 제공
-
-## 2. TIL 세팅
+## 1. Github Local Manual
 
 ### (1) Git으로 프로젝트 관리 시작: `git init`
 
@@ -19,17 +12,29 @@
 
   
 
-### (2) Commit을 위한 Staging: `git add`
+### (2) Commit을 위한 Staging: `git add` , `git rm`
 
 - 현재 코드 상태의 스냅샷을 찍기 위한 파일 선택 (== Staging Area에 파일 추가)
 
   ```shell
   $ git add [파일 이름] # .은 모든 변경 사항을 staging area로 올림
   ```
+  
+- 현재 코드 상태의 스냅샷을 찍기 위한 파일 선택 (== Staging Area에 파일 삭제)
+
+  ```shell
+  $ git rm [파일 이름] # .은 모든 변경 사항을 staging area에서 내림
+  ```
 
 
 
-### (3) 버전 관리를 위한 스냅샷 저장: `git commit`
+### (3) 과거 스냅샷과 어떻게 바뀌었는지를 확인: `git diff`
+
+- 과거의
+
+### 
+
+### (4) 버전 관리를 위한 스냅샷 저장: `git commit`
 
 - 현재 상태에 대한 스냅샷을 `commit`하여, 버전 관리를 진행한다.
 
@@ -39,29 +44,7 @@
 
 
 
-### (4) 원격 저장소 정보 추가: `git remote`
-
-- Github 원격(remote) 저장소(repository)를 생성하고 `TIL`폴더와 연결한다.
-
-- 새로운 원격 저장소가 추가될 때만 입력한다.
-
-  ```shell
-  $ git remote add origin [github 원격 저장소 주소]
-  ```
-
-  
-
-### (5) 원격 저장소로 코드 `git push`
-
-- 최종적으로 Github 원격 저장소에 push한다.
-
-  ```shell
-  $ git push origin master
-  ```
-
-
-
-### (6) 그 외 명령어
+### (5) 그 외 명령어
 
 - 현재 `git`의 상태를 조회 `git status`
 
@@ -73,6 +56,8 @@
 
   ```shell
   $ git log
+  $ git log --oneline # commit log 각각의 정보를 한 줄에 출력한다.
+  $ git log --graph # commit log들을 그래프 형태로 출력한다.
   ```
 
 - `git` 설정 (user.name & user.email): 최초 1회 설정

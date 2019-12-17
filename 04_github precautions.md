@@ -16,9 +16,9 @@
 
 ## 2. Merge시의 주의사항
 
-	### 	(1) 같은 파일에 대해서 2개의 branch의 내용이 포함관계를 이룬다면, Git이 Auto Merge를 할 수 있다.
+###  	(1) 같은 파일에 대해서 2개의 branch의 내용이 포함관계를 이룬다면, Git이 Auto Merge를 할 수 있다.
 
 
 
-	### 	(2) 같은 파일에 대해 2개의 branch가 포함관계를 이루지 않고, 서로 다른 내용이 저장되어 있다면, Git은 Auto Merge를 할 수 없다. 이 경우, Conflict를 Resolve해주고, 다시 Commit를 한다.
+### 	(2) 같은 파일에 대해 2개의 branch가 포함관계를 이루지 않고, 서로 다른 내용이 저장되어 있다면, Git은 Auto Merge를 할 수 없다. 이 경우, Conflict를 Resolve해주고, 다시 Commit를 한다.
 

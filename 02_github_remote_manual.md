@@ -27,3 +27,35 @@
   $ git remote rename [현재 원격저장소 명] [바꾸고 싶은 이름]
   $ git remote rename origin real
   ```
+
+
+
+### (2) 원격 저장소에 local directory의 변경정보를 저장: `git push`
+
+- Github 원격저장소에 현재까지의 변경사항 및 파일을 저장한다.
+
+  ```shell
+  $ git push [내보낼 원격저장소 명] [내보낼 branch]
+  ```
+
+
+
+### (3) 원격저장소의 파일들을 local directory로 복사: `git clone`
+
+- Github 원격저장소의 파일들을 local directory로 가져온다.
+
+  ```shell
+  $ git clone [복사해올 원격저장소의 주소]
+  ```
+
+
+
+### (4) 원격저장소의 변경된 파일을 local directory로 복사: `git pull`
+
+- 원격저장소의 파일 중 협업이나, 다른 PC에서 작업한 내용을 원격저장소에 저장 등의 이유로 변경된 local directory와 원격저장소간의 불일치를 맞춰주는 역할을 한다.
+
+  ```
+  $ git pull [가져올 원격저장소 명] [저장할 branch]
+  ```
+
+  

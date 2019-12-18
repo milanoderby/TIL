@@ -71,7 +71,13 @@
   $ git config --global user.email "yonghwa9086@naver.com"
   ```
 
+- 현재 디렉토리를 workspace로 하는 `vscode`  실행
 
+  ```shell
+  $ code .
+  ```
+
+  
 
 ## 2. **`README.md`**
 

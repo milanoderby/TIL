@@ -92,3 +92,13 @@ merge시점에 양쪽 브랜치에 commit들이 쌓여있고, conflict가 발생
 - 위와 같은 Merge Conflict를 해결하기 위해서는 내가 사용할 내용만 남기고, >>> === <<<와 같은 특수문자들은 제거하여 git에게 내가 이러한 Conflict를 인지하고, Resolve했다는 것을 알려준다.
 
 - 그 후, add 및 commit를 하면 파일에 대한 Conflict가 해결이 되었기 때문에 commit이 성공적으로 잘 된다.
+
+  ```shell
+  현재 상태: (master | Merging)
+  $ vi [Conflict가 발생한 문서] #(Conflict가 발생한 문서를 편집하여 Conflict를 해결한다.)
+  $ git add [Conflict 해결한 문서]
+  $ git commit -m "Resolve Conflict"
+  해결한 상태: (master) # Merging이 사라짐
+  ```
+
+  

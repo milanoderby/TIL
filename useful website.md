@@ -81,3 +81,5 @@
 - ### https://learngitbranching.js.org/: git을 튜토리얼 형식으로 배우는 사이트
 
 - ### https://git-school.github.io/visualizing-git/: git을 시각화해서 보여주는 사이트
+
+- ### http://gitignore.io/: `git push`할 때, 개발환경에 따라 불필요한 파일목록을 생성해주는 사이트

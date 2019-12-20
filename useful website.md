@@ -28,6 +28,10 @@
 
 - ### https://www.codecademy.com/
 
+- ### http://pythontutor.com/ : Python에서 code가 진행되면서 data가 어떻게 바뀌는지 시각화하였음
+
+- ### http://pythontutor.com/java.html#mode=display : Java에서 code가 진행되면서 data가 어떻게 바뀌는지 시각화하였음
+
 ​    
 
 ## 유용한 사이트 (공모전, 프로젝트편)
@@ -43,6 +47,8 @@
 - ### https://developers.naver.com/main/
 
 - ### https://console.developers.google.com/
+
+- ### https://www.apistore.co.kr/main.do : 무료 API를 소개해주는 사이트
 
 ​    
 
@@ -83,3 +89,11 @@
 - ### https://git-school.github.io/visualizing-git/: git을 시각화해서 보여주는 사이트
 
 - ### http://gitignore.io/: `git push`할 때, 개발환경에 따라 불필요한 파일목록을 생성해주는 사이트
+
+
+
+## 유용한 사이트 (Server 배포)
+
+- ### https://www.pythonanywhere.com/ : Python WebServer를 가동할 수 있도록 하는 사이트
+
+- 

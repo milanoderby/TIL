@@ -6,5 +6,13 @@
 
 - 해당 항목에서 우클릭하고, Copy - copySelector를 누른다.
 
-  
 
+
+
+## 2. Cookies 확인 및 삭제
+
+- `Application` Tab 에서 `Cookies` 항목을 눌러보면 각 홈페이지에서 발행한 `Cookies`를 보여준다.
+
+
+
+## 3. 

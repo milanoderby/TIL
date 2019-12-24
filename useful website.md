@@ -66,6 +66,12 @@
 
 
 
+## 유용한 사이트 (Java 편)
+
+### - https://mvnrepository.com/ : java 개발자들이 만들어놓은 라이브러리가 거의 다 있는 사이트
+
+
+
 ## 유용한 사이트 (광고 관련)
 
 - ### 카울리: 자기가 클릭해도 인식을 못한다고 함.
@@ -95,5 +101,15 @@
 ## 유용한 사이트 (Server 배포)
 
 - ### https://www.pythonanywhere.com/ : Python WebServer를 가동할 수 있도록 하는 사이트
+
+- 
+
+
+
+## 유용한 사이트 (Chrome 웹 스토어 - 확장 프로그램)
+
+- ### restlet client : POST, PUT과 같은 response 를 일반 브라우저에서 확인할 수 없는 것들을 확인가능하게 해주는 확장프로그램
+
+- ### JSON Formatter : JSON data를 보기 좋게 만들어 주는 것
 
 - 

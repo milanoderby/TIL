@@ -1,13 +1,4 @@
----
-layout: post
-title: "MySQL DDL 입문"
-date: 2020-03-22 19:50:00 +0900
-categories: [mysql, database]
----
-
-
-
-## MySQL DDL 입문
+# MySQL DDL 입문
 
 1. create 문: `table`, `domain`, `view`, `index` 를 생성할 수 있다.
 

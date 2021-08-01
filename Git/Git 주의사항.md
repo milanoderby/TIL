@@ -1,11 +1,4 @@
----
-layout: post
-title: "Git 주의사항"
-date: 2020-01-19 21:02:00 +0900
-categories: [git]
----
-
-## Git 주의사항
+# Git 주의사항
 
 ### 1. Git은 디렉토리 단위로 관리된다. 
 
@@ -15,14 +8,14 @@ categories: [git]
 
 - 이러한 문제를 해결하기 위해서는 하위 디렉토리의 `.git` 디렉토리를 `rm -r` 명령어로 삭제해주면 된다.
 
-
+<br>
 
 ### 2. Merge시의 주의사항
 
 - 같은 파일에 대해서 2개의 branch의 내용이 포함관계를 이룬다면, Git이 `Auto Merge`를 할 수 있다.
 - 같은 파일에 대해 2개의 branch가 포함관계를 이루지 않고, 서로 다른 내용이 저장되어 있다면, Git은 `Auto Merge`를 할 수 없다. 이 경우, `Conflict`를 `Resolve`해주고, 다시 Commit를 한다.
 
-
+<br>
 
 ### 3. Git은 임시파일에 대한 구분을 직접 할 수 없다. - `.gitignore`를 이용
 
@@ -33,3 +26,5 @@ categories: [git]
   2. eclipse가 만들어내는`.metadata`
   3. 그 외 git에 올리지 않아도 되는 설정파일
 - `requirements.txt` 같은 파일은 `python` 에서 어떤 개발모듈들을 사용했는지를 알려주어야 하므로 `push`해줘야하는 파일이다. 배포환경에 대한 정보를 알려주는 정보이기 때문이다.
+
+<br>

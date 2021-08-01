@@ -1,13 +1,4 @@
----
-layout: post
-title: "MySQL JOIN"
-date: 2020-04-04 18:45:00 +0900
-categories: [mysql, database]
----
-
-
-
-## MySQL JOIN
+# MySQL 조인
 
 1. `CROSS JOIN`
 

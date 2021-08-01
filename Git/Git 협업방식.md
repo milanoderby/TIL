@@ -1,9 +1,4 @@
----
-layout: post
-title: "Git 협업 방식"
-date: 2020-01-19 21:02:00 +0900
-categories: [git]
----
+# Git 협업방식
 
 ## 실제 협업은 어떻게 하나?
 

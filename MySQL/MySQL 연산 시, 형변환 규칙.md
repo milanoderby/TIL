@@ -1,13 +1,4 @@
----
-layout: post
-title: "MySQL 연산 시, 형변환 규칙"
-date: 2020-03-29 14:15:00 +0900
-categories: [mysql, database]
----
-
-
-
-## MySQL 연산 시, 형변환 규칙
+# MySQL 연산 시, 형변환 규칙
 
 1. 암시적 형변환
    

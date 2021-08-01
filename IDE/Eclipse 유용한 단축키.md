@@ -1,13 +1,4 @@
----
-layout: post
-title: "Eclipse 유용한 단축키"
-date: 2020-03-22 17:35:00 +0900
-categories: [eclipse, sts]
----
-
-
-
-## Eclipse 유용한 단축키
+# Eclipse 유용한 단축키
 
 - `﻿"main"` + `Ctrl` + `Space` : main 메소드 생성
 - `"syso"` + `Ctrl` + `Space` : 출력문 생성

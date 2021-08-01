@@ -1,9 +1,4 @@
----
-layout: post
-title: "Git Branch와 Merge"
-date: 2020-01-19 20:53:00 +0900
-categories: [git]
----
+# Git 브랜치와 머지
 
 ## 1. Branch, Merge 관련 명령어
 
@@ -27,7 +22,7 @@ categories: [git]
   ```shell
   $ git branch -d [삭제할 브랜치 명]
   # 위 명령어는 삭제할 브랜치의 변화가 이미 현재 브랜치에 적용되어 있을 때에만 삭제가능하다.
-$ git branch -D [삭제할 브랜치 명]
+  $ git branch -D [삭제할 브랜치 명]
   # 위 명령어는 브랜치의 변화가 현재 브랜치에 적용이 되어있든, 안되어있든 강제로 삭제한다.
   ```
   

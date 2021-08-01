@@ -1,13 +1,4 @@
----
-layout: post
-title: "Eclipse 환경설정"
-date: 2020-03-22 17:45:00 +0900
-categories: [eclipse, sts]
----
-
-
-
-## Eclipse 환경설정
+## Eclipse 프로젝트 설정
 
 - ### 인코딩방식 확인 및 설정
 
@@ -15,7 +6,7 @@ categories: [eclipse, sts]
   UTF-8 방식이 일반적이므로 실제 코딩할 때는 UTF-8 방식으로 바꿔줄 것
   안그러면 UTF-8으로 입력이 되지 않기 때문에 MS-949방식으로 입력된 문자가 들어갈 것이다.
 
-
+<br>
 
 - ### 다른 사람의 jar파일을 라이브러리로 사용하는 방법
 
@@ -23,7 +14,7 @@ categories: [eclipse, sts]
   Project 폴더 우클릭 -> 맨 아래 Properties -> 창의 왼쪽 Java Build Path
   -> 창의 위쪽 Libraries 누르고, -> 오른쪽의 Add jars 클릭 후, jar파일을 추가하고 적용
 
-   
+   <br>
 
 - ### 다른 사람에게 jar파일로 라이브러리 보내는 방법
 
@@ -32,7 +23,7 @@ categories: [eclipse, sts]
   jar: 일반적으로 참조할 수 있는 형태의 jar파일로 나옴
   Runnable Jar: JRE가 설치되어 있는 PC에서 바로 구동 가능한 파일로 나옴
 
-
+<br>
 
 - ### `Import` : `Project`를 가져오는 여러가지 방식
 
@@ -43,3 +34,5 @@ categories: [eclipse, sts]
   3. `Gradle` : `File` - `Import` - `Existing Gradle Projects`를 통해 Gradle 프로젝트를 가져올 수 있다.
 
   4. `Maven` : `File` - `Import` - `Existing Maven Projects`를 통해 Maven 프로젝트를 가져올 수 있다.
+
+<br>

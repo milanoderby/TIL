@@ -1,9 +1,4 @@
----
-layout: post
-title: "Git 로컬저장소 관리"
-date: 2020-01-19 20:47:00 +0900
-categories: [git]
----
+# Git 로컬명령어
 
 ## 1. Git 로컬저장소 관리
 
@@ -56,15 +51,22 @@ categories: [git]
   ```shell
   $ git diff
   # 현재 branch에서 가장 최근 commit 시점 기준 working directory에서 존재하는 파일들의 변경사항을 보여준다.
-# Staging Area에 add하기 전에 어떤 파일 변경사항들이 add되는지 미리 확인할 수 있다.
-  
+
+- Staging Area에 add하기 전에 어떤 파일 변경사항들이 add되는지 미리 확인할 수 있다.
+
+  ```bash
   $ git diff --staged
-  # 이미 Staging Area에 올라간 파일 변경사항을 확인할 수 있다.
-  
-  $ git diff [commit명 / branch명]
-  # 특정 commit/branch 시점에서의 File과 현재 working directory의 File 변경사항를 보여준다.
   ```
-  
+
+- 이미 Staging Area에 올라간 파일 변경사항을 확인할 수 있다.
+
+  ```bash
+  $ git diff [commit명 / branch명]
+  ```
+
+- 특정 commit/branch 시점에서의 File과 현재 working directory의 File 변경사항를 보여준다.
+
+
   <br>
 
 ### (5) 버전 관리를 위한 스냅샷 저장: `git commit`
@@ -79,8 +81,7 @@ categories: [git]
   $ git commit -a
   # File들의 모든 "modified"된 상태를 Staging하고, 바로 Commit까지 해준다.
   # 다만, 주의할 점은 "New File"은 Staging 및 Commit되지 않는다. 
-  ```
-  
+
   <br>
 
 ### (6) 그 외 명령어

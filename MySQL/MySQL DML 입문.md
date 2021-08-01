@@ -1,13 +1,4 @@
----
-layout: post
-title: "MySQL DML 입문"
-date: 2020-03-22 19:00:00 +0900
-categories: [mysql, database]
----
-
-
-
-## MySQL DML 입문
+# MySQL DML 입문
 
 1. select 문 (조회, read)
 

@@ -1,10 +1,3 @@
----
-layout: post
-title: "Git 원격저장소 관리"
-date: 2020-01-19 20:50:00 +0900
-categories: [git]
----
-
 # Git 원격저장소 관리
 
 ### (1) 원격 저장소 정보 추가: `git remote`
@@ -35,7 +28,7 @@ categories: [git]
   $ git remote rename origin real
   ```
 
-
+<br>
 
 ### (2) 원격 저장소에 local directory의 변경정보를 저장: `git push`
 
@@ -45,7 +38,7 @@ categories: [git]
   $ git push [내보낼 원격저장소 명] [local저장소에서 내보낼 branch명]
   ```
 
-
+<br>
 
 ### (3) 원격저장소의 파일들을 local directory로 복사: `git clone`
 
@@ -58,7 +51,7 @@ categories: [git]
   # 지정해준 directory명으로 새로 directory를 생성하고, clone해온다.
   ```
 
-
+<br>
 
 ### (4) 원격저장소의 변경된 파일을 local directory로 복사: `git pull`
 
@@ -69,6 +62,5 @@ categories: [git]
   ```shell
   $ git pull [가져올 원격저장소 명] [원격저장소에서 가져올 branch명]
   # 지정한 원격저장소의 브랜치를 local directory의 현재 branch에 pull한다.
-```
-  
-  
+
+<br>

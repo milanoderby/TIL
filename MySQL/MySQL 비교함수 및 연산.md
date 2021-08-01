@@ -1,13 +1,4 @@
----
-layout: post
-title: "MySQL 비교함수 및 연산"
-date: 2020-03-28 22:50:00 +0900
-categories: [mysql, database]
----
-
-
-
-## MySQL Comparision Function and Operation
+# MySQL 비교함수 및 연산
 
 - 비교연산은 `string` 과 `number` 인자 사이에서 사용되고, 결과는 1(`TRUE`) , 0(`FALSE`) , `NULL` 중 하나이다.
 

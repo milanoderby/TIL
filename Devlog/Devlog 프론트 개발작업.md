@@ -3,4 +3,5 @@
 3. element-plus-vue-cli 플러그인 설치
 4. vue-ui 종료
 5. 새로 생성한 vue 디렉토리로 이동 후, npm run serve
-6. 
+6. tui-viewer, tui-editor 연동
+7. npm run lint --fix 명령어

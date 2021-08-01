@@ -1,12 +1,3 @@
----
-layout: post
-title: "MyBatis 입문"
-date: 2020-03-22 15:15:00 +0900
-categories: [mybatis]
----
-
-
-
 ## MyBatis 입문
 
 ### 1. 왜 MyBatis를 사용하는가?

@@ -1,4 +1,4 @@
-# 3장-Spring MVC
+# 3장 - 스프링 MVC
 
 Java - `Locale 객체`로 다국어를 구분합니다.
 

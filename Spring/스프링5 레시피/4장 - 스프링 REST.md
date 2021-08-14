@@ -108,3 +108,14 @@ Http 응답코드를 지정하여 데이터를 반환할 때, 사용하는 객�
 Payload의 구조를 나타내는 언어
 
 예시로, swagger, spring docs 등이 있습니다.
+
+
+
+### 정리필요
+
+- Spring MVC의 HttpMessageConverter: `URL 확장자` 를 보고, 적절한 형태로 페이로드를 반환합니다.
+
+- 자리끼우개: placeholder
+- Atom/RSS Feed 사용처
+- getForObject, getForEntity 차이
+- ResponseEntity<> 역할 및 주요 메소드

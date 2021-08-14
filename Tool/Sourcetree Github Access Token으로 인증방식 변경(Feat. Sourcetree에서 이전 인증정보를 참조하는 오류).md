@@ -1,4 +1,4 @@
-# Sourcetree Github Push시, 이전 인증정보를 참조하는 오류
+# Sourcetree Github Access Token으로 인증방식 변경(Feat. Sourcetree에서 이전 인증정보를 참조하는 오류)
 
 ### 문제의 발생
 
@@ -36,19 +36,21 @@
 
 <br>
 
-### 또 다른 문제의 발생
+### Github에서 이전 인증정보를 캐싱하는 오류
 
 이와 같이 하면, Push 오류가 발생하지 않을 줄 알았으나, 계속해서 같은 오류가 발생하였습니다.
 
 처음에는, Sourcetree 컨플루엔스에서 제공하는 [암호변경 가이드](https://confluence.curvc.com/pages/viewpage.action?pageId=72290170)대로 시행하면, 이 문제도 해결될 줄 알았으나, 해결되지 않았습니다.
 
-생각해보니, 이전에도 비슷한 문제가 발생했던 것 같습니다. `Windows` 환경의 Sourcetree에서 발생하는 오류가 있습니다. Sourcetree 자체에서 저장하는 `userhosts` 파일과 `passwd` 파일이 있습니다. 아마도? 이것을 삭제해주면, 될 것 같습니다.
+ `Windows` 환경의 Sourcetree에서는 인증정보를 변경하여도 패스워드를 캐싱하여 발생하는 오류가 있습니다. Sourcetree 자체에서 비밀번호를 저장하는 `passwd` 파일이 있습니다. 이것을 삭제해주면 됩니다.
 
-![image-20210814043150423](./images/sourcetree-push-error-6)
+![image-20210815003201118](./images/sourcetree-push-error-6)
+
+삭제하고, 다시 Sourcetree에서 push를 시도하면, 새로운 비밀번호를 물어봅니다. 이 때, Personal Access Token을 입력하면, 문제가 해결됩니다.
 
 <br>
 
-하지만, 이것으로 문제가 해결되지 않았습니다. 어쩔 수 없이 stackoverflow를 찾아가서, 이것저것 해봤습니다.
+위의 작업을 수행해도 인증비밀번호가 변하지 않는 경우가 있습니다. 어쩔 수 없이 stackoverflow를 찾아가서, 이것저것 해봤습니다.
 
 결론적으로 알아낸 방법은 저장되어 있는 `credential` 을 `reject`하는 것입니다.
 
@@ -60,13 +62,7 @@ protocol=https
 host=github.com
 ```
 
-<br>
-
-뒤이어, push를 수행해줬더니 새로운 username과 password 입력을 요구하는 창이 떴고, 정상적으로 username과 PersonalAccessToken을 입력해줬습니다.
-
-```bash
-git push
-```
+뒤이어, Sourcetree에서 push를 시도하면, 새로운 비밀번호를 물어봅니다. 이 때, Personal Access Token을 입력하면, 문제가 해결됩니다.
 
 <br>
 

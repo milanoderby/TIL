@@ -32,9 +32,9 @@ Java에서는 다양한 자료구조를 `java.util` 패키지를 통해 지원�
 
 <br>
 
-### MultiValueMap 활용한 소스코드
+### Java로 직접 구현한 MultiValueMap 활용한 소스코드
 
-다음은 [프로그래머스 베스트앨범](https://programmers.co.kr/learn/courses/30/lessons/42579) 문제를 풀 때, MultiValueMap 을 사용하여 해결한 방법입니다.
+다음은 [프로그래머스 베스트앨범](https://programmers.co.kr/learn/courses/30/lessons/42579) 문제를 풀 때, MultiValueMap 을 사용하여 해결하는 코드입니다.
 
 사실, 이 문제는 이런 방식으로 해결하지 않아도 되지만(더 효율적인 방법이 있습니다.), MultiValueMap을 사용할 수 있는 코드라 생각하여 예시자료로 남깁니다.
 

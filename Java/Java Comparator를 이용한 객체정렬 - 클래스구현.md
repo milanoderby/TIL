@@ -1,4 +1,4 @@
-# Java Comparator 활용한 객체 정렬
+# Java Comparator 활용한 객체 정렬 - 클래스 구현
 
 ## Comparator Interface
 

@@ -1,6 +1,6 @@
 # Java Comparator 활용한 객체 정렬 - 클래스 구현
 
-## Comparator Interface
+### Comparator Interface
 
 Java 객체를 비교할 때, 비교 기준을 만들 때, 사용하는 인터페이스입니다.
 
@@ -8,7 +8,7 @@ Java 객체를 비교할 때, 비교 기준을 만들 때, 사용하는 인터�
 
 
 
-## Collections.sort(Collection<T> list, Comparator<? super T> c)
+### Collections.sort(Collection<T> list, Comparator<? super T> c)
 
 Java 에서 객체 Collection을 정렬할 때, 사용하는 메소드입니다.
 
@@ -16,7 +16,7 @@ Java 에서 객체 Collection을 정렬할 때, 사용하는 메소드입니다.
 
 
 
-## 사용 예시
+### 사용 예시
 
 ```java
 import java.io.BufferedReader;

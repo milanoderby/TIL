@@ -121,6 +121,8 @@ pattern = ABABC
 
 즉, 비교가 완료된 `ABAB` 는 이미 동일함이 확인된 문자열입니다.  이 정보를 이용하여 이미 동일함이 확인된 `AB` 구간은 건너뛰는 개념입니다.
 
+<br>
+
 ### PI 배열
 
 위의 `AB`는 어떻게 찾느냐? 답은 `접두사와 접미사가 동일한 최대구간` 입니다.
@@ -214,6 +216,8 @@ private static int[] getPiArray(String str) {
     return pi;
 }
 ```
+
+<br>
 
 ### KMP 알고리즘을 이용하여 패턴찾기
 

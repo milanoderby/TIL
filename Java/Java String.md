@@ -6,7 +6,7 @@ String은 일반적인 객체와 다르게 new 연산자를 사용하지 않고�
 
 <br>
 
-###### String str = "hello";
+#### String str = "hello";
 
 이 방식으로 생성 시, 상수영역에 생성됩니다. 이 상수영역을 **String Pool 이라고 부르며, JVM에 문자열들을 저장하는 특별한 메모리 영역**입니다.
 
@@ -14,7 +14,7 @@ String은 일반적인 객체와 다르게 new 연산자를 사용하지 않고�
 
 <br>
 
-###### String str = new String("hello");
+#### String str = new String("hello");
 
 이 방식으로 생성 시, 힙영역에 새로 생성됩니다. (위의 방식과 다르게 무조건, 새로 힙영역에 생성합니다.)
 

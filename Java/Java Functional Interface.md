@@ -45,4 +45,6 @@ Java 8부터 도입된 함수형 인터페이스는 java.util.function 패키지
 
 https://www.baeldung.com/java-8-functional-interfaces
 
+https://www.baeldung.com/java-8-lambda-expressions-tips
+
 https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html#package.description

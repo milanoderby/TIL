@@ -57,17 +57,59 @@ console.log(newstr);  // Smith, John
 
 <br>
 
-### 한글 제거
+### 활용
 
+#### 숫자 외 입력제한
 
+**input태그**에 **input 이벤트**가 발생할 때, 입력 값으로 **숫자** 외의 값이 들어오면, 제거하는 함수입니다.
 
-### 영어 제거
+```typescript
+removeCharacterExceptNumber(input: string): string {
+    let exceptNumber = /[^0-9]/gi;
+    return input.replace(exceptNumber, '');
+}
+```
 
+<br>
 
+#### 영어 외 입력제한
 
-### 숫자 제거
+**input태그**에 **input 이벤트**가 발생할 때, 입력 값으로 **영어** 외의 값이 들어오면, 제거하는 함수입니다.
 
+```typescript
+removeCharacterExceptEnglish(input: string): string {
+    let exceptEnglish = /[^a-zA-Z]/gi;
+    return input.replace(exceptEnglish, '');
+}
+```
 
+<br>
+
+#### 한글 외 입력제한
+
+**input태그**에 **input 이벤트**가 발생할 때, 입력 값으로 **한글** 외의 값이 들어오면, 제거하는 함수입니다.
+
+```typescript
+removeCharacterExceptKorean(input: string): string {
+    let exceptKorean = /[^ㄱ-힣]/gi;
+    return input.replace(exceptKorean, '');
+}
+```
+
+<br>
+
+위를 활용하여 복합적으로 입력을 제한할 수 있습니다.
+
+#### 영어, 한글 외 입력제한
+
+**input태그**에 **input 이벤트**가 발생할 때, 입력 값으로 **영어, 한글** 외의 값이 들어오면, 제거하는 함수입니다.
+
+```typescript
+removeCharacterExceptKorEng(input: string): string {
+    let exceptKoreanEnglish = /[^a-zA-Zㄱ-힣]/gi;
+    return input.replace(exceptKoreanEnglish, '');
+}
+```
 
 <br>
 

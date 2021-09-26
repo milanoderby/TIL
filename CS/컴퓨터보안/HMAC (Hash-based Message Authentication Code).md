@@ -79,5 +79,4 @@ https://ko.wikipedia.org/wiki/HMAC
 
 https://ko.wikipedia.org/wiki/%EB%A9%94%EC%8B%9C%EC%A7%80_%EC%9D%B8%EC%A6%9D_%EC%BD%94%EB%93%9C
 
-https://jongmin92.github.io/2019/12/23/Programming/hmac/
-
+https://brunch.co.kr/@sangjinkang/50

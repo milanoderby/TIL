@@ -1,5 +1,7 @@
 # HMAC (Hash-based Message Authentication Code)
 
+**HMAC**은 **서버 입장에서 클라이언트의 API 요청을 받았을 때, 이 요청이 신뢰할 수 있는 요청인지를 검증**할 때, 사용할 수 있습니다.
+
 HMAC은 Hash-based Message Authentication Code를 의미하며, 이는 2가지의 의미를 내포합니다.
 
 1. Hash 기반
@@ -51,9 +53,9 @@ HMAC은 쉽게 말해, **MAC**인데, MAC을 만들 때 사용하는 알고리�
 
 #### 사용
 
-HMAC 연산을 위해 주로, SHA-2, SHA-3 등의 암호화 해시함수를 사용할 수 있습니다. (SHA-1은 보안상의 취약점으로 인해 사용불가합니다.)
+HMAC 연산을 위해 주로, SHA-2, SHA-3 등의 암호화 해시함수를 사용할 수 있습니다. (SHA-1은 보안상의 취약점이 발견되어 사용을 권장하지 않습니다.)
 
-HMAC는 [IPsec](https://ko.wikipedia.org/wiki/IPsec), [SSH](https://ko.wikipedia.org/wiki/시큐어_셸), [TLS](https://ko.wikipedia.org/wiki/전송_계층_보안) 프로토콜, 그리고 [JSON 웹 토큰](https://ko.wikipedia.org/wiki/JSON_웹_토큰)에 사용됩니다.
+HMAC은 [IPsec](https://ko.wikipedia.org/wiki/IPsec), [SSH](https://ko.wikipedia.org/wiki/시큐어_셸), [TLS](https://ko.wikipedia.org/wiki/전송_계층_보안) 프로토콜, 그리고 [JSON 웹 토큰](https://ko.wikipedia.org/wiki/JSON_웹_토큰)에 사용됩니다.
 
 <br>
 

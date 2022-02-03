@@ -38,11 +38,13 @@
 
 ### 해결방법
 
-현재까지도 관리되는 **Julu jdk 1.7 LTS 버전**을 로컬 PC에 재설치하였습니다.
+현재까지도 관리되는 **zulu jdk 1.7 LTS 버전**을 로컬 PC에 재설치하였습니다.
+
+설치링크: https://www.azul.com/downloads/?package=jdk
 
 cacerts 파일의 크기가 165KB 인 것을 보니, 인증된 서버의 정보를 제대로 관리 중인 것으로 보입니다.
 
-![image-20220203135654678](./images/julu-jdk-cacerts-file)
+![image-20220203135654678](./images/zulu-jdk-cacerts-file)
 
 <br>
 

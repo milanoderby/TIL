@@ -25,9 +25,8 @@
 
 프레임워크
 
-- [스프링 5 레시피 - 스프링 애플리케이션 개발에 유용한 161가지 문제 해결 기법](http://www.yes24.com/Product/Goods/63713129)
-
 - [열혈강의 자바 웹 개발 워크북 - MVC 아키텍처, 마이바티스, 스프링으로 만드는 실무형 개발자 로드맵](http://www.yes24.com/Product/Goods/13159413)
+- [스프링 5 레시피 - 스프링 애플리케이션 개발에 유용한 161가지 문제 해결 기법](http://www.yes24.com/Product/Goods/63713129)
 
 - [스프링 마이크로서비스 코딩 공작소 Spring Microservices in Action - 스프링 부트와 스프링 클라우드, 도커, 아파치 카프카, 집킨, AWS로 컨테이너 기반의 MSA 구축](http://www.yes24.com/Product/Goods/67473377)
 

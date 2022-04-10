@@ -34,6 +34,7 @@
 
 인프라
 
+- [인프라 엔지니어의 교과서 - 서버, 운영체제, 네트워크, 클라우드, 가상화, MSP 운영, 대규모 인프라 관리까지 모든 인프라에 대한 첫 길잡이](http://www.yes24.com/Product/Goods/13486433)
 - [쿠버네티스 인 액션 - 그림과 상세한 설명으로 명확하게 이해하는](http://www.yes24.com/Product/Goods/89607047)
 
 <br>
@@ -59,6 +60,12 @@
 ### 읽어야 할 책
 
 - [Real MySQL 8.0 (1권) - 개발자와 DBA를 위한 MySQL 실전 가이드](http://www.yes24.com/Product/Goods/103415627)
-
 - [Real MySQL 8.0 (2권) - 개발자와 DBA를 위한 MySQL 실전 가이드](http://www.yes24.com/Product/Goods/103415767)
+- [데이터 중심 애플리케이션 설계 - 신뢰할 수 있고 확장 가능하며 유지보수하기 쉬운 시스템을 지탱하는 핵심 아이디어](http://www.yes24.com/Product/Goods/59566585)
+- [대규모 서비스를 지탱하는 기술 - 웹 개발자를 위한](http://www.yes24.com/Product/Goods/4667932)
+- [24시간 365일 서버/인프라를 지탱하는 기술](http://www.yes24.com/Product/Goods/3377489)
+- [가상 면접 사례로 배우는 대규모 시스템 설계 기초](http://www.yes24.com/Product/Goods/102819435)
+- [HTTP 완벽 가이드](http://www.yes24.com/Product/Goods/15381085)
+- [자바 ORM 표준 JPA 프로그래밍 - 스프링 데이터 예제 프로젝트로 배우는 전자정부 표준 데이터베이스 프레임워크](http://www.yes24.com/Product/Goods/19040233)
+- 카프카 관련 서적
 

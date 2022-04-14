@@ -8,8 +8,9 @@ diff [option] [비교파일1] [비교파일2]
 
 ### option
 
-| -c   | 두 파일간의 차이점 출력                                      |
+| 옵션 | 설명                                                         |
 | ---- | ------------------------------------------------------------ |
+| -c   | 두 파일간의 차이점 출력                                      |
 | -d   | 두 파일간의 차이점을 상세하게 출력                           |
 | -r   | 두 디렉토리간의 차이점 출력, 서브디렉토리 까지 비교          |
 | -i   | 대소문자의 차이 무시                                         |
@@ -21,4 +22,4 @@ diff [option] [비교파일1] [비교파일2]
 
 ### 참고자료
 
-https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=ncloud24&logNo=221255978037
+https://man7.org/linux/man-pages/man1/diff.1.html

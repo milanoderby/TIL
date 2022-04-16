@@ -12,7 +12,7 @@ scheme:[//[username[:password]@]host[:port]][/path][?query][#fragment]
 
 #### URL 형태 다이어그램
 
-![URI syntax diagram](./images/url-regular-expression)
+![URI syntax diagram](./images/url-syntax-diagram)
 
 <br>
 

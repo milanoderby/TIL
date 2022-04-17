@@ -105,6 +105,35 @@ https://www.geeksforgeeks.org/built-functions-awk/
 
 <br>
 
+### match 함수를 통한 패턴 검색 및 추출
+
+각 줄에서 alphabet 문자만 추출하는 예시를 들겠습니다.
+
+예제의 입력으로 주어질 input.txt의 내용은 아래와 같습니다.
+
+```
+!@#$
+1234test5678
+%^&*
+```
+
+<br>
+
+아래 명령어를 수행합니다.
+
+```shell
+awk 'match($0, /[a-zA-Z]+/) {
+	print substr($0, RSTART, RLENGTH)
+}' input.txt
+
+// 결과
+test
+```
+
+위 명령어에서 `RSTART`는 매칭되는 문자의 시작 index를 의미하며, `RLENGTH`는 매칭되는 문자의 길이를 의미합니다.
+
+<br>
+
 ### 참고자료
 
 https://recipes4dev.tistory.com/171

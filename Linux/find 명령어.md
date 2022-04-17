@@ -8,60 +8,54 @@ find [-H] [-L] [-P] [-D debugopts] [-Olevel] [starting-point...] [expression]
 
 <br>
 
-### option
+### -H -L -P
 
-| 옵션    | 설명 |
-| ------- | ---- |
-| -name   |      |
-| -type   |      |
-| -mtime  |      |
-| -delete |      |
-| -not    |      |
+이 옵션들은 파일을 탐색하는 중 symbolic link가 나왔을 때, 어떻게 처리할지에 대해 다룹니다.
+
+| 옵션 | 설명                                                         |
+| ---- | ------------------------------------------------------------ |
+| -P   | 절대 symbolic link를 따라가지 않습니다.                      |
+| -L   | symbolic link를 따라가서, 탐색합니다.                        |
+| -H   | symbolic link를 따라가지 않는 것이 기본입니다.<br />하지만, 명령줄 인자를 처리할 때에는 symbolic link를 따라갑니다. |
+
+위 옵션들이 모두 생략되면, 기본적으로 `-P` 옵션이 적용됩니다.
+
+위의 세 옵션들이 동시에 쓰이면, 가장 마지막에 쓰인 옵션이 적용됩니다. (overriding 됨)
+
+<br>
+
+### -D debugopts
+
+debug option을 설정하는 부분입니다. 자주 사용하지 않기 때문에 생략합니다.
+
+<br>
+
+### -Olevel
+
+query 최적화 레벨을 결정합니다. 자주 사용하지 않기 때문에 생략합니다.
+
+<br>
+
+### starting-point...
+
+탐색을 시작할 경로를 명시합니다.
+
+`.` : 현재 디렉토리부터 탐색
+
+<br>
+
+### expression
+
+| 옵션             | 설명                                                         |
+| ---------------- | ------------------------------------------------------------ |
+| -name <pattern\> | 정규표현식 패턴을 사용하여 매칭되는 파일만 출력합니다.       |
+| -type <c\>       | 파일의 유형을 명시합니다.<br />f: 일반적인 파일<br />d: 디렉토리<br />l: symblic link |
+| -mtime <n\>      | 파일 데이터가 수정된 시간이 `24 * n` 시간을 기준으로 하고,<br />n의 부호에 따라 탐색하는 파일이 달라집니다.<br />find -mtime -3   수정된 시간이 3일(24 * 3 시간) 이내일 경우만 탐색<br />find -mtime 3    수정된 시간이 4일(24 * 4 시간) 에서 3일(24 * 3 시간) 까지<br />find -mtime +3  수정된 시간이 4일(24 * 4 시간) 이전일 경우만 탐색 |
+| -delete          | 탐색 조건에 맞는 파일을 삭제합니다.<br />실패하면, error 메세지가 출력되며, 그 경우 종료코드가 0이 아닌 값을 반환합니다. |
+| -not             | 탐색조건의 `!` 을 추가한 것과 동일합니다.                    |
 
 <br>
 
 ### 참고자료
 
 https://man7.org/linux/man-pages/man1/find.1.html
-
-
-
-
-
-
-
-
-
-<br>
-
-#### zip 명령어
-
--mP옵션
-
-```
-zip [options] zipfile files_list
-```
-
-<br>
-
-#### gzip 명령어
-
-압축 및 해제
-
--d 옵션
-
-<br>
-
-#### date 명령어
-
-https://www.lesstif.com/lpt/linux-date-40436076.html
-
-<br>
-
-#### for 문
-
-https://jhnyang.tistory.com/191
-
-<br>
-
-### 참고자료

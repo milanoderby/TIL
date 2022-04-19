@@ -20,6 +20,12 @@ curl [option] URL
 
 <br>
 
+### 활용 - 응답코드를 파일에 저장
+
+`curl -I https://naver.com | grep HTTP > test.txt`
+
+<br>
+
 ### 참고자료
 
 https://curl.se/docs/manpage.html

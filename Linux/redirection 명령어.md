@@ -1,4 +1,4 @@
-# redirection 명령어
+# redirection 명령어 (>, >>)
 
 redirection 이란, 출력의 방향을 바꾼다는 의미입니다.
 

@@ -30,3 +30,4 @@ curl [option] URL
 
 https://curl.se/docs/manpage.html
 
+http://www.mit.edu/afs.new/sipb/user/ssen/src/curl-7.11.1/docs/curl.html

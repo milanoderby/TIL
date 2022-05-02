@@ -69,6 +69,14 @@ Tomcat 9은 JRE 8 이상 버전을 필요로 합니다.
    2. 구동 후, Tomcat 기본 웹 어플리케이션은 아래 사이트에 접근하면 됩니다.
 
       `http://localhost:8080/`
+      
+      8080 포트 대신 다른 포트를 사용하고 싶다면, `CATALINA_BASE/conf/server.xml` 파일의 **Connector의 port 속성 값**을 수정해야합니다.
+      
+      ```xml
+        <Service name="Catalina">
+          <Connector port="9001" protocol="HTTP/1.1"
+        ...
+      ```
 
 5. Tomcat 중지
 

@@ -65,7 +65,19 @@ https://docs.microsoft.com/ko-kr/windows/wsl/install-manual 를 참고하여 설
 
 #### wsl 실행
 
-PowerShell 에서 `wsl` 명령을 이용하여 바로 설치된 Ubuntu 를 시작할 수 있습니다.
+Windows 키 > wsl 검색 및 실행
+
+또는
+
+PowerShell 에서 `wsl` 입력
+
+하는 방법으로 설치된 Ubuntu 를 시작할 수 있습니다.
+
+<br>
+
+### wsl 버전 확인
+
+`wsl -l -v` 명령어를 이용하여 wsl2 가 정상적으로 설치되어 있는지 확인할 수 있습니다.
 
 <br>
 

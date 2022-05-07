@@ -70,7 +70,7 @@ show variables like '%isolation%'
 
 아래와 같이 작성하면 될 줄 알았으나, 실제로 해보려고 하니 안됩니다.
 
-과거(2014년 글) JpaDialect 를 직접 구현하여 설정해야 된다는 글이 있어 직접 실습을 해보았으나, 이 역시 정상적으로 동작하지 않았습니다.
+과거([2014년 글](https://www.byteslounge.com/tutorials/spring-change-transaction-isolation-level-example)) JpaDialect 를 직접 구현하여 설정해야 된다는 글이 있어 직접 실습을 해보았으나, 이 역시 정상적으로 동작하지 않았습니다.
 
 그 외에도 여러가지 방법으로 아래 구문이 정상동작할 수 있는 방법을 
 

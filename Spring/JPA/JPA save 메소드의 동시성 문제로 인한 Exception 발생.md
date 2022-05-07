@@ -8,7 +8,7 @@ Transaction Isolation Level 에 따라 여러가지 문제가 발생할 수 있�
 2. Nonrepeatable Read: Isolation Level 이 **Repeatable Read** 보다 낮을 때, 발생
 3. Phantom Read: Isolation Level 이 **Serializable** 보다 낮을 때, 발생
 
-각각의 Transaction Isolation level 에 따른 여러가지 문제들에 대한 설명은 [다음 문서]() 를 참고하세요.
+각각의 Transaction Isolation level 에 따른 여러가지 문제들에 대한 설명은 [다음 문서](https://github.com/milanoderby/TIL/blob/master/Spring/%EB%8F%99%EC%8B%9C%EC%84%B1%20%EB%AC%B8%EC%A0%9C%EC%99%80%20Spring%20Transaction%20isolation%20level.md) 를 참고하세요.
 
 그 중 Phantom Read 문제는 Transaction을 동시에 수행하는 2개의 Thread에 대해서 다음과 같은 문제가 발생하는 현상을 말합니다.
 
@@ -66,19 +66,57 @@ show variables like '%isolation%'
 
 ### 해결방안
 
-#### 1. Isolation Level 을 Serializable 로 변경
+#### ~~1. Transaction Isolation Level 을 Serializable 로 변경~~
+
+아래와 같이 작성하면 될 줄 알았으나, 실제로 해보려고 하니 안됩니다.
+
+과거(2014년 글) JpaDialect 를 직접 구현하여 설정해야 된다는 글이 있어 직접 실습을 해보았으나, 이 역시 정상적으로 동작하지 않았습니다.
+
+그 외에도 여러가지 방법으로 아래 구문이 정상동작할 수 있는 방법을 
 
 ```java
-@Transactional(isolation = Isolation.SERIALIZABLE)
-fun saveObject(newObj : newObject) : newObject {
-	return objRepository.save(newObj)
+@Service
+class MemberService (
+    val memberRepository: MemberRepository
+    ){
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    fun saveObject(newObj : newObject) : newObject {
+        return objRepository.save(newObj)
+    }
 }
 ```
 
+<br>
 
+#### ~~2. @Lock 어노테이션을 이용한 방법~~
+
+Lock 이라는 것은 조건에 맞는 레코드들이 있을 때, 조건 범위에 맞는 레코드들에 적용할 수 있는 것인데, 문제 상황은 조회 시, 레코드가 아예 존재하지 않는 상황이기 때문에 Lock을 이용하는 방법은 불가능합니다.
+
+```kotlin
+@Repository
+interface MemberRepository : JpaRepository<Member, Long> {
+	@Transactional
+    @Lock(LockModeType.PESSIMISTIC_FORCE_INCREMENT)
+    @QueryHints(QueryHint(name = "javax.persistence.lock.timeout", value = "3000"))
+    fun save(@Param("member") member: Member) : Member
+}
+```
 
 <br>
 
-#### 2. 
+#### 3. insertOrUpdate 를 수행하는 DB 네이티브 쿼리를 사용할 것
 
-<br>
+MySQL 의 경우, insertOrUpdate 쿼리를 사용하면, 각각의 쿼리가 원자성이 보장되기 때문에 원하는 결과를 얻을 수 있습니다.
+
+```kotlin
+@Repository
+interface MemberRepository : JpaRepository<Member, Long> {
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value =
+    "INSERT INTO members (member_no, name, reg_ymdt, registrant) VALUES(:#{#member.memberNo}, :#{#member.name}, :#{#member.regYmdt}, :#{#member.registrant})" +
+            "ON DUPLICATE KEY UPDATE member_no = :#{#member.memberNo}, name = :#{#member.name}, reg_ymdt = :#{#member.regYmdt}, registrant = :#{#member.registrant}"
+    )
+    fun upsert(@Param("member") member: Member) : Int
+}
+```

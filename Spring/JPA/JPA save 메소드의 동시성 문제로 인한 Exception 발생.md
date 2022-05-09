@@ -72,7 +72,9 @@ show variables like '%isolation%'
 
 과거([2014년 글](https://www.byteslounge.com/tutorials/spring-change-transaction-isolation-level-example)) JpaDialect 를 직접 구현하여 설정해야 된다는 글이 있어 직접 실습을 해보았으나, 이 역시 정상적으로 동작하지 않았습니다.
 
-그 외에도 여러가지 방법으로 아래 구문이 정상동작할 수 있는 방법을 
+그 외에도 여러가지 방법으로 아래 구문이 정상동작할 수 있는 방법을 찾아보았으나, 정상동작하지 않습니다.
+
+사실, 정상동작이 되었다고 하더라도 성능 측면에서 권하지 않는 트랜잭션 고립수준이기 때문에 실제로 적용하지 않았을 것 같습니다.
 
 ```java
 @Service

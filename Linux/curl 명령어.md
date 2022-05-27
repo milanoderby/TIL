@@ -26,6 +26,13 @@ curl [option] URL
 
 <br>
 
+### bash 에서 curl 명령어를 이용한 GET 호출이 잘 되지 않을 때
+이럴 경우, 문제점은 bash에서 `&` 나 `=` 과 같은 문자가 제대로 인식되지 않아서 발생하는 문제일 확률이 높습니다.
+
+아래와 같은 방법을 이용하여 문제를 해결합니다.
+
+`curl -X GET -G http://example.com -d var1=$1 -d var2=$2`
+
 ### 참고자료
 
 https://curl.se/docs/manpage.html

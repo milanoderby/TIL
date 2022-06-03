@@ -11,7 +11,9 @@ curl [option] URL
 | option                         | 설명                                                         | 사용법 예시                                          |
 | ------------------------------ | ------------------------------------------------------------ | ---------------------------------------------------- |
 | -X [HTTP Method명]             | 사용할 HTTP Method를 지정합니다.                             | curl -X GET www.naver.com                            |
-| -H [헤더명:값]                | Request의 추가 Header를 지정합니다                           | curl -H Content-Type:application/json www.naver.com |
+| -H [헤더명:값]                | Request의 추가 Header를 지정합니다.                          | curl -H Content-Type:application/json www.naver.com |
+| -b<br />--cookie "쿠키명1=쿠키값1;쿠키명2=쿠키값2" | Request의 Cookie를 설정합니다. | curl -X |
+| -d | Request Body를 설정합니다. | curl -X POST -d '{"productId": 123456, "quantity": 100}' |
 | -s<br />--silent               | curl 명령어의 출력을 standard output 으로 내보내지 않습니다.<br />대신, 다른 스트림으로 출력하는 명령어는 유효합니다. | curl -s www.naver.com                                |
 | -S<br />--show-error           | 에러 발생 시, 에러를 출력하는 옵션입니다.                    |                                                      |
 | -I                             | Response의 Header 값만 가져옵니다.                           | curl -I www.naver.com                                |

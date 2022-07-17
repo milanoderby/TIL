@@ -12,13 +12,14 @@
 - [RxJava 리액티브 프로그래밍 - 데이터에 실시간으로 반응하는 새로운 패러다임을 배우자!](http://www.yes24.com/Product/Goods/71768642)
 - [자바스크립트 마스터 북 - 기초부터 실무 응용까지](http://www.yes24.com/Product/Goods/44324818)
 - [Do it! Vue.js 입문](http://www.yes24.com/Product/Goods/58206961)
+- [이펙티브 자바 Effective Java 3/E](http://www.yes24.com/Product/Goods/65551284) (1회독: 2022/07/10)
 
 <br>
 
 개발방법론
 
 - [테스트 주도 개발](http://www.yes24.com/Product/Goods/12246033)
-- [도메인 주도 개발 시작하기- DDD 핵심 개념 정리부터 구현까지](http://www.yes24.com/Product/Goods/108431347)
+- [도메인 주도 개발 시작하기- DDD 핵심 개념 정리부터 구현까지](http://www.yes24.com/Product/Goods/108431347) (1회독: 2022/07/03)
 
 <br>
 
@@ -46,9 +47,8 @@
 
 ### 읽고 있는 책
 
-- [이펙티브 자바 Effective Java 3/E](http://www.yes24.com/Product/Goods/65551284)
-
 - [Clean Code 클린 코드- 애자일 소프트웨어 장인 정신](http://www.yes24.com/Product/Goods/11681152)
+- [이펙티브 코틀린 - 안전성, 가독성, 코드 설계, 효율성을 향상시키기 위한 52가지 전략과 기법](http://www.yes24.com/Product/Goods/106225986)
 
 <br>
 
@@ -59,9 +59,10 @@
 - [데이터 중심 애플리케이션 설계 - 신뢰할 수 있고 확장 가능하며 유지보수하기 쉬운 시스템을 지탱하는 핵심 아이디어](http://www.yes24.com/Product/Goods/59566585)
 - [대규모 서비스를 지탱하는 기술 - 웹 개발자를 위한](http://www.yes24.com/Product/Goods/4667932)
 - [24시간 365일 서버/인프라를 지탱하는 기술](http://www.yes24.com/Product/Goods/3377489)
+- [프로그래밍 대회에서 배우는 알고리즘 문제 해결 전략 세트](http://www.yes24.com/Product/Goods/8006522)
+- [코딩인터뷰 완전분석 - 189가지 프로그래밍 문제와 해법](http://www.yes24.com/Product/Goods/44305533)
 - [가상 면접 사례로 배우는 대규모 시스템 설계 기초](http://www.yes24.com/Product/Goods/102819435)
 - [HTTP 완벽 가이드](http://www.yes24.com/Product/Goods/15381085)
 - [자바 ORM 표준 JPA 프로그래밍 - 스프링 데이터 예제 프로젝트로 배우는 전자정부 표준 데이터베이스 프레임워크](http://www.yes24.com/Product/Goods/19040233)
-- [이펙티브 코틀린 - 안전성, 가독성, 코드 설계, 효율성을 향상시키기 위한 52가지 전략과 기법](http://www.yes24.com/Product/Goods/106225986)
 - 카프카 관련 서적
-
+- 스프링 배치 관련 서적

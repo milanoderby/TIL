@@ -64,5 +64,5 @@
 - [가상 면접 사례로 배우는 대규모 시스템 설계 기초](http://www.yes24.com/Product/Goods/102819435)
 - [HTTP 완벽 가이드](http://www.yes24.com/Product/Goods/15381085)
 - [자바 ORM 표준 JPA 프로그래밍 - 스프링 데이터 예제 프로젝트로 배우는 전자정부 표준 데이터베이스 프레임워크](http://www.yes24.com/Product/Goods/19040233)
-- 카프카 관련 서적
+- [실전 카프카 개발부터 운영까지 - 데이터 플랫폼의 중추 아파치 카프카의 내부 동작과 개발, 운영, 보안의 모든 것](http://www.yes24.com/Product/Goods/104410708)
 - 스프링 배치 관련 서적

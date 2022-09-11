@@ -13,6 +13,7 @@
 - [자바스크립트 마스터 북 - 기초부터 실무 응용까지](http://www.yes24.com/Product/Goods/44324818)
 - [Do it! Vue.js 입문](http://www.yes24.com/Product/Goods/58206961)
 - [이펙티브 자바 Effective Java 3/E](http://www.yes24.com/Product/Goods/65551284) (1회독: 2022/07/10)
+- [이펙티브 코틀린 - 안전성, 가독성, 코드 설계, 효율성을 향상시키기 위한 52가지 전략과 기법](http://www.yes24.com/Product/Goods/106225986) (1회독: 2022/09/07)
 
 <br>
 
@@ -48,7 +49,7 @@
 ### 읽고 있는 책
 
 - [Clean Code 클린 코드- 애자일 소프트웨어 장인 정신](http://www.yes24.com/Product/Goods/11681152)
-- [이펙티브 코틀린 - 안전성, 가독성, 코드 설계, 효율성을 향상시키기 위한 52가지 전략과 기법](http://www.yes24.com/Product/Goods/106225986)
+- [JPA 프로그래밍 입문](http://www.yes24.com/Product/Goods/41787023)
 
 <br>
 

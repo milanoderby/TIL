@@ -29,6 +29,7 @@
 - [열혈강의 자바 웹 개발 워크북 - MVC 아키텍처, 마이바티스, 스프링으로 만드는 실무형 개발자 로드맵](http://www.yes24.com/Product/Goods/13159413)
 - [스프링 5 레시피 - 스프링 애플리케이션 개발에 유용한 161가지 문제 해결 기법](http://www.yes24.com/Product/Goods/63713129)
 - [스프링 마이크로서비스 코딩 공작소 Spring Microservices in Action - 스프링 부트와 스프링 클라우드, 도커, 아파치 카프카, 집킨, AWS로 컨테이너 기반의 MSA 구축](http://www.yes24.com/Product/Goods/67473377)
+- [JPA 프로그래밍 입문](http://www.yes24.com/Product/Goods/41787023) (1회독: 2022/10/09)
 
 <br>
 
@@ -49,7 +50,7 @@
 ### 읽고 있는 책
 
 - [Clean Code 클린 코드- 애자일 소프트웨어 장인 정신](http://www.yes24.com/Product/Goods/11681152)
-- [JPA 프로그래밍 입문](http://www.yes24.com/Product/Goods/41787023)
+- [프로그래밍 대회에서 배우는 알고리즘 문제 해결 전략 세트](http://www.yes24.com/Product/Goods/8006522)
 
 <br>
 
@@ -60,7 +61,6 @@
 - [데이터 중심 애플리케이션 설계 - 신뢰할 수 있고 확장 가능하며 유지보수하기 쉬운 시스템을 지탱하는 핵심 아이디어](http://www.yes24.com/Product/Goods/59566585)
 - [대규모 서비스를 지탱하는 기술 - 웹 개발자를 위한](http://www.yes24.com/Product/Goods/4667932)
 - [24시간 365일 서버/인프라를 지탱하는 기술](http://www.yes24.com/Product/Goods/3377489)
-- [프로그래밍 대회에서 배우는 알고리즘 문제 해결 전략 세트](http://www.yes24.com/Product/Goods/8006522)
 - [코딩인터뷰 완전분석 - 189가지 프로그래밍 문제와 해법](http://www.yes24.com/Product/Goods/44305533)
 - [가상 면접 사례로 배우는 대규모 시스템 설계 기초](http://www.yes24.com/Product/Goods/102819435)
 - [HTTP 완벽 가이드](http://www.yes24.com/Product/Goods/15381085)

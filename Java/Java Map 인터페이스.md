@@ -104,8 +104,9 @@ currentValue :3
 | 수정자 및 반환타입   | 메소드명                                        | 설명                                                         |
 | -------------------- | ----------------------------------------------- | ------------------------------------------------------------ |
 | default void         | forEach(BiConsumer<? super K,? super V> action) | 기본 구현은 다음과 같습니다.<br />`for (Map.Entry<K, V> entry : map.entrySet())      action.accept(entry.getKey(), entry.getValue());`<br />즉, 반복적으로 인자로 받은 lambda function을 수행합니다. |
-| Set<Map.Entry<K, V>> | entrySet()                                      | Map에 저장되어있는 모든 연관관계를 Set View로 반환합니다. Map의 Key, Value가 변경될 경우, Set 내부의 값도 변경됩니다. 역으로, Set 내부의 값이 변경될 경우, Map의 Key, Value도 변경됩니다. (단, Iterator를 이용한 반복문 내에서 remove 연산, setValue 연산으로 수정한 경우는 제외입니다.)<br />Set 에서 일반적인 제거 연산도 가능합니다. (Iterator.remove, Set.remove, removeAll, retainAll)<br />반면, add나 addAll 같은 추가 연산은 지원하지 않습니다. |
-| Set<K>               | keySet()                                        | Map에 저장되어있는 모든 Key를 Set View로 반환합니다. Map의 Key가 변경될 경우, Set 내부의 Key 값도 변경됩니다. 역으로, Set 내부의 Key 값이 변경될 경우, Map의 Key 값도 변경됩니다. (단, Iterator를 이용한 반복문 내에서 remove 연산으로 수정한 경우는 제외입니다.)<br />Set 에서 일반적인 제거 연산도 가능합니다. (Iterator.remove, Set.remove, removeAll, retainAll)<br />반면, add나 addAll 같은 추가 연산은 지원하지 않습니다. |
+| Set<Map.Entry<K, V>> | entrySet()                                      | Map에 저장되어있는 모든 연관관계를 Set View로 반환합니다. <br />Map의 Key, Value가 변경될 경우, Set 내부의 값도 변경됩니다. 역으로, Set 내부의 값이 변경될 경우, Map의 Key, Value도 변경됩니다. <br />**Set에 대해서 반복문을 수행하는 도중 Map의 변경을 수행하면, 반복문의 결과는 정의되지 않습니다. 즉, 부정확한 결과를 초래합니다.** (단, Iterator를 이용한 반복문 내에서 remove 연산, iterator로 반환된 Entry에 대한 setValue 연산으로 수정한 경우는 제외입니다.)<br />Set 에서 일반적인 제거 연산도 가능합니다. (Iterator.remove, Set.remove, removeAll, retainAll)<br />반면, add나 addAll 같은 추가 연산은 지원하지 않습니다. |
+| Set\<K>              | keySet()                                        | Map에 저장되어있는 모든 Key를 Set View로 반환합니다. <br />Map의 Key가 변경될 경우, Set 내부의 Key 값도 변경됩니다. 역으로, Set 내부의 Key 값이 변경될 경우, Map의 Key 값도 변경됩니다. <br />**Set에 대해서 반복문을 수행하는 도중 Map의 변경을 수행하면, 반복문의 결과는 정의되지 않습니다. 즉, 부정확한 결과를 초래합니다.** (단, Iterator를 이용한 반복문 내에서 remove 연산으로 수정한 경우는 제외입니다.)<br />Set 에서 일반적인 제거 연산도 가능합니다. (Iterator.remove, Set.remove, removeAll, retainAll)<br />반면, add나 addAll 같은 추가 연산은 지원하지 않습니다. |
+| Collection\<V>       | values()                                        | Map에 저장되어있는 모든 Value를 Collection View로 반환합니다. <br />Map의 Value가 변경될 경우, Collection 내부의 Value 값도 변경됩니다. 역으로, Collection 내부의 Value 값이 변경될 경우, Map의 Value 값도 변경됩니다. <br />**Collection에 대해서 반복문을 수행하는 도중 Map의 변경을 수행하면, 반복문의 결과는 정의되지 않습니다. 즉, 부정확한 결과를 초래합니다.** (단, Iterator를 이용한 반복문 내에서 remove 연산으로 수정한 경우는 제외입니다.)<br />Set 에서 일반적인 제거 연산도 가능합니다. (Iterator.remove, Set.remove, removeAll, retainAll)<br />반면, add나 addAll 같은 추가 연산은 지원하지 않습니다. |
 
 <br>
 
@@ -199,32 +200,220 @@ index(8): 213
 
 | 수정자 및 반환타입 | 메소드명                                                     | 설명                                                         |
 | ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| default V          | compute(K key,                   BiFunction<? super K,? super V,? extends V> remappingFunction) | **입력 값으로 주어진 Key와 해당 Key에 연관되어있는 Value 그리고, remappingFunction을 이용하여 새로 계산된 값을 Key에 맵핑합니다. 새로 맵핑된 Value를 반환합니다.<br />**key에 맵핑된 기존 value가 없을 경우: remappingFunction 에서 인자로 받는 value는 null로 치환됩니다. remappingFunction으로 계산한 값이 새로운 value가 됩니다.<br />key에 맵핑된 기존 value가 있을 경우: **remappingFunction 에서 인자로 받는 value는 기존 value로 치환됩니다. remappingFunction으로 계산한 값이 새로운 value가 됩니다.**<br />**remappingFunction에 의해 새로 계산된 newValue가 null일 경우, 기존 맵핑은 제거됩니다.**<br />만약, remappingFunction이 Exception을 던진다면, Map에는 어떤 값도 return이 되지 않으므로 value 값에도 변화가 발생하지 않습니다.<br />만약, 기존에 값이 없을 때에는 defaultValue를 맵핑하고 싶고, 기존에 값이 있을 때에는 해당 값에 연산을 한 값으로 맵핑하고 싶다면, 아래와 같이 수행하면 됩니다.<br />`map.compute(key, (k, v) -> (v == null) ? msg : v.concat(msg))` |
-| default V          | computeIfAbsent(K key,                           Function<? super K,? extends V> mappingFunction) | **입력 값으로 주어진 Key에 연관되는 Value가 없을 때에만 remappingFunction을 이용하여 새로 계산된 값을 Key에 맵핑합니다. 현재 Key에 맵핑되어있는 기존 Value 또는 방금 계산된 Value를 반환합니다.**<br />key에 맵핑된 기존 value가 없을 경우: remappingFunction 에서 인자로 받는 value는 null로 치환됩니다. remappingFunction으로 계산한 값이 새로운 value가 됩니다.<br />**key에 맵핑된 기존 value가 있을 경우: 기존 value만 반환하고, remapping은 발생하지 않습니다.**<br />**remappingFunction에 의해 새로 계산된 newValue가 null일 경우, 기존 맵핑은 유지됩니다.**<br />만약, remappingFunction이 Exception을 던진다면, Map에는 어떤 값도 return이 되지 않으므로 value 값에도 변화가 발생하지 않습니다.<br />만약, 기존에 값이 없을 때에만 defaultValue를 맵핑하고 싶다면, 아래와 같이 수행하면 됩니다.<br />`map.compute(key, (k, v) -> msg)` |
-| default V          | computeIfPresent(K key,                            BiFunction<? super K,? super V,? extends V> remappingFunction) | **입력 값으로 주어진 Key에 연관되는 Value가 있고, null이 아닐 때에만 remappingFunction을 이용하여 새로 계산된 값을 Key에 맵핑합니다. 방금 계산된 Value를 반환하고, 기존 Key에 연관된 값이 없었으면, null을 반환합니다.**<br />**key에 맵핑된 기존 value가 없을 경우: null 만 반환하고, remapping은 발생하지 않습니다. **<br />**key에 맵핑된 기존 value가 있을 경우: remappingFunction 에서 인자로 받는 value는 기존 key에 맵핑된 value로 치환됩니다. remappingFunction으로 계산한 값이 새로운 value가 됩니다.**<br />**remappingFunction에 의해 새로 계산된 newValue가 null일 경우, 기존 맵핑은 유지됩니다.**<br />만약, remappingFunction이 Exception을 던진다면, Map에는 어떤 값도 return이 되지 않으므로 value 값에도 변화가 발생하지 않습니다.<br />만약, 기존에 값이 있을 때에만 defaultValue를 맵핑하고 싶다면, 아래와 같이 수행하면 됩니다.<br />`map.compute(key, (k, v) -> msg)` |
+| default V          | compute(K key,                   BiFunction<? super K,? super V,? extends V> remappingFunction) | **입력 값으로 주어진 Key와 해당 Key에 연관되어있는 Value 그리고, remappingFunction을 이용하여 새로 계산된 값을 Key에 맵핑합니다. 새로 맵핑된 Value를 반환합니다.<br />**key에 맵핑된 기존 value가 없을 경우: remappingFunction 에서 인자로 받는 value는 null로 치환됩니다. remappingFunction으로 계산한 결괏값이 새로운 value가 됩니다.<br />key에 맵핑된 기존 value가 있을 경우: remappingFunction 에서 인자로 받는 key와 value는 기존 key와 key 에 맵핑된 value로 치환됩니다. remappingFunction으로 계산한 값이 새로운 value가 됩니다.<br />**remappingFunction에 의해 새로 계산된 newValue가 null일 경우, 기존 맵핑은 제거됩니다.**<br />**만약, remappingFunction이 Exception을 던진다면, Map에는 어떤 값도 return이 되지 않으므로 value 값에도 변화가 발생하지 않습니다.**<br />만약, 기존에 값이 없을 때에는 defaultValue를 맵핑하고 싶고, 기존에 값이 있을 때에는 해당 값에 연산을 한 값으로 맵핑하고 싶다면, 아래와 같이 수행하면 됩니다.<br />`map.compute(key, (k, v) -> (v == null) ? msg : v.concat(msg))` |
+| default V          | computeIfAbsent(K key,                           Function<? super K,? extends V> mappingFunction) | **입력 값으로 주어진 Key에 연관되는 Value가 없을 때에만 remappingFunction을 이용하여 새로 계산된 값을 Key에 맵핑합니다. 현재 Key에 맵핑되어있는 기존 Value 또는 방금 계산된 Value를 반환합니다.**<br />key에 맵핑된 기존 value가 없을 경우: remappingFunction 에서 인자로 받는 값은 key 값으로 치환됩니다. remappingFunction으로 계산한 결괏값이 새로운 value가 됩니다.<br />**remappingFunction에 의해 새로 계산된 newValue가 null일 경우, 새로운 맵핑은 발생하지 않습니다.<br />만약, remappingFunction이 Exception을 던진다면, Map에는 어떤 값도 return이 되지 않으므로 value 값에도 변화가 발생하지 않습니다.<br />**key에 맵핑된 기존 value가 있을 경우: 기존 value만 반환하고, remapping은 발생하지 않습니다.**<br />만약, 기존에 값이 없을 때에만 defaultValue를 맵핑하고 싶다면, 아래와 같이 수행하면 됩니다.<br />`map.computeIfAbsent(key, (k) -> msg)` |
+| default V          | computeIfPresent(K key,                            BiFunction<? super K,? super V,? extends V> remappingFunction) | **입력 값으로 주어진 Key에 연관되는 Value가 있고, null이 아닐 때에만 remappingFunction을 이용하여 새로 계산된 값을 Key에 맵핑합니다. 방금 계산된 Value를 반환하고, 기존 Key에 연관된 값이 없었으면, null을 반환합니다.**<br />key에 맵핑된 기존 value가 있을 경우: remappingFunction 에서 인자로 받는 key와 value는 기존 key와 key 에 맵핑된 value로 치환됩니다. remappingFunction으로 계산한 값이 새로운 value가 됩니다.<br />**remappingFunction에 의해 새로 계산된 newValue가 null일 경우, 기존 맵핑은 제거됩니다.**<br />**만약, remappingFunction이 Exception을 던진다면, Map에는 어떤 값도 return이 되지 않으므로 value 값에도 변화가 발생하지 않습니다.**<br />key에 맵핑된 기존 value가 없을 경우: null 만 반환하고, remapping은 발생하지 않습니다. <br />만약, 기존에 값이 있을 때에만 defaultValue를 맵핑하고 싶다면, 아래와 같이 수행하면 됩니다.<br />`map.compute(key, (k, v) -> msg)` |
 
 <br>
 
-#### Map.compute~ 관련 예제
+#### Map.computeIfAbsent 관련 예제
 
 ```java
 public static void main(String[] args) throws IOException {
 	Map<Integer, Integer> testMap = new HashMap<>();
 
-    testMap.put(1, 11);
-    testMap.put(2, 12);
-    testMap.put(3, 13);
+    testMap.put(1, 10);
+
+    Function<Integer, Integer> normalMappingFunction = (key) -> key + 20;
+    // 기존에 key가 존재하여 mappingFunction을 거치지 않는 경우
+    testMap.computeIfAbsent(1, normalMappingFunction);
+
+    // 기존에 key가 존재하지 않으며, 정상적인 값으로 맵핑되는 mappingFunction일 경우
+    testMap.computeIfAbsent(2, normalMappingFunction);
     
-    
+    // 기존에 key가 존재하지 않으며, null 값을 return 하는 mappingFunction일 경우
+    // 어떤 맵핑도 생성되지 않음
+    Function<Integer, Integer> nullMappingFunction = (key) -> null;
+    testMap.computeIfAbsent(3, nullMappingFunction);
+
+    // 기존에 key가 존재하지 않으며, Exception을 return 하는 mappingRunction일 경우
+    // Exception으로 인해 어떤 값도 return되지 않으므로 Map에 변화가 없음
+    Function<Integer, Integer> exceptionMappingFunction = (key) -> {
+        throw new RuntimeException();
+    };
+    try {
+        testMap.computeIfAbsent(4, exceptionMappingFunction);
+    } catch (RuntimeException e) {
+        System.out.println("Exception Mapping Function");
+    }
+
+    for (Entry<Integer, Integer> entry : testMap.entrySet()) {
+        System.out.println("key: " + entry.getKey() + ", value: " + entry.getValue());
+    }
 }
 
 // 출력결과
+Exception Mapping Function
+key: 1, value: 10
+key: 2, value: 22
 ```
 
 <br>
 
+#### Map.computeIfPresent 관련 예제
 
+```java
+public static void main(String[] args) throws IOException {
+	Map<Integer, Integer> testMap = new HashMap<>();
 
-## 참고자료
+    testMap.put(1, 10);
+    testMap.put(2, 10);
+    testMap.put(3, 10);
+
+    BiFunction<Integer, Integer, Integer> normalMappingFunction = (key, oldValue) -> key + + oldValue + 20;
+    // 기존에 key가 존재하지 않아 mappingFunction을 거치지 않는 경우
+    testMap.computeIfPresent(0, normalMappingFunction);
+
+	// 기존에 key가 존재하며, 정상적인 값을 return 하는 mappingFunction일 경우
+    testMap.computeIfPresent(1, normalMappingFunction);
+
+    // 기존에 key가 존재하며, null 값을 return 하는 mappingFunction일 경우
+    // 기존 맵핑이 제거됨
+    BiFunction<Integer, Integer, Integer> nullMappingFunction = (key, oldValue) -> null;
+    testMap.computeIfPresent(2, nullMappingFunction);
+
+    // 기존에 key가 존재하며, Exception을 return 하는 mappingRunction일 경우
+    // Exception으로 인해 어떤 값도 return되지 않으므로 Map에 변화가 없음
+    BiFunction<Integer, Integer, Integer> exceptionMappingFunction = (key, oldValue) -> {
+        throw new RuntimeException();
+    };
+    try {
+        testMap.computeIfPresent(3, exceptionMappingFunction);
+    } catch (RuntimeException e) {
+        System.out.println("Exception Mapping Function");
+    }
+
+    for (Entry<Integer, Integer> entry : testMap.entrySet()) {
+        System.out.println("key: " + entry.getKey() + ", value: " + entry.getValue());
+    }
+}
+
+// 출력결과
+Exception Mapping Function
+key: 1, value: 31
+key: 3, value: 10
+```
+
+<br>
+
+#### Map.compute 관련 예제
+
+```java
+public static void main(String[] args) throws IOException {
+	Map<Integer, Integer> testMap = new HashMap<>();
+
+    testMap.put(3, 10);
+    testMap.put(4, 10);
+    testMap.put(5, 10);
+
+    BiFunction<Integer, Integer, Integer> normalMappingFunction = (key, oldValue) -> key + 20;
+    // 기존에 key가 존재하지 않으며, 정상적인 값을 return 하는 mappingFunction일 경우
+    // mappingFunction의 결괏값으로 새로운 맵핑이 생성됨
+    testMap.compute(0, normalMappingFunction);
+    // 기존에 key가 존재하며, 정상적인 값을 return 하는 mappingFunction일 경우
+    // mappingFunction의 결괏값으로 새로운 맵핑이 생성됨
+    testMap.compute(3, normalMappingFunction);
+
+    BiFunction<Integer, Integer, Integer> nullMappingFunction = (key, oldValue) -> null;
+    // 기존에 key가 존재하지 않으며, null 값을 return 하는 mappingFunction일 경우
+    testMap.compute(1, nullMappingFunction);
+    // 기존에 key가 존재하며, null 값을 return 하는 mappingFunction일 경우
+    // 기존 맵핑이 제거됨
+    testMap.compute(4, nullMappingFunction);
+
+    BiFunction<Integer, Integer, Integer> exceptionMappingFunction = (key, oldValue) -> {
+        throw new RuntimeException();
+    };
+    try {
+        // 기존에 key가 존재하지 않으며, Exception을 return 하는 mappingRunction일 경우
+        // Exception으로 인해 어떤 값도 return되지 않으므로 Map에 변화가 없음
+        testMap.compute(2, exceptionMappingFunction);
+        // 기존에 key가 존재하며, Exception을 return 하는 mappingRunction일 경우
+        // Exception으로 인해 어떤 값도 return되지 않으므로 Map에 변화가 없음
+        testMap.compute(5, exceptionMappingFunction);
+    } catch (RuntimeException e) {
+        System.out.println("Exception Mapping Function");
+    }
+
+    for (Entry<Integer, Integer> entry : testMap.entrySet()) {
+        System.out.println("key: " + entry.getKey() + ", value: " + entry.getValue());
+    }
+}
+
+// 출력결과
+Exception Mapping Function
+key: 0, value: 20
+key: 3, value: 23
+key: 5, value: 10
+```
+
+<br>
+
+### Method - merge 관련
+
+| 수정자 및 반환타입 | 메소드명                                                     | 설명                                                         |
+| ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| default V          | merge(K key, V value, BiFunction<? super V,? super V,? extends V> remappingFunction) | **입력 값으로 주어진 Key에 연관되어있는 값이 없거나 null이면, 입력으로 주어진 Value를 맵핑하고, 연관되어있는 Value가 있으면, remappingFunction을 이용하여 새로 계산된 결괏값을 Key에 맵핑합니다. 새로 맵핑된 Value를 반환합니다.<br />**key에 맵핑된 기존 value가 없거나 null일 경우: 입력으로 받은 value 값을 새로운 value가 됩니다.<br />key에 맵핑된 기존 value가 있을 경우: remappingFunction 에서 인자로 받는 oldValue와 value는 기존 key 에 맵핑된 value와 입력으로 받은 value로 치환됩니다. remappingFunction으로 계산한 결괏 값이 새로운 value가 됩니다.<br />**remappingFunction에 의해 새로 계산된 newValue가 null일 경우, 기존 맵핑은 제거됩니다.**<br />**만약, remappingFunction이 Exception을 던진다면, Map에는 어떤 값도 return이 되지 않으므로 value 값에도 변화가 발생하지 않습니다.**<br />만약, 기존에 값이 없을 때에는 defaultValue를 맵핑하고 싶고, 기존에 값이 있을 때에는 해당 값에 연산을 한 값으로 맵핑하고 싶다면, 아래와 같이 수행하면 됩니다.<br />`map.merge(key, msg, (k, v) -> v.concat(msg))` |
+
+<br>
+
+#### Map.compute 관련 예제
+
+```java
+public static void main(String[] args) throws IOException {
+	Map<Integer, Integer> testMap = new HashMap<>();
+
+    testMap.put(3, 10);
+    testMap.put(4, 10);
+    testMap.put(5, 10);
+
+    int defaultValue = 100;
+    BiFunction<Integer, Integer, Integer> normalMappingFunction = (oldValue, newValue) -> oldValue + newValue + 20;
+    // 기존에 key가 존재하지 않으며, 정상적인 값을 return 하는 mappingFunction일 경우
+    // defaultValue로 새로운 맵핑이 생성됨
+    testMap.merge(0, defaultValue, normalMappingFunction);
+    // 기존에 key가 존재하며, 정상적인 값을 return 하는 mappingFunction일 경우
+    // mappingFunction의 결괏값으로 새로운 맵핑이 생성됨
+    testMap.merge(3, defaultValue, normalMappingFunction);
+
+    BiFunction<Integer, Integer, Integer> nullMappingFunction = (oldValue, newValue) -> null;
+    // 기존에 key가 존재하지 않으며, null 값을 return 하는 mappingFunction일 경우
+    // 어떤 맵핑도 생성되지 않음
+    testMap.merge(1, defaultValue, nullMappingFunction);
+    // 기존에 key가 존재하며, null 값을 return 하는 mappingFunction일 경우
+    // 기존 맵핑이 제거됨
+    testMap.merge(4, defaultValue, nullMappingFunction);
+
+    BiFunction<Integer, Integer, Integer> exceptionMappingFunction = (oldValue, newValue) -> {
+        throw new RuntimeException();
+    };
+    try {
+        // 기존에 key가 존재하지 않으며, Exception을 return 하는 mappingRunction일 경우
+        // Exception으로 인해 어떤 값도 return되지 않으므로 Map에 변화가 없음
+        testMap.merge(2, defaultValue, exceptionMappingFunction);
+        // 기존에 key가 존재하며, Exception을 return 하는 mappingRunction일 경우
+        // Exception으로 인해 어떤 값도 return되지 않으므로 Map에 변화가 없음
+        testMap.merge(5, defaultValue, exceptionMappingFunction);
+    } catch (RuntimeException e) {
+        System.out.println("Exception Mapping Function");
+    }
+
+    for (Entry<Integer, Integer> entry : testMap.entrySet()) {
+        System.out.println("key: " + entry.getKey() + ", value: " + entry.getValue());
+    }
+}
+
+// 출력결과
+Exception Mapping Function
+key: 0, value: 100
+key: 1, value: 100
+key: 2, value: 100
+key: 3, value: 130
+key: 5, value: 10
+```
+
+<br>
+
+### 참고자료
 
 https://docs.oracle.com/javase/8/docs/api/java/util/Map.html

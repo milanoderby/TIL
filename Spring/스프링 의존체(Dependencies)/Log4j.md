@@ -10,7 +10,7 @@ log4j는 logging을 하기 위한 구현체입니다.
 
 우선, 로깅을 하기 전에 로그 레벨에 대해 알아봅니다.
 
-로그레벨은 아래와 같이 7개로 나뉘어져있으며, 낮은 순서부터 표로 정리합니다.
+로그레벨은 아래와 같이 나뉘어져있습니다.
 
 | 우선순위 | 이름  | 의미                                                         |
 | -------- | ----- | ------------------------------------------------------------ |
@@ -25,12 +25,6 @@ log4j는 logging을 하기 위한 구현체입니다.
 
 <br>
 
-로그 레벨을 지정하면, **해당 로그 레벨보다 우선순위가 같거나 높은 레벨의 로그만 출력합니다.**
-
-예를 들어, INFO로 지정하면, TRACE나 DEBUG 로그들은 출력되지 않습니다.
-
-<br>
-
 ### log4j의 구성요소
 
 아래는 log4j의 구성요소로 log4j 설정파일(`.xml파일` 또는 `.properties 파일`)에서는 아래 4가지를 설정합니다.
@@ -41,6 +35,8 @@ log4j는 logging을 하기 위한 구현체입니다.
 4. root: root는 logger의 최상위 개념으로 어떤 logger로도 구별되지 않은 logger로 들어온 로깅 요청(Tomcat 서버, DB 커넥션풀, third party 라이브러리 등에서 출력하는 로그)에 대해 level과 appender를 설정할 수 있습니다.
 
 <br>
+
+![log4j Architecture](./images/log4j-architecture.jpg)
 
 ### logger 속성의 특징
 
@@ -198,26 +194,24 @@ appender additivity를 추가하지 않을 때, 발생할 수 있는 문제에 �
       </appender>
       ```
 
-      <br>
-
       - file: log를 저장할 파일의 경로를 명시합니다.
-      - MaxFileSize: log를 저장하는 File의 크기가 지정한 값을 넘어서면, log 저장 파일을 roll-over합니다. (교체)
+   - MaxFileSize: log를 저장하는 File의 크기가 지정한 값을 넘어서면, log 저장 파일을 roll-over합니다. (교체)
       - MaxBackupIndex: 롤링되는 백업 log 저장 File의 최대 개수를 지정합니다. 
-
+      
       <br>
 
       그 결과, 다음과 같이 동작합니다.
 
       1. app.log 파일의 크기가 5KB 를 넘어서면, log4j가 app.log 파일의 이름을 app.log.1로 변경하여 백업해둡니다. 그리고, 빈 app.log 파일을 새로 생성하여 다시 로그를 저장합니다.
-      2. 또 다시 app.log 파일의 크기가 5KB 를 넘어서면, log4j가 app.log.1 파일의 이름을 app.log.2로 변경하여 백업해둡니다. app.log 파일의 이름은 app.log.1로 변경하여 백업해둡니다. 그리고, 빈 app.log 파일을 새로 생성하여 다시 로그를 저장합니다.
+   2. 또 다시 app.log 파일의 크기가 5KB 를 넘어서면, log4j가 app.log.1 파일의 이름을 app.log.2로 변경하여 백업해둡니다. app.log 파일의 이름은 app.log.1로 변경하여 백업해둡니다. 그리고, 빈 app.log 파일을 새로 생성하여 다시 로그를 저장합니다.
       3. MaxBackupIndex가 2로 설정되어 있기 때문에 app.log.3 파일까지는 유지하지 않습니다. 즉, 특정 시점이 되면 로그가 유실됩니다.
-
+      
       ```
       27/11/2016  10:28    138 app.log
       27/11/2016  10:28  5.281 app.log.1
       27/11/2016  10:28  5.281 app.log.2
       ```
-
+      
       <br>
 
    2. RollingFileAppender - 로그 저장 파일의 날짜를 기준으로 롤링하는 방식 (여기서, 롤링이란 기존에 로그를 저장하던 파일의 크기가 커지면, 이를 접어서 다른 파일로 옮겨두고, 새로운 파일에 다시 로그를 저장하는 것을 의미합니다.)
@@ -233,15 +227,13 @@ appender additivity를 추가하지 않을 때, 발생할 수 있는 문제에 �
           </layout>
       </appender>
       ```
-
-      <br>
-
+   
       - rollingPolicy: 롤링 정책을 정합니다. log4j에서 제공하는 TimeBasedRollingPolicy를 적용합니다.
-      - TimeBasedRollingPolicy.FileNamePattern: log를 저장할 파일의 경로를 명시함과 동시에 log를 롤링할 시간 기준을 명시합니다. 시간 포맷은 log4j에서 제공하는 [org.apache.log4j.PatternLayout](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html) 에 지정된 로그 포맷 규칙을 사용합니다. 포맷에 대한 설명은 아래 layout을 설명하는 글에 작성해두었습니다.
+   - TimeBasedRollingPolicy.FileNamePattern: log를 저장할 파일의 경로를 명시함과 동시에 log를 롤링할 시간 기준을 명시합니다. 시간 포맷은 log4j에서 제공하는 [org.apache.log4j.PatternLayout](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html) 에 지정된 로그 포맷 규칙을 사용합니다. 포맷에 대한 설명은 아래 layout을 설명하는 글에 작성해두었습니다.
       - layout은 로깅 형식을 의미합니다. layout 역시, logger와 appender 처럼 log4j의 일반적인 구성요소 중 하나이므로 아래에서 자세하게 설명합니다.
-
+      
        <br>
-
+   
       위와 같이 설정하면 다음과 같이 동작합니다.
 
       - `app.%d{HH-mm}.log.gz` 을 롤링 시간 기준으로 지정하였습니다. 현재 시각에 해당하는 `시-분`을 계산하여 해당 파일명의 파일에 log를 기록합니다. 만약, 현재 `시-분`이 변경되면, 새로운 파일명을 가진 log파일을 생성하고, log를 기록합니다.
@@ -257,13 +249,13 @@ appender additivity를 추가하지 않을 때, 발생할 수 있는 문제에 �
           </layout>
       </appender>
       ```
-
+   
       - File: 로그를 저장할 파일의 경로를 명시합니다.
       - DatePattern: log를 롤링할 시간 기준을 명시합니다. `'.'yyyy-MM-dd` 에서 `'.'`은 순수하게 `.` 을 파일명 뒤에 사용하기 위한 이스케이핑 방법입니다. 이와 같이 명시하면, log를 저장하는 파일명은 `app.log.2023-01-12`가 됩니다.
       - layout은 로깅 형식을 의미합니다. layout 역시, logger와 appender 처럼 log4j의 일반적인 구성요소 중 하나이므로 아래에서 자세하게 설명합니다.
 
    4. AsyncAppender - 별도의 스레드를 사용하여 로그를 전송하면 전송 속도를 빠르게 증가시킬 수 있습니다.
-
+   
       ```xml
       <appender name="console-async" class="org.apache.log4j.AsyncAppender">
           <param name="Threshold" value="WARN" />
@@ -273,13 +265,13 @@ appender additivity를 추가하지 않을 때, 발생할 수 있는 문제에 �
           <appender-ref ref="console" />
       </appender>
       ```
-
+   
       - Threshold: appender로 전달된 로그의 레벨을 기준으로 출력할지 말지 결정합니다. Threshold 로 설정된 로그의 레벨보다 높은 레벨의 로깅 요청만 받아들입니다.
       - blocking: 로그를 저장소에 출력하는 것을 blocking 방식으로 할지 non-blocking 방식으로 할지 설정합니다. 버퍼에 여유 공간이 없을 때, appender로 들어온 로그 요청을 버퍼에 담아두기 위해 기다릴지(blocking) 안할지 설정하는 역할입니다.
       - locationInfo: 로그 요청이 발생한 location 정보를 전송할지에 대해 설정합니다. 아래 layout 정리 자료에서 살펴보겠지만, location 정보를 출력하는 것은 성능에 좋지 않기 때문에 false로 설정합니다.
       - bufferSize: 로그를 한꺼번에 전송하기 전에 버퍼에 담아둘 로그 요청의 개수를 설정합니다.
       - appender-ref: 로그의 원천이 되는 appender를 설정합니다. 예를 들어, console 을 설정한다면, console appender로 들어오는 로그 요청을 읽어들여 비동기 스레드로 console appender의 목적지로 전송을 합니다.
-
+   
 3. appender -> layout : appender로 전달된 log들은 어떤 형식으로 출력(저장)이 될까요? appender는 layout 설정을 사용하여 기록된 log를 어떤 형식으로 출력할지 설정합니다.
 
    일반적으로 log4j에서 제공하는 [org.apache.log4j.PatternLayout](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html) 에 지정된 로그 포맷 규칙을 사용합니다. 로그 포맷 규칙을 살펴보면 아래와 같습니다.
@@ -473,6 +465,8 @@ https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html
 https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/MDC.html
 
 https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/AsyncAppender.html
+
+https://www.tutorialspoint.com/log4j/log4j_architecture.htm
 
 https://www.digitalocean.com/community/tutorials/log4j-properties-file-example
 

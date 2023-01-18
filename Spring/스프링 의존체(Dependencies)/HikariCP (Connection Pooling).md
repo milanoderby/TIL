@@ -246,8 +246,8 @@ spring-jdbc, spring-data-jdbc, spring-data-jpa 등 의존성을 추가하면, �
 | keepaliveTime       | idle connection 이 유효한지 test하는 주기              | 600000 (10분)                                                |
 | maxLifeTime         | connection의 최대 생명 기간                            | database infrastructure에 설정된 connection time limit 값보다 2~3초 정도 짧게 설정 |
 | connectionTestQuery | idle connection이 유효한 연결인지 확인하는 쿼리문      | 설정하지 않는 것을 권장 (실행했을 때, driver가 JDBC4를 지원하지 않을 때에만 설정) |
-| minimumIdle         | pool에서 최소로 유지할 idle connection의 개수          | 설정하지 않는 것을 권장                                      |
-| maximumPoolSize     | pool내의 connection의 최대 갯수                        | [Pool Sizing에 관하여](https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing) 참고 후, 테스트를 통해 설정할 것을 권장 |
+| minimumIdle         | pool에서 최소로 유지할 idle connection의 개수          | 이 값은 어플리케이션이 초기에 생성해둘 connection 의 개수를 결정짓습니다.<br />또한, connection이 당장 사용되지 않을 경우에도 connection request가 급증하는 상황에 빠르게 대응하기 위해 이 값을 설정합니다. (connection pool에 최소 N개의 connection 을 유지하고 있으면, 바로 사용할 수 있기 때문입니다.)<br />그래서 3가지 경우로 나눕니다.<br />1. 평균 connection 요청이 적으며, connection 요청이 급증하는 상황이 없는 경우: maximumPoolSize의 10 ~ 30% 개수<br />2. 평균 connection 요청은 적으나, connection 이 급증하는 상황에 대비해야 되는 경우: maximumPoolSize의 30% ~ 50% 의 개수<br />3. 평균 connection 요청이 많은 경우: maximumPoolSize의 50% ~ 100% 의 개수 |
+| maximumPoolSize     | pool내의 connection의 최대 갯수                        | 기본 값은 10개입니다. (이 값이 중요한 이유는 대부분의 application 상황에서 적용되는 최적 값이기 때문입니다.)<br />[Pool Sizing에 관하여](https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing) 참고 후, 테스트를 통해 설정할 것을 권장 |
 | metricRegistry      | 여러 측정값을 확인하고 싶을 때, 설정                   |                                                              |
 | healthCheckRegistry | hikariCP의 상태를 확인하고 싶을 때, 설정               |                                                              |
 | poolName            | 사용자가 여러 개의 pool을 구분하기 위한 값             | mySqlPool                                                    |

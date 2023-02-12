@@ -57,6 +57,8 @@ public static void main(String[] args) throws IOException {
 ```java
 public static void main(String[] args) throws IOException {
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    
+    String input;
 	while ((input = br.readLine()) != null) {
 	int N = Integer.parseInt(input);
 		for (int i = 0; i < N; i++) {

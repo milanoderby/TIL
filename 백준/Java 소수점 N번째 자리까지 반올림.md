@@ -60,7 +60,7 @@ System.out.print(Math.round(num * 100) / 100.0);
 
 ```java
 double num = 2;
-System.out.print(String.format(".2f", Math.round(num * 100) / 100.0));
+System.out.print(String.format("%.2f", Math.round(num * 100) / 100.0));
 
 // 출력
 // 2.00

@@ -106,10 +106,10 @@
 |               제목               |                             링크                             | 난이도 | 풀이 여부 |
 | :------------------------------: | :----------------------------------------------------------: | :----: | --------- |
 | 단변수 다항 방정식의 수치적 해법 |  [ROOTS](https://www.algospot.com/judge/problem/read/ROOTS)  |  ★★☆   | O         |
-|         전세금 균등상환          |   [LOAN](https://www.algospot.com/judge/problem/read/LOAN)   |  ★☆☆   |           |
-|           승률 올리기            |  [RATIO](https://www.algospot.com/judge/problem/read/RATIO)  |  ★☆☆   |           |
-|          철인 2종 경기           | [UVa 1326](https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1326) |  ★★☆   |           |
-|           꽃가루 화석            | [FOSSIL](https://www.algospot.com/judge/problem/read/FOSSIL) |  ★★★   |           |
+|         전세금 균등상환          |   [LOAN](https://www.algospot.com/judge/problem/read/LOAN)   |  ★☆☆   | O         |
+|           승률 올리기            |  [RATIO](https://www.algospot.com/judge/problem/read/RATIO)  |  ★☆☆   | O         |
+|          철인 2종 경기           | [UVa 1326](https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_problem&problem=1326) |  ★★☆   | O         |
+|           꽃가루 화석            | [FOSSIL](https://www.algospot.com/judge/problem/read/FOSSIL) |  ★★★   | X         |
 
 
 
@@ -117,7 +117,7 @@
 
 |     제목     |                             링크                             | 난이도 | 풀이 여부 |
 | :----------: | :----------------------------------------------------------: | :----: | --------- |
-| 비밀번호 486 | [PASS486](https://www.algospot.com/judge/problem/read/PASS486) |  ★★☆   |           |
+| 비밀번호 486 | [PASS486](https://www.algospot.com/judge/problem/read/PASS486) |  ★★☆   | O         |
 |  마법의 약   | [POTION](https://www.algospot.com/judge/problem/read/POTION) |  ★★☆   |           |
 
 

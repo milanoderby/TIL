@@ -14,8 +14,8 @@
 
 |    제목     |                             링크                             | 난이도 | 풀이 여부 |
 | :---------: | :----------------------------------------------------------: | :----: | --------- |
-|    소풍     | [PICNIC](https://www.algospot.com/judge/problem/read/PICNIC) |  ★☆☆   | X         |
-| 게임판 덮기 | [BOARDCOVER](https://www.algospot.com/judge/problem/read/BOARDCOVER) |  ★☆☆   | X         |
+|    소풍     | [PICNIC](https://www.algospot.com/judge/problem/read/PICNIC) |  ★☆☆   | O         |
+| 게임판 덮기 | [BOARDCOVER](https://www.algospot.com/judge/problem/read/BOARDCOVER) |  ★☆☆   | O         |
 | 시계 맞추기 | [CLOCKSYNC](https://www.algospot.com/judge/problem/read/CLOCKSYNC) |  ★★☆   | O         |
 
 
@@ -118,7 +118,7 @@
 |     제목     |                             링크                             | 난이도 | 풀이 여부 |
 | :----------: | :----------------------------------------------------------: | :----: | --------- |
 | 비밀번호 486 | [PASS486](https://www.algospot.com/judge/problem/read/PASS486) |  ★★☆   | O         |
-|  마법의 약   | [POTION](https://www.algospot.com/judge/problem/read/POTION) |  ★★☆   |           |
+|  마법의 약   | [POTION](https://www.algospot.com/judge/problem/read/POTION) |  ★★☆   | O         |
 
 
 

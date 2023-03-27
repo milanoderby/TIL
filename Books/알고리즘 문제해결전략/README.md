@@ -35,14 +35,14 @@
 |              제목               |                             링크                             | 난이도 | 풀이 여부 |
 | :-----------------------------: | :----------------------------------------------------------: | :----: | --------- |
 |           와일드 카드           | [WILDCARD](https://www.algospot.com/judge/problem/read/WILDCARD) |  ★★☆   | O         |
-|      삼각형 위의 최대 경로      | [TRIANGLEPATH](https://www.algospot.com/judge/problem/read/TRIANGLEPATH) |  ★☆☆   | X         |
-|       최대 증가 부분 수열       |    [LIS](https://www.algospot.com/judge/problem/read/LIS)    |  ★☆☆   | X         |
+|      삼각형 위의 최대 경로      | [TRIANGLEPATH](https://www.algospot.com/judge/problem/read/TRIANGLEPATH) |  ★☆☆   | O         |
+|       최대 증가 부분 수열       |    [LIS](https://www.algospot.com/judge/problem/read/LIS)    |  ★☆☆   | O         |
 |            합친 LIS             |   [JLIS](https://www.algospot.com/judge/problem/read/JLIS)   |  ★☆☆   | O         |
 |          원주율 외우기          |     [PI](https://www.algospot.com/judge/problem/read/PI)     |  ★☆☆   | O         |
 |          Quantization           | [QUANTIZE](https://www.algospot.com/judge/problem/read/QUANTIZE) |  ★★☆   | O         |
-|      타일링 방법의 수 세기      | [TILING2](https://www.algospot.com/judge/problem/read/TILING2) |  ★☆☆   | X         |
-| 삼각형 위의 최대 경로 개수 세기 | [TRIPATHCNT](https://www.algospot.com/judge/problem/read/TRIPATHCNT) |  ★☆☆   | X         |
-|         장마가 찾아왔다         |  [SNAIL](https://www.algospot.com/judge/problem/read/SNAIL)  |  ★☆☆   | X         |
+|      타일링 방법의 수 세기      | [TILING2](https://www.algospot.com/judge/problem/read/TILING2) |  ★☆☆   | O         |
+| 삼각형 위의 최대 경로 개수 세기 | [TRIPATHCNT](https://www.algospot.com/judge/problem/read/TRIPATHCNT) |  ★☆☆   | O         |
+|         장마가 찾아왔다         |  [SNAIL](https://www.algospot.com/judge/problem/read/SNAIL)  |  ★☆☆   | O         |
 |          비대칭 타일링          | [ASYMTILING](https://www.algospot.com/judge/problem/read/ASYMTILING) |  ★☆☆   | O         |
 |           폴리오미노            |   [POLY](https://www.algospot.com/judge/problem/read/POLY)   |  ★★☆   | O         |
 |       두니발 박사의 탈옥        | [NUMB3RS](https://www.algospot.com/judge/problem/read/NUMB3RS) |  ★★☆   | O         |
@@ -60,7 +60,7 @@
 |        드래곤 커브        | [DRAGON](https://www.algospot.com/judge/problem/read/DRAGON) |  ★★☆   | O         |
 |         웨브바짐          | [ZIMBABWE](https://www.algospot.com/judge/problem/read/ZIMBABWE) |  ★★★   | X         |
 |   실험 데이터 복구하기    | [RESTORE](https://www.algospot.com/judge/problem/read/RESTORE) |  ★★☆   | O         |
-|          틱택토           | [TICTACTOE](https://www.algospot.com/judge/problem/read/TICTACTOE) |  ★☆☆   | X         |
+|          틱택토           | [TICTACTOE](https://www.algospot.com/judge/problem/read/TICTACTOE) |  ★☆☆   | O         |
 |         숫자 게임         | [NUMBERGAME](https://www.algospot.com/judge/problem/read/NUMBERGAME) |  ★☆☆   | O         |
 |         블록 게임         | [BLOCKGAME](https://www.algospot.com/judge/problem/read/BLOCKGAME) |  ★★☆   | O         |
 |         회전초밥          |  [SUSHI](https://www.algospot.com/judge/problem/read/SUSHI)  |  ★★☆   | O         |
@@ -72,7 +72,7 @@
 
 |       제목       |                             링크                             | 난이도 | 풀이 여부 |
 | :--------------: | :----------------------------------------------------------: | :----: | --------- |
-| 출전 순서 정하기 | [MATCHORDER](https://www.algospot.com/judge/problem/read/MATCHORDER) |  ★☆☆   | X         |
+| 출전 순서 정하기 | [MATCHORDER](https://www.algospot.com/judge/problem/read/MATCHORDER) |  ★☆☆   | O         |
 |  도시락 데우기   | [LUNCHBOX](https://www.algospot.com/judge/problem/read/LUNCHBOX) |  ★☆☆   | O         |
 |  문자열 합치기   | [STRJOIN](https://www.algospot.com/judge/problem/read/STRJOIN) |  ★★☆   | O         |
 |  미나스 아노르   | [MINASTIRITH](https://www.algospot.com/judge/problem/read/MINASTIRITH) |  ★★★   | O         |

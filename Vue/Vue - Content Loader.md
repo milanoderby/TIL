@@ -1,4 +1,4 @@
-# Vue로 Content Loader
+# Vue - Content Loader
 
 ### Content Loader 란?
 

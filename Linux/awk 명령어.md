@@ -198,6 +198,14 @@ test
 
 <br>
 
+### nginx access log에서 request path로 `/mobile/notice/view`를 포함하면서, response code가 500 이었을 때, remote ip를 중복 제거하여 추출
+
+```
+awk '/mobile\/notice\/view/ { if ($11 == 500) print $1}' /home/irteam/logs/nginx/nginx_access.log | sort | uniq
+```
+
+<br>
+
 ### 참고자료
 
 https://man7.org/linux/man-pages/man1/awk.1p.html

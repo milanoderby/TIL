@@ -2,13 +2,13 @@
 
  Nginx 설치되면 아래 경로에 실행파일과 구성파일이 위치합니다.
 
-### nginx 실행파일 위치
+### Nginx 실행파일 위치
 
 - `/usr/sbin/nginx`
 
 <br>
 
-### nginx 구성파일 위치
+### Nginx 구성파일 위치
 
 - `/etc/nginx/`
   - `nginx.conf` : 가장 기본 설정파일로 모든 설정파일에 대한 진입점입니다.
@@ -62,97 +62,242 @@ http {
 
 각각의 설정 지시어(directive)와 값(value)을 살펴보겠습니다.
 
-### [`worker processes` 지시어](http://nginx.org/en/docs/ngx_core_module.html#worker_processes)
+### [`user` 지시어](https://nginx.org/en/docs/ngx_core_module.html#user)
 
 ```nginx
-worker_processes auto;
+user user [group];
 ```
 
-* nginx에는 master process와 worker process가 있는데, worker processes는 말 그대로 Request를 처리하는 프로세스들을 의미합니다.
-* worker processes의 개수는 CPU의 코어 개수와 맞춰주는 것이 성능상 좋습니다.
-* 위와 같이 설정하면, worker process를 CPU 코어의 개수로 자동으로 설정합니다.
+- worker process들이 사용할 `user` , `group` 권한을 지정합니다.
+- `group` 값은 생략하면, `user` 값과 동일한 이름의 `group`으로 지정됩니다.
+- 기본 설정 값은 `user nobody nobody;` 입니다.
 
 <br>
 
-### error_log 지시어
+### [`worker processes` 지시어](https://nginx.org/en/docs/ngx_core_module.html#worker_processes)
 
-TODO: 정리할 것
+```nginx
+worker_processes number | auto;
+```
 
-<br>
-
-### pid 지시어
-
-TODO: 정리할 것
-
-<br>
-
-### include 지시어
-
-TODO: 정리할 것
+* nginx에는 master process와 worker process가 있는데, worker processes는 말 그대로 request를 처리하는 프로세스들을 의미합니다.
+* 성능 튜닝을 위한 확실한 숫자를 모를 경우, worker processes의 개수는 CPU의 코어 개수와 맞춰주는 것이 좋습니다.
+* `auto` 로 설정하면, worker process를 CPU 코어의 개수로 자동으로 설정합니다.
+* 기본 설정 값은 `worker_processes 1;` 입니다.
 
 <br>
 
-### [`worker_connections` 지시어](http://nginx.org/en/docs/ngx_core_module.html#worker_connections)
+### [`error_log` 지시어](https://nginx.org/en/docs/ngx_core_module.html#error_log)
+
+```nginx
+error_log file [level]
+```
+
+- Nginx 서버에서 발생하는 오류와 관련된 정보를 저장하게 하는 설정입니다.
+- `file`은 오류 로그를 저장할 파일 경로를 지정합니다.
+- `level`은 기록할 오류 로그의 레벨을 지정합니다. 
+  - `level`로 지정될 수 있는 값들은 심각도가 높아지는 순으로 나열하면 다음과 같습니다. `debug`, `info`, `notice`, `warn`, `error`, `crit`, `alert`, or `emerg`입니다. 
+  - `info` 레벨로 설정하면 `info` 레벨보다 심각도가 높은 로그들이 모두 기록됩니다.
+  - 주의: `debug`레벨이 정상적으로 동작하려면 Nginx를 빌드할 때, `--with-debug` 옵션을 함께 주어야 합니다.
+  - 기본 값은 `error`입니다.
+- `main 컨텍스트`, `http 컨텍스트`, `server 컨텍스트`, `location 컨텍스트`에서 설정할 수 있으며, 하위 컨텍스트에 정의된 설정이 적용됩니다. 
+- `main 컨텍스트` 까지 설정이 없으면, 기본 설정 값인 `error_log logs/error.log error;` 가 사용됩니다.
+- 각 `server` 별로 다른 `file`에 오류 로그를 저장하도록 설정하는 것이 좋습니다.
+
+<br>
+
+### [`pid` 지시어](https://nginx.org/en/docs/ngx_core_module.html#pid)
+
+```nginx
+pid file
+```
+
+- Nginx `main 프로세스`의 ID를 저장할 파일을 명시합니다.
+- `main 프로세스`를 `kill` 명령어를 이용하여 종료하고 싶을 때, 참고하기 위함입니다.
+- 기본 값은 `pid logs/nginx.pid` 입니다.
+- `main 컨텍스트` 에서 설정할 수 있습니다.
+
+<br>
+
+### [`worker_connections` 지시어](https://nginx.org/en/docs/ngx_core_module.html#worker_connections)
 
 ```nginx
 events {
-    worker_connections  1024;
+    worker_connections  number;
 }
 ```
 
-* 하나의 worker process는 여러 개의 Request와 Connection을 맺을 수 있습니다.
-* worker\_connections는 하나의 worker process가 맺을 수 있는 Connection의 최대값을 설정합니다.
-* 기본 값은 512이지만, 일반적인 서버는 더 많은 수의 Connection을 맺을 수 있습니다.
+* 하나의 worker process는 여러 개의 request와 connection을 맺을 수 있습니다.
+* `number`는 하나의 worker process가 맺을 수 있는 connection의 최대 값을 지정합니다.
 * `Nginx 서버가 처리할 수 있는 동시접속 수` = `worker_processes` X `worker_connections` 이므로 서버에 필요한 동시접속 트래픽을 고려하여 설정하도록 합니다. (테스팅 등 트래픽을 예측하는 작업이 필요합니다.)
-* 이번 서버는 관리자를 위한 서버이기 때문에 1024로 설정하겠습니다.
-* `worker_connections` 지시어는 events Context 안에서 설정합니다.
+* `worker_connections` 지시어는 `events 컨텍스트` 안에서 설정할 수 있습니다.
+* 기본 설정 값은 `worker_connections  512;` 입니다.
 
 <br>
 
-### [`server_tokens` 지시어](http://nginx.org/en/docs/http/ngx_http_core_module.html#server_tokens)
+### [`use` 지시어](https://nginx.org/en/docs/ngx_core_module.html#use)
 
 ```nginx
-server_tokens off;
+events {
+    use method;
+}
 ```
 
-* default error page와 응답헤더의 `Server`필드에서 nginx 버전을 보여줄지 말지를 설정합니다.
-* `server_tokens off` 로 설정하면, default error page와 응답헤더의 `Server`필드에서 nginx 버전을 생략합니다.
+- request의 connection을 처리할 때, 사용하는 `method` 를 명시합니다.
+- Nginx는 connection을 처리하는 방법으로 많은 `method`를 지원합니다. 다만, 설치되는 플랫폼(OS)에 따라 각각의 `method` 사용 가능 여부는 다릅니다. 그래서, Nginx에서는 사용 가능한 가장 효율적인 method를 자동으로 선택하여 사용합니다.
+- `method` 의 값으로는 아래와 같은 값을 가질 수 있습니다. [참고](https://nginx.org/en/docs/events.html)
+  - `select`: 표준 `method` 입니다. 다른 효율적인 `method`를 사용할 수 없는 플랫폼일 때, 이 `method`를 지원하는 모듈이 자동으로 빌드됩니다.
+  - `poll`: 표준 `method` 입니다. 다른 효율적인 `method`를 사용할 수 없는 플랫폼일 때, 이 `method`를 지원하는 모듈이 자동으로 빌드됩니다.
+  - `kqueue`: FreeBSD 4.1+, OpenBSD 2.9+, NetBSD 2.0, and macOS 플랫폼에서 사용 가능한 효율적인 `method` 입니다.
+  - `epoll`: Linux 2.6+ 에서 사용 가능한 효율적인 `method` 입니다.
+  - `/dev/poll`: Solaris 7 11/99+, HP/UX 11.22+ (eventport), IRIX 6.5.15+, and Tru64 UNIX 5.1A+ 에서 사용 가능한 효율적인 `method` 입니다.
+  - `eventport`:  Solaris 10+ 에서 사용 가능한 효율적인 `method` 입니다.
+
+- **Nginx가 기본적으로 가장 효율적인 `method` 를 사용할 것이기 때문에 일반적으로는 해당 설정을 명시할 필요는 없습니다.**
+- `use` 지시어는 `events 컨텍스트` 안에서 설정할 수 있습니다.
 
 <br>
 
-### [`charset` 지시어](http://nginx.org/en/docs/http/ngx_http_charset_module.html)
+### [`include` 지시어](https://nginx.org/en/docs/ngx_core_module.html#include)
 
 ```nginx
- charset utf-8;
+include file
 ```
 
-* 응답헤더의 `Content-Type` 필드에 지정한 charset 을 추가하는 설정입니다.
+- 지정된 `file`의 내용을 그대로 가져옵니다.
+- `file`은 하나의 파일 또는 `*`를 이용한 여러 개의 파일을 지정할 수 있습니다.
+- 지정된 파일의 내용들은 올바른 문법의 directive와 block들로 구성되어야 합니다.
+- `모든 컨텍스트` 에서 설정할 수 있습니다.
 
 <br>
 
-### [`log_format` 지시어](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format)
+### [`default_type` 지시어](https://nginx.org/en/docs/http/ngx_http_core_module.html#default_type)
 
-```nginx
-log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                  '$status $body_bytes_sent "$http_referer" '
-                  '"$http_user_agent" "$http_x_forwarded_for"';
-```
-
-* log 형식을 특정 변수에 지정하는 설정입니다.
-* 이번 서버설정에서는 default 로그 형식을 그대로 사용합니다.
+- 응답의 기본 MIME 타입을 정의합니다.
+- MIME 타입에 대한 파일 이름 확장자의 매핑은 [`types 지시어`](https://nginx.org/en/docs/http/ngx_http_core_module.html#types)를 사용하여 설정할 수 있습니다.
+- 기본 설정 값은 `default_type text/plain;` 입니다.
+- `http 컨텍스트`, `server 컨텍스트`, `location 컨텍스트` 에서 설정할 수 있습니다.
 
 <br>
 
-### [`access_log` 지시어](http://nginx.org/en/docs/http/ngx_http_log_module.html#access_log)
+### [`server_tokens` 지시어](https://nginx.org/en/docs/http/ngx_http_core_module.html#server_tokens)
 
 ```nginx
-access_log  /home1/irteam/logs/nginx/nginx-1.18.0/instance_name/access.log  main;
+server_tokens on | off | build | string;
 ```
 
-* access log의 저장경로와 저장할 log형식을 지정합니다.
-* 이번 서버설정에서는 access\_log 형식을 위에서 지정한 main `log_format`형식으로 기록되도록 설정하겠습니다.
-* `instance_name` 디렉토리는 처음에는 없는 디렉토리이므로 mkdir 명령어로 생성해줍니다.
-* `instance_name` 네이밍은 각 서버 인스턴스로 이름 수정합니다.
+* Nginx의 기본 오류페이지와 응답 헤더의 `Server`값에서 nginx 버전을 보여줄지 말지를 설정합니다.
+* 보안을 위해 Nginx 버전은 사용자에게 노출되지 않는 것이 좋으므로 `server_tokens off;`로 설정합니다.
+* 기본 설정 값은 `server_tokens on;`입니다.
+
+<br>
+
+### [`charset` 지시어](https://nginx.org/en/docs/http/ngx_http_charset_module.html#charset)
+
+```nginx
+ charset charset | off;
+```
+
+* 응답헤더의 `Content-Type` 필드에 지정한 `charset` 값을 추가합니다.
+* `off` 로 값을 설정하면 응답헤더의 `Content-Type` 필드를 추가하지 않습니다.
+* 일반적으로 `charset utf-8;`로 설정합니다.
+* 기본 설정 값은 ` charset off;` 입니다.
+* `http 컨텍스트`, `server 컨텍스트`, `location 컨텍스트` 에서 설정할 수 있습니다.
+
+<br>
+
+### [`log_format` 지시어](https://nginx.org/en/docs/http/ngx_http_log_module.html#log_format)
+
+```nginx
+log_format name [escape=default|json|none] string ...;
+```
+
+* 로그의 형식를 지정합니다.
+
+* `escape` 는 특수문자 escape 처리를 하는 방식을 지정합니다.
+
+  * `default` 로 설정하면 `"` 문자, `\` 문자, `charater value가 32보다 작거나 126보다 큰 문자`에 대해서 `\xXX` 형태로 escape 처리됩니다. 값이 없는 경우 `-`로 표시합니다.
+  * `json`으로 설정하면 JSON 문자열에서 허용되지 않는 모든 문자들을 escape 처리합니다. 로그를 JSON 형태로 직렬화하여 저장하고, 추후에 역직렬화하여 확인하고 싶을 때 사용하는 방식입니다.
+  * `none`으로 설정하면 escape 처리를 하지 않습니다.
+  * `escape 파라미터`의 기본 설정 값은 `escape=default` 입니다.
+
+* `string ...` 은 로깅할 변수들과 변수들이 조합되는 형식을 지정합니다.
+
+  * 로그 형식에는 공통 변수와 로그 작성 시에만 존재하는 변수들이 포함될 수 있습니다.
+
+  * `$bytes_sent` : 클라이언트로 전송되는 바이트의 크기를 의미합니다.
+
+  * `$connection` : 연결 일련번호를 의미합니다.
+
+  * `$connection_requests` : `하나의 connection` 을 통해 만들어진 `request`의 현재 번호를 의미합니다. 추측컨대, keep-alive를 통해 유지된 connection을 통해 만들어진 request 중 현재가 몇 번째 request인지를 의미하는 것으로 생각됩니다.
+
+  * `$msec` : 로그 쓰기 시점의 시간을 의미합니다. `milliseconds 단위`
+
+  * `$pipe` : request가 server로 전송되면 `p`를 기록하고, 그렇지 않으면 `.`을 기록합니다.
+
+  * `$request_length` : request 의 길이를 의미합니다. (request 라인, request 헤더 및 request body 포함)
+
+  * `$request_time` : 요청을 처리하는데 걸리는 시간을 초 단위로 나타냅니다. (다만, milliseconds 단위까지 보여줍니다. `ex: 1.023`) client로 부터 첫 바이트를 읽어들인 시점과 client에게 마지막 응답 바이트를 보낸 후 로그를 기록하는 시점 사이의 소요시간을 나타냅니다.
+
+  * `$status` : http 응답 코드를 의미합니다.
+
+  * `$time_local` : `dd/MMM/yyyy:HH:mm:ss ±HHMM` 형태의 시간 값을 노출합니다. 예시는 다음과 같습니다. `10/Feb/2024:15:30:00 +0900`
+
+  * `$time_iso8601` : ISO 8601 표준에 따라 `yyyy-MM-ddTHH:mm:ss±HHMM` 형태의 시간 값을 노출합니다. 예시는 다음과 같습니다. `2024-02-10T15:30:00+09:00` 개인적으로 위의 `$time_local` 형태 보다 익숙한 형태이므로 `time_iso8601`로 사용하는 것을 권합니다.
+
+  * nginx 기본 구성 파일에는 아래와 같은 형태로 설정되어 있습니다.
+
+    ```nginx
+    log_format combined '$remote_addr - $remote_user [$time_local] '
+                        '"$request" $status $body_bytes_sent '
+                        '"$http_referer" "$http_user_agent"';
+    ```
+
+  * 개인적으로 설정한다면 아래와 같은 형태로 할 것 같습니다.
+
+    ```nginx
+    log_format improved '[$time_iso8601] $remote_addr $http_x_forwarded_for'
+                        '$request $status $request_time '
+                        '$http_referer $http_user_agent';
+    
+    #첫번째줄: 시간, 요청IP주소, 요청을 전달한 프록시서버 IP주소 목록
+    #두번째줄: 요청URL, 응답코드, 응답소요시간
+    #세번째줄: 요청을 수행한 referer페이지 URL, 요청한 장비 agent 정보
+    ```
+
+  * 변수로 사용될 수 있는 것들은 [참고자료](https://nginx.org/en/docs/http/ngx_http_core_module.html#variables)를 확인해주세요.
+
+* `http 컨텍스트` 에서 설정할 수 있습니다.
+
+<br>
+
+### [`access_log` 지시어](https://nginx.org/en/docs/http/ngx_http_log_module.html#access_log)
+
+```nginx
+access_log path [format [buffer=size] [gzip[=level]] [flush=time] [if=condition]];
+또는
+access_log off;
+```
+
+* Nginx에 access 로그를 저장할 파일의 경로와 로그 형식을 지정합니다. 
+
+* `path` 는 access 로그를 저장할 파일 경로를 의미합니다. **해당 파일은 `user` 지시어에서 명시한 사용자의 권한으로 접근이 가능해야 합니다.**
+
+* `format` 은 access 로그를 저장할 때, 사용할 로그 형식을 의미합니다. `log_format` 지시어에서 정의한 값을 사용합니다.
+
+* `buffer` , `flush` 는 로그 버퍼링을 위해 사용하는 기능입니다. 자세한 설명은 docs를 참고하세요.
+
+* `gzip` 은 버퍼링된 데이터는 파일에 쓰기 전에 압축할 때, 사용하는 기능입니다. 자세한 설명은 docs를 참고하세요.
+
+* 아래와 같은 형태로 설정할 수 있습니다.
+
+* ```nginx
+  access_log  /path/to/logs/nginx/nginx-1.18.0/instance_name/access.log  improved;
+  ```
+
+* `http 컨텍스트`, `server 컨텍스트`, `location 컨텍스트` 에서 설정할 수 있습니다.
+
+* 기본 설정 값은 `access_log logs/access.log combined;` 입니다. `combined`는 기본 Nginx 설정 파일에서 정의된 `log_format` 지시어의 값입니다.
 
 <br>
 
@@ -164,13 +309,48 @@ sendfile on;
 
 * 서버에서 커널함수인 `sendfile()` 함수 사용을 허용할지 말지 설정합니다.
 * 일반적으로 파일을 전송할 때, `read()`, `write()` 과정을 거칩니다. 동일한 파일객체에 대해서 2번의 I/O 작업으로 context switch가 발생하는 것은 비효율적입니다. 앞의 2번의 system call 대신에, `sendfile()` 함수를 사용하면, 전송속도를 최적화할 수 있습니다. 복사 붙여넣기가 아니라 파일 캐시의 주소 값(pointer)을 소켓으로 바로 전송하는 원리입니다. (참조: [https://www.netguru.com/codestories/nginx-tutorial-performance](https://www.netguru.com/codestories/nginx-tutorial-performance)
+* `http 컨텍스트`, `server 컨텍스트`, `location 컨텍스트` 에서 설정할 수 있습니다.
+* 기본 설정 값은 `sendfile off;` 입니다.
+
+<br>
+
+### [`limit_rate` 지시어](https://nginx.org/en/docs/http/ngx_http_core_module.html#limit_rate)
+
+```nginx
+limit_rate rate;
+```
+
+- client에 응답 전송속도를 제한하는 기능입니다.
+- `rate` 는 `초당 전송 byte (bps)`를 의미합니다. 가질 수 있는 값으로 `4k`, `1m`, `1g` 등이 있습니다.
+- `rate` 값이 0이면 전송속도를 제한하지 않습니다.
+- `하나의 request 별`로 제한이 적용됩니다. 즉, client가 2개의 connection을 이용할 경우 전체 전송속도는 2배가 됩니다.
+- `http 컨텍스트`, `server 컨텍스트`, `location 컨텍스트` 에서 설정할 수 있습니다.
+- 기본 설정 값은 `limit_rate 0;` 입니다.
+
+<br>
+
+### [`limit_rate_after` 지시어](https://nginx.org/en/docs/http/ngx_http_core_module.html#limit_rate_after)
+
+```nginx
+limit_rate_after size;
+```
+
+- client에 응답 전송속도를 제한하기 시작하는 응답 전송량 임계치를 지정합니다.
+- 응답 전송량이 `size` 크기보다 커지면, `limit_rate` 설정이 동작합니다.
+- `size` 가 가질 수 있는 값으로 `4k`, `1m`, `1g` 등이 있습니다.
+- `하나의 request 별`로 제한이 적용됩니다.
+- `http 컨텍스트`, `server 컨텍스트`, `location 컨텍스트` 에서 설정할 수 있습니다.
+- 기본 설정 값은 `limit_rate_after 0;` 입니다.
 
 <br>
 
 ### [`keepalive` 관련 지시어](http://nginx.org/en/docs/http/ngx_http_core_module.html)
 
 ```nginx
-keepalive_timeout 65;
+keepalive_disable none | browser ...;
+keepalive_requests number;
+keepalive_time time;
+keepalive_timeout timeout [header_timeout];
 ```
 
 * keep-alive 란?
@@ -179,59 +359,107 @@ keepalive_timeout 65;
     * 이러한 오버헤드를 줄이기 위해 `연결을 재사용하도록 유지하는 방식`이 keep-alive입니다.
     * keep-alive를 통해 client와 server의 connection을 유지한다는 것은 서버의 메모리 자원 또한 해제되지 않고, 유지됨을 의미합니다.
     * 그래서, `재사용횟수 제한`, `유지시간 제한`, `서버자원 제한`을 두어 keep-alive connection들을 주기적으로 해제합니다.
-* `keepalive_requests`: 하나의 keep-alive connection에 대해서 최대 몇 번 재사용가능한지를 설정합니다. default 값은 100입니다. (`재사용횟수 제한`)
-* `keepalive_timeout`: 하나의 keep-alive connection을 몇 초간 유지할지 설정합니다. default 값은 75s입니다. (`유지시간 제한`)
+* `keepalive_disable none | browser ...;`
+    * 잘못 작동하는 브라우저와의 연결 유지를 비활성화합니다.
+    * 브라우저 매개변수는 영향을 받는 브라우저를 지정합니다.
+    * `msie6` 값으로 설정하면 POST 요청이 수신될 때, 오래된 버전의 MSIE와의 `keep-alive`를 비활성화합니다. 
+    * `safari` 값으로 설정하면 macOS 및 macOS 유사 운영 체제에서 Safari 및 Safari 유사 브라우저와의 `keep-alive`를 비활성화합니다. 
+    * `none` 값은 모든 브라우저와의 `keep-alive`를 활성화합니다.
+    * 기본 설정 값은 `keepalive_disable msie6;` 입니다.
+
+* `keepalive_requests`
+    * 하나의 keep-alive connection 을 통해 처리할 수 있는 최대 요청 수를 설정합니다. (`재사용횟수 제한`)
+    * 최대 요청 수를 초과하면 connection이 닫힙니다.
+    * connection 당 메모리 할당을 해제하려면 주기적으로 연결을 닫는 것이 필요합니다. 따라서, 이 값을 너무 크게 설정하면 과도한 메모리 사용량이 발생할 수 있으므로 권장되지 않습니다.
+    * 기본 설정 값은 `keepalive_requests 1000;` 입니다. 
+
+* `keepalive_time`
+    * 하나의 keepalive connection을 통해 요청을 처리할 수 있는 최대 시간을 제한합니다. 
+    * 이 시간에 도달하면 후속 요청 처리 후에 연결이 닫힙니다.
+    * 기본 설정 값은 `keepalive_time 1h;` 입니다.
+
+* `keepalive_timeout`
+    * 첫 번째 매개변수 `timeout`은 연결 유지 클라이언트 연결이 서버 측에서 열린 상태로 유지되는 시간 제한을 설정합니다.
+    * 하나의 keep-alive connection을 몇 초간 유지할지 설정합니다. (`유지시간 제한`)
+    * 두 번째 매개변수 `header_timeout`은 필수 값이 아니며, `Keep-Alive: timeout=time 응답 헤더 필드 값`  을 설정하는 용도입니다. 이는 실제 서버에 설정된 값과는 다를 수 있습니다.
     * 너무 길게 유지하면, 서버자원(메모리)의 한계점까지 connection이 맺어져있을 경우, `keep-alive connection`으로 인해 새로운 request가 거부될 수 있습니다.
-* `keepalive_requests`, `keepalive_timeout`는 http, server, location Context에서 설정가능합니다. - [http://nginx.org/en/docs/http/ngx\_http\_core\_module.html](http://nginx.org/en/docs/http/ngx_http_core_module.html)
-* `keepalive`: Nginx 서버에서 최대로 유지할 Connection의 수를 설정합니다. 이 수를 넘어가면, LRU(Least Recently Used) 알고리즘에 의해 가장 오래 전에 맺어진 connection 부터 제거합니다. (`서버자원 제한`)
-* `keepalive`는 upstream Context에서 설정가능합니다.- [http://nginx.org/en/docs/http/ngx\_http\_upstream\_module.html](http://nginx.org/en/docs/http/ngx_http_upstream_module.html)
-* 이번 서버 설정에서는 위와 같이 설정하였습니다. 이유는, 클라이언트가 적어도 65초에 한번씩은 서버에 요청(페이지이동, ajax요청 등)을 할 것이라고 생각하여, connection 성립 이후, 지정한 시간동안은 connection 재사용을 위해 유지하도록 하였습니다.
+    * 기본 설정 값은 `keepalive_timeout 75s;` 입니다.
+
+* `upstream 컨텍스트`에서 설정가능한 keepalive 옵션을 따로 있습니다. - [참고자료](https://nginx.org/en/docs/http/ngx_http_upstream_module.html)
+    * `keepalive connections`
+    * Nginx 서버에서 최대로 유지할 Connection의 수를 설정합니다. 이 수를 넘어가면, LRU(Least Recently Used) 알고리즘에 의해 가장 오래 전에 맺어진 connection 부터 제거합니다. (`서버자원 제한`)
+
 
 <br>
 
 ### [`gzip` 관련 지시어](http://nginx.org/en/docs/http/ngx_http_gzip_module.html)
 
 ```nginx
-gzip on;
-gzip_disable "msie6";
-gzip_comp_level 5;
+gzip on | off;gzip on;
+gzip_disable regex ...;
+gzip_comp_level level;
 gzip_types text.html text/css application/javascript application/json font/wotf font/wotf2 image/x-icon;
-gzip_buffers 16 8k;
-gzip_min_length 1024;
-gzip_proxied any;
-gzip_vary on;
+gzip_buffers number size;
+gzip_http_version 1.0 | 1.1;
+gzip_min_length length;
+gzip_proxied off | expired | no-cache | no-store | private | no_last_modified | no_etag | auth | any ...;
+gzip_vary on | off;
 ```
 
 * gzip 압축을 이용하면, 전송할 파일의 크기가 줄어 네트워크 전송속도를 향상시킬 수 있습니다.
-* `gzip`: gzip압축을 사용할지 여부를 설정합니다.
-* `gzip_disable`
+* `gzip on | off`
+    * gzip압축을 사용할지 여부를 설정합니다.
+    * 기본 설정 값은 `gzip off;` 입니다.
+
+* `gzip_disable regex`
+    * `regex` 에서 지정한 정규표현식이 `request의 User-Agent헤더 필드 값`과 매칭되면 gzip 압축을 비활성화합니다.
     * Microsoft IE 4 \~ 6 버전에서는 압축을 지원하지 않기 때문에 gzip 압축대상에서 예외처리합니다.
-    * `"msie6"` 라는 표현은 정규표현식으로 `"MSIE[4-6]\."` 와 일치합니다.
+    * `"msie6"` 는 특별히 제공하는 마스킹으로 정규표현식으로 `"MSIE[4-6]\."` 와 일치합니다.
 * `gzip_comp_level`
-    * 압축레벨을 0 \~ 9 중 하나로 설정합니다.
+    * 압축레벨을 1 ~ 9 중 하나로 설정할 수 있습니다.
     * 압축되는 크기와 CPU 자원사용량을 고려했을 때, 5레벨이 적절합니다.
     * 압축률 참조 - [https://serverfault.com/questions/253074/what-is-the-best-nginx-compression-gzip-level](https://serverfault.com/questions/253074/what-is-the-best-nginx-compression-gzip-level)
+    * 기본 설정 값은 `gzip_comp_level 1;` 입니다.
 * `gzip_types`
-    * 지정한 MIME type들을 가지는 파일들에 대해서만 압축을 진행합니다.
-    * 기본적으로 text/html 파일은 지정하지 않아도 압축의 대상이 됩니다.
+    * 지정한 MIME 타입을 가지는 응답 파일들에 대해서만 압축을 진행합니다.
+    * 기본적으로 `text/html` MIME 타입은 항상 압축이 진행됩니다.
+    * 기본 설정 값은 `gzip_types text/html;` 입니다.
 * `gzip_buffers`
     * 버퍼를 두어서, 압축의 속도를 빠르게 할 수 있습니다.
     * 파일 전송 시, 버퍼를 사용하여 전송속도를 빠르게하는 원리와 비슷합니다.
     * 16 8k는 8KB짜리 버퍼를 16개 두겠다는 의미입니다.
 * `gzip_http_version`
-    * gzip\_http\_version의 기본값은 1.1로 설정되어 있기 때문에, 위 설정에는 추가하지 않았습니다.
+    * 응답을 압축하는 데 필요한 `request의 최소 HTTP 버전`을 설정합니다.
+    * `1.0` 또는 `1.1`로 설정할 수 있습니다.
+    * 기본 설정 값은 `gzip_http_version 1.1;` 입니다.
 * `gzip_min_length`
-    * 특정 크기 이상의 파일에 대해서 gzip 압축을 진행한다.
-    * default 값은 20, 기본 단위는 바이트
-    * 너무 작은 파일을 압축할 경우 발생하는 비효율을 없애기 위한 설정
+    * gzip 압축을 진행할 `응답의 최소 크기` 를 지정하는 옵션입니다.
+    * `length` 는 gzip 압축을 진행할 `응답의 최소 크기 (바이트)` 를 의미합니다.
+    * `Content-Length 응답 헤더필드 값`과 `length`를 비교하여 더 클 경우에만 gzip 압축합니다.
+    * 기본 설정 값은 `gzip_min_length 20;` 입니다.
+    * **너무 작은 파일을 압축할 경우 발생하는 비효율을 없애기 위한 설정입니다.**
 * `gzip_proxied`
-    * Proxy를 통해서 들어오는 요청에 대해서도 gzip 압축 후, 응답할 것인지에 대한 설정
-    * Proxy를 통해서 들어오는 요청을 구분하는 기준은 요청헤더에 "Via" 필드가 있는지 없는지로 구분한다.
-    * 기본 값은 off 이다.
+    * Proxy를 통해서 들어오는 요청에 대해서도 gzip 압축 후, 응답할 것인지에 대한 설정입니다.
+    * Proxy를 통해서 들어오는 요청을 구분하는 기준은 `요청 헤더필드 Via` 가 있는지 없는지로 구분합니다.
+    * 가질 수 있는 값은 [참고자료](https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_proxied)를 확인합니다.
+    * 기본 값은 `gzip_proxied off;` 입니다.
 * `gzip_vary`
-    * 응답헤더에 "Vary: Accept-Encoding" 필드를 넣을지 말지를 설정
-    * 기본 값은 off이다.
-    * 압축이 됐는지를 확인하기 위함
+    * `응답헤더에 Vary: Accept-Encoding 필드 값`을 추가할지 말지를 설정합니다.
+    * client 측에서 압축이 됐는지를 확인할 수 있게 합니다.
+    * 기본 설정 값은 `gzip_vary off;` 입니다.
+
+- 예시 설정은 아래와 같습니다.
+
+  ```nginx
+  gzip on;
+  gzip_disable "msie6";
+  gzip_comp_level 5;
+  gzip_types text.html text/css application/javascript application/json font/wotf font/wotf2 image/x-icon;
+  gzip_buffers 16 8k;
+  gzip_min_length 1024;
+  gzip_proxied any;
+  gzip_vary on;
+  ```
 
 <br>
 
@@ -308,135 +536,283 @@ https://github.com/milanoderby/TIL/blob/master/Nginx/Nginx%20Server%20names.md
 
 ### [`location` 지시어](http://nginx.org/en/docs/http/ngx_http_core_module.html#location)
 
-```
+```nginx
 location /uri
 location = /uri
 location ^~ /uri
 location ~ /uri
-location ~* /uri
-location @name
-{
+location ~* /uri {
+	# uri와 매칭되면, 이 영역에 있는 명령어가 수행됩니다.
+}
+
+또는
+
+location @name {
 	# uri와 매칭되면, 이 영역에 있는 명령어가 수행됩니다.
 }
 ```
 
-먼저, `location @name`과 같은 형태의 location은 일반적인 형태의 request를 처리하기 위해 사용되지 않습니다.
+- 먼저, `location @name`과 같은 형태의 location은 일반적인 형태의 request를 처리하기 위해 사용되지 않습니다. Nginx 내부에서 redirect용도로 `@name` 으로 보내는 request에 대해 처리하는 location입니다.
 
-대신, 들어온 요청을 redirect할 때, 위의 이름이 지어진 location으로 redirect 합니다.
+- `location` 의 매칭을 하기 전에 다음의 전처리 과정을 수행합니다.
 
-location 의 매칭을 하기 전에 다음의 전처리 과정을 수행합니다.
+  1. `%XX` 형태의 인코딩된 문자열을 디코딩합니다.
 
-1. `%XX` 형태의 인코딩된 문자열을 디코딩합니다.
-2. `.` 과 `..` 같이 상대 경로를 풀어서 절대 경로로 변경합니다.
-3. 2개 이상 인접해있는 슬래시 문자열(ex: `//`)를 하나의 슬래시 문자(`/`)로 변환합니다.
+  2. `.` 과 `..` 같이 상대 경로를 풀어서 절대 경로로 변경합니다.
 
-<br>
+  3. 2개 이상 인접해있는 슬래시 문자열(ex: `//`)를 하나의 슬래시 문자(`/`)로 변환합니다.
 
-location 뒤의 uri는 3가지 방식으로 명시할 수 있습니다.
 
-1. 정확하게 동일한 문자열
-   - `=` 뒤에는 request uri를 완전히 매칭시킬 문자열을 명시합니다.
-2. prefix 문자열
-   - `수정자를 사용하지 않는 경우`, 뒤에 명시한 prefix 문자열은 아래에 설명한 location 탐색과정에서 사용됩니다.
-   - `^~` 뒤에 명시한 prefix 문자열은 아래에 설명한 location 탐색과정에서 사용됩니다.
-3. 정규표현식 방식: `~` 또는 `~*` 수정자의 뒤에 정규표현식을 명시합니다.
-   - `~` 뒤에는 대소문자를 구분하는 정규표현식 문자열이 옵니다.
-   - `~*` 뒤에는 대소문자를 구분하지 않는 정규표현식 문자열이 옵니다.
+- location 뒤의 uri는 3가지 방식으로 명시할 수 있습니다.
 
-<br>
+  1. 정확하게 동일한 문자열
+     - `=` 뒤에는 `request uri`를 완전히 매칭시킬 문자열을 명시합니다.
+     - `request의 URI`가 `=` 뒤에 붙은 `문자열`과 일치하면 바로 최종 매칭됩니다.
 
-request uri가 nginx로 들어온 경우, request uri와 매칭되는 location 을 찾는 방법은 아래와 같습니다.
+  2. prefix 문자열 - `수정자가 없는 형태` 
+     - 예시: `location /example`
+     - `request의 접두사 URI`가 뒤에 붙은 `prefix 문자열`과 일치하면 매칭되는 location의 후보가 됩니다. 
+     - 하지만, 이는 후보일 뿐이며 `정규표현식 형태의 location` 중 매칭되는 것이 없을 때에만 이 값으로 최종 매칭됩니다.
+  3. prefix 문자열 - `수정자가 ^~ ` 
+     - 예시: `location ^~ /example`
+     - `request의 접두사 URI`가 `^~` 뒤에 붙은 `prefix 문자열`과 일치하는 것이 있다면 `정규표현식 형태의 location` 탐색을 거치지 않습니다. `request의 접두사 URI`가 `^~` 수정자를 사용하면서 `prefix 문자열`이 가장 긴 것이 바로 최종 매칭됩니다. (2번 형태와의 차이점)
 
-1. 먼저, request uri가 `location =` 의 뒤에 나오는 문자열과 완전히 동일할 경우, 탐색을 종료하고 매칭된 location의 flow를 거치게됩니다.
-2. 두 번째로, prefix문자열을 이용하여 매칭되는 location을 찾습니다. request uri가 각 location의 prefix 문자열로 시작하는지 확인합니다.
-3. request uri와 매칭되는 location의 prefix 문자열이 여러개 일 경우, 그 중 가장 긴 prefix 문자열을 가진 location을 기억해둡니다. 
-4. 이 때, 3번에서 찾은 가장 긴 prefix 문자열 앞에 `location ^~` 문구가 있을 경우, 탐색을 종료하고 매칭된 location의 flow를 거치게됩니다.
-5. 세 번째로, 정규표현식을 확인합니다.
-6. nginx 설정파일의 위에서 아래방향으로 location 절에 명시된 정규표현식을 탐색합니다. 만약, request uri와 location의 정규표현식이 매칭되는 경우, 탐색을 종료하고 매칭된 location의 flow를 거치게됩니다.
-7. 만약, 5 ~ 6번의 과정에서 매칭되는 정규표현식의 location을 찾지 못한 경우, 2 ~ 3번에서 찾은 prefix 문자열의 location direction의 flow를 거치게 됩니다.
+  4. 정규표현식 방식: `~` 또는 `~*` 수정자의 뒤에 정규표현식을 명시합니다.
 
-<br>
+     - `~` 뒤에는 대소문자를 구분하는 정규표현식 문자열이 옵니다.
 
-location 설정의 예외적 동작
+     - `~*` 뒤에는 대소문자를 구분하지 않는 정규표현식 문자열이 옵니다.
 
-- 만약, location의 prefix 문자열이 `/` 문자로 끝나고, location 절에서 요청이 [proxy_pass](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass), [fastcgi_pass](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass), [uwsgi_pass](http://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_pass), [scgi_pass](http://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_pass), [memcached_pass](http://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_pass), [grpc_pass](http://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_pass) 등에 의해 처리될 경우, 특수한 처리가 수행됩니다.
-- 예를 들어 `location /user/` 가 있다고 가정합니다.
+- request uri가 nginx로 들어온 경우, request uri와 매칭되는 location 을 찾는 방법은 아래와 같습니다.
 
-- location이 가지는 prefix 문자열에서 가장 끝 `/` 문자를 제외한 문자열인 `/user`가 request 로 들어올 경우, 원칙적으로 `/user/` 는 `/user`의 prefix 문자열이 아니기 때문에 해당 location의 flow를 거치지 않아야 합니다. 하지만, 들어온 request uri의 뒤에 `/` 문자를 붙여서 `/user/` 로 redirect 호출됩니다. (이 때, 응답되는 HTTP 코드는 301입니다.)
+  1. 먼저, request uri가 **`location =` 의 뒤에 나오는 문자열과 완전히 동일할 경우, 탐색을 종료하고 매칭된 location의 flow를 거치게됩니다.**
 
-- 이러한 동작을 원하지 않는다면, `location = /user`와 같이 뒤에 `/` 문자를 뺀 location을 `=` 수정자와 함께 명시합니다. 즉, request uri가 `/user` 인 경우에는 `/user/`로 redirect가 발생하지 않도록 하는 것입니다.
+  2. 두 번째로, prefix문자열을 이용하여 매칭되는 location을 찾습니다. request uri가 각 location의 prefix 문자열로 시작하는지 확인합니다.
 
-  ```
-  location /user/ {
-      proxy_pass http://example1.com;
+  3. request uri와 매칭되는 location의 prefix 문자열이 여러개 일 경우, 그 중 가장 긴 prefix 문자열을 가진 location을 기억해둡니다. **이 때, 가장 긴 prefix 문자열 앞에 `location ^~` 문구가 있을 경우, 탐색을 종료하고 매칭된 location의 flow를 거치게됩니다.**
+
+  5. 세 번째로, 정규표현식을 확인합니다.
+
+  6. nginx 설정파일의 위에서 아래방향으로 location 절에 명시된 정규표현식을 탐색합니다. **만약, request uri와 location의 정규표현식이 매칭되는 경우, 탐색을 종료하고 매칭된 location의 flow를 거치게됩니다.**
+
+  7. **만약, 5 ~ 6번의 과정에서 매칭되는 정규표현식의 location을 찾지 못한 경우, 2 ~ 3번에서 찾은 prefix 문자열의 location direction의 flow를 거치게 됩니다.**
+
+- location 설정의 예외적 동작
+
+  - 만약, location의 prefix 문자열이 `/` 문자로 끝나고, location 절에서 요청이 [proxy_pass](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass), [fastcgi_pass](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass), [uwsgi_pass](http://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_pass), [scgi_pass](http://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_pass), [memcached_pass](http://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_pass), [grpc_pass](http://nginx.org/en/docs/http/ngx_http_grpc_module.html#grpc_pass) 등에 의해 처리될 경우, 특수한 처리가 수행됩니다.
+
+  - 예를 들어 `location /user/` 가 있다고 가정합니다.
+
+
+  - location이 가지는 prefix 문자열에서 가장 끝 `/` 문자를 제외한 문자열인 `/user`가 request 로 들어올 경우, 원칙적으로 `/user/` 는 `/user`의 prefix 문자열이 아니기 때문에 해당 location의 flow를 거치지 않아야 합니다. 하지만, 들어온 request uri의 뒤에 `/` 문자를 붙여서 `/user/` 로 redirect 호출됩니다. (이 때, 응답되는 HTTP 코드는 301입니다.)
+
+
+  - 이러한 동작을 원하지 않는다면, `location = /user`와 같이 뒤에 `/` 문자를 뺀 location을 `=` 수정자와 함께 명시합니다. 즉, request uri가 `/user` 인 경우에는 `/user/`로 redirect가 발생하지 않도록 하는 것입니다.
+
+    ```nginx
+    location /user/ {
+        proxy_pass http://example1.com;
+    }
+    
+    location = /user {
+        proxy_pass http://example2.com;
+    }
+    ```
+
+
+- nginx 의 location 탐색 성능을 최적화하기 위한 방법
+
+  1. 자주 호출되는 request uri는 `location = uri` 형태로 만들고, nginx 설정 파일 가장 위에 배치하여 탐색이 early terminate 되도록 합니다.
+
+  2. 위의 방식과 비슷하게 `location ^~ ` 를 nginx 설정 파일의 위쪽에 배치하여 탐색이 early terminate 되도록 합니다. 이 때, 문자열의 길이는 `location uri` 에서 사용되는 prefix 문자열의 길이보다는 무조건 길어야됩니다.
+
+  3. 그 외의 `location uri`, `location ~ uri`, `location ~* uri` 문법은 어차피 모든 탐색과정을 거치게 되므로 성능에 더 좋은 배치는 없습니다. 다만, request uri와 매칭되는 location이 어떤 것인지 빠르게 파악하는 배치는 있을 수 있습니다. 이를 아래에서 확인해봅니다.
+
+- nginx 의 location 가독성 최적화하기 위한 방법
+
+  - request uri가 어떤 location 과 매칭되는지 빠르게 확인하기 위해서는 nginx 설정 파일 상 가장 위에서 매칭되는 경우, 바로 탐색이 종료되는 순서로 배치합니다.
+
+  1. `location = uri` 은 가장 위에 배치합니다. -> 정확하게 동일한 request uri가 들어올 경우, 바로 탐색을 종료합니다.
+
+  2. `location ^~ uri` 은 두 번째 순서로 배치합니다. -> request uri의 문자열과 location의 prefix 문자열이 매칭될 경우, 바로 탐색을 종료합니다. 이 때, 문자열의 길이는 `location uri` 에서 사용되는 prefix 문자열의 길이보다는 무조건 길어야됩니다. 만약, `location /request` 와 `location ^~ req` 가 있을 경우, early terminate가 발생하지 않을 뿐만 아니라 절대로 매칭될 일이 없어지기 때문에 구문의 존재의미 자체가 없어집니다.
+
+  3. `location ~ uri`와 `location ~* uri`를 배치합니다. -> request uri의 문자열과 location의 정규표현식이 매칭될 경우, 바로 탐색을 종료합니다. 이 때,각 정규표현식이 교집합이 형성되지 않도록 주의합니다. 만약, request uri의 문자열이 `location ~ 정규표현식1` 과 `location ~ 정규표현식2` 에 모두 매칭될 경우, 둘 중 더 상위에 위치한 location 설정의 flow를 거치게 됩니다. nginx 수정 작업 중 두 설정의 위치를 바꾸게 된다면 기존의 방식대로 동작하지 않기 때문에 크게 주의합니다.
+
+  4. `location uri`를 prefix 문자열 길이가 긴 순서대로 배치합니다. -> request uri의 문자열과 location의 prefix 문자열이 매칭될 경우, 바로 탐색을 종료하는 것과 동일한 결과가 발생합니다. 실질적으로는 모든 location을 탐색하지만, prefix 문자열의 길이가 긴 순서대로 배치하였기 때문에 가장 위쪽에서 매칭되는 prefix 문자열을 가진 location의 flow를 거치게 됩니다.
+
+  5. `location /`를 배치합니다. -> 위에서 매칭되지 않은 모든 request uri와 매칭되도록 prefix 문자열을 설정하는 구문을 맨 아래에 추가합니다. 이 location 문까지 매칭되지 않는다면, 해당 요청은 처리되지 않는 문제가 발생하기 때문입니다.
+
+- nginx location 설정 예시
+
+  ```nginx
+  location = / {
+      [ configuration A ]
   }
   
-  location = /user {
-      proxy_pass http://example2.com;
+  location ^~ /images/ {
+      [ configuration D ]
+  }
+  
+  location ~* \.(gif|jpg|jpeg)$ {
+      [ configuration E ]
+  }
+  
+  location /documents/ {
+      [ configuration C ]
+  }
+  
+  location / {
+      [ configuration B ]
   }
   ```
 
-<br>
+  - request uri가 "/" 일 경우, configuration A 를 거치게 됩니다.
 
-nginx 의 location 탐색 성능을 최적화하기 위한 방법
+  - request uri가 "/index.html" 일 경우, configuration B 를 거치게 됩니다.
 
-1. 자주 호출되는 request uri는 `location = uri` 형태로 만들고, nginx 설정 파일 가장 위에 배치하여 탐색이 early terminate 되도록 합니다.
-2. 위의 방식과 비슷하게 `location ^~ ` 를 nginx 설정 파일의 위쪽에 배치하여 탐색이 early terminate 되도록 합니다. 이 때, 문자열의 길이는 `location uri` 에서 사용되는 prefix 문자열의 길이보다는 무조건 길어야됩니다.
-3. 그 외의 `location uri`, `location ~ uri`, `location ~* uri` 문법은 어차피 모든 탐색과정을 거치게 되므로 성능에 더 좋은 배치는 없습니다. 다만, request uri와 매칭되는 location이 어떤 것인지 빠르게 파악하는 배치는 있을 수 있습니다. 이를 아래에서 확인해봅니다.
+  - request uri가 "/documents/document.html” 일 경우, configuration C 를 거치게 됩니다.
 
-<br>
+  - request uri가 "/images/1.gif" 일 경우, configuration D 를 거치게 됩니다.
 
-nginx 의 location 가독성 최적화하기 위한 방법
+  - request uri가 "/documents/1.jpg" 일 경우, configuration E 를 거치게 됩니다.
 
-request uri가 어떤 location 과 매칭되는지 빠르게 확인하기 위해서는 nginx 설정 파일 상 가장 위에서 매칭되는 경우, 바로 탐색이 종료되는 순서로 배치합니다.
-
-1. `location = uri` 은 가장 위에 배치합니다. -> 정확하게 동일한 request uri가 들어올 경우, 바로 탐색을 종료합니다.
-2. `location ^~ uri` 은 두 번째 순서로 배치합니다. -> request uri의 문자열과 location의 prefix 문자열이 매칭될 경우, 바로 탐색을 종료합니다. 이 때, 문자열의 길이는 `location uri` 에서 사용되는 prefix 문자열의 길이보다는 무조건 길어야됩니다. 만약, `location /request` 와 `location ^~ req` 가 있을 경우, early terminate가 발생하지 않을 뿐만 아니라 절대로 매칭될 일이 없어지기 때문에 구문의 존재의미 자체가 없어집니다.
-3. `location ~ uri`와 `location ~* uri`를 배치합니다. -> request uri의 문자열과 location의 정규표현식이 매칭될 경우, 바로 탐색을 종료합니다. 이 때,각 정규표현식이 교집합이 형성되지 않도록 주의합니다. 만약, request uri의 문자열이 `location ~ 정규표현식1` 과 `location ~ 정규표현식2` 에 모두 매칭될 경우, 둘 중 더 상위에 위치한 location 설정의 flow를 거치게 됩니다. nginx 수정 작업 중 두 설정의 위치를 바꾸게 된다면 기존의 방식대로 동작하지 않기 때문에 크게 주의합니다.
-4. `location uri`를 prefix 문자열 길이가 긴 순서대로 배치합니다. -> request uri의 문자열과 location의 prefix 문자열이 매칭될 경우, 바로 탐색을 종료하는 것과 동일한 결과가 발생합니다. 실질적으로는 모든 location을 탐색하지만, prefix 문자열의 길이가 긴 순서대로 배치하였기 때문에 가장 위쪽에서 매칭되는 prefix 문자열을 가진 location의 flow를 거치게 됩니다.
-5. `location /`를 배치합니다. -> 위에서 매칭되지 않은 모든 request uri와 매칭되도록 prefix 문자열을 설정하는 구문을 맨 아래에 추가합니다. 이 location 문까지 매칭되지 않는다면, 해당 요청은 처리되지 않는 문제가 발생하기 때문입니다.
 
 <br>
 
-nginx location 설정 예시
+### [`root` 지시어](https://nginx.org/en/docs/http/ngx_http_core_module.html#root)
 
-```
-location = / {
-    [ configuration A ]
-}
-
-location ^~ /images/ {
-    [ configuration D ]
-}
-
-location ~* \.(gif|jpg|jpeg)$ {
-    [ configuration E ]
-}
-
-location /documents/ {
-    [ configuration C ]
-}
-
-location / {
-    [ configuration B ]
-}
+```nginx
+root path;
 ```
 
-- request uri가 "/" 일 경우, configuration A 를 거치게 됩니다.
-- request uri가 "/index.html" 일 경우, configuration B 를 거치게 됩니다.
-- request uri가 "/documents/document.html” 일 경우, configuration C 를 거치게 됩니다.
-- request uri가 "/images/1.gif" 일 경우, configuration D 를 거치게 됩니다.
-- request uri가 "/documents/1.jpg" 일 경우, configuration E 를 거치게 됩니다.
+- `path`는 request 의 루트 디렉터리를 의미합니다. 예를 들어, 아래와 같은 설정이 있다고 합시다.
+
+  ```nginx
+  location /i/ {
+      root /data/w3;
+  }
+  ```
+
+- request 의 URI가 `/i/top.gif` 이면, `/data/w3/i/top.gif` 파일을 찾아 응답으로 반환할 것 입니다.
+
+- 즉, `root 지시어에서 지정한 루트 디렉토리 경로` + `request의 URI`가 응답할 파일의 경로가 됩니다.
+
+- 만약, `request의 URI` 를 합성하면, 적절한 파일 경로가 되지 않아서 변경해야할 경우, `alias 지시어`를 사용해야 합니다.
+
+- 현재 컨텍스트에서 `root` 구문이 없을 경우, 상위 레벨의 컨텍스트 설정을 상속하여 사용합니다.
+
+- `http 컨텍스트`, `server 컨텍스트`, `location 컨텍스트` 에서 설정할 수 있습니다.
 
 <br>
 
-### [`root` 지시어](https://nginx.org/en/docs/http/ngx_http_core_module.html#root) 와 [`alias` 지시어](http://nginx.org/en/docs/http/ngx_http_core_module.html#alias)
+### [`alias` 지시어](http://nginx.org/en/docs/http/ngx_http_core_module.html#alias)
 
-TODO: 추가 정리할 것
+```nginx
+alias path;
+```
+
+- `path`는 request 의 루트 디렉터리를 의미합니다. 예를 들어, 아래와 같은 설정이 있다고 합시다.
+
+  ```nginx
+  location /i/ {
+      root /data/w3;
+  }
+  ```
+
+- request 의 URI가 `/i/top.gif` 이면, `/data/w3/top.gif` 파일을 찾아 응답으로 반환할 것 입니다.
+
+- 즉, `root 지시어에서 지정한 루트 디렉토리 경로` + `request의 URI 에서 경로를 제외한 파일명`가 응답할 파일의 경로가 됩니다.
+
+- 정규표현식으로 정의된 `location` 블록 안에서 `alias 지시어` 가 사용되는 경우, `location 지시어`의 정규표현식에는 `캡처, ()`가 포함되어야 하며 `alias 지시어`는 이렇게 캡처된 구문을 사용해야 합니다.
+
+  ``` nginx
+  location ~ ^/users/(.+\.(?:gif|jpe?g|png))$ {
+      alias /data/w3/images/$1;
+  }
+  ```
+
+- `location 컨텍스트` 에서 설정할 수 있습니다.
 
 <br>
 
-### [index 지시어]()
+### 접근 제한 기능을 제공하는 모듈
+
+- `접근 제한 기능`을 제공하는 모듈은 아래와 같이 존재합니다.
+  - client IP 기반의 접근 제한: https://nginx.org/en/docs/http/ngx_http_access_module.html
+  - password 기반의 접근 제한: https://nginx.org/en/docs/http/ngx_http_auth_basic_module.html
+  - sub request 기반의 접근 제한: https://nginx.org/en/docs/http/ngx_http_auth_request_module.html
+  - JWT 기반의 접근 제한: https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html
+
+<br>
+
+### [`satisfy` 지시어](https://nginx.org/en/docs/http/ngx_http_core_module.html#satisfy)
+
+```nginx
+satisfy all | any;
+```
+
+- `satisfy all;` 로 명시하면 모든 `접근 제한 기능 모듈` 을 모두 만족할 경우에만 접근을 허용합니다.
+
+- `satisfy any;` 로 명시하면 `접근 제한 기능 모듈` 에서 정의한 접근 제한 중 하나라도 만족할 경우에 접근을 허용합니다.
+
+- 예시는 아래와 같습니다.
+
+  ``` nginx
+  location / {
+      satisfy any;
+  
+      allow 192.168.1.0/32;
+      deny  all;
+  
+      auth_basic           "closed site";
+      auth_basic_user_file conf/htpasswd;
+  }
+  ```
+
+- 기본 설정 값은 `satisfy all;` 입니다.
+- `http 컨텍스트`, `server 컨텍스트`, `location 컨텍스트` 에서 설정할 수 있습니다.
+
+<br>
+
+### [`allow` 지시어](https://nginx.org/en/docs/http/ngx_http_access_module.html#allow) 와 [`deny` 지시어](https://nginx.org/en/docs/http/ngx_http_access_module.html#deny)
+
+```nginx
+allow address | CIDR | unix: | all;
+deny address | CIDR | unix: | all;
+```
+
+- client IP 주소 기반의 접근 제한을 명시하는 명령어입니다. 
+
+- `address` 는 접근을 허용할 client IP 주소를 의미합니다.
+
+- `CIDR` 는 접근을 허용할 client IP 주소 대역을 의미합니다.
+
+- `unix` 로 지정하면 모든 UNIX 도메인 소켓에 대한 접근을 허용합니다.
+
+- `all` 로 지정하면 모든 접근을 허용합니다.
+
+- 예시는 아래와 같습니다.
+
+  ```nginx
+  location / {
+      deny  192.168.1.1;
+      allow 192.168.1.0/24;
+      allow 10.1.1.0/16;
+      deny  all;
+  }
+  ```
+
+- 접근 제한 규칙은 client IP 주소와 매칭되는 항목이 발견될 때까지 순서대로 확인합니다.
+
+- 위의 예시 설정은 아래와 같이 접근 제한을 수행합니다.
+
+- `192.168.1.1` 을 제외한 IPv4 네트워크 `192.168.1.0/24`, `10.1.1.0/1` 에서만 접근이 허용됩니다.
+
+- `http 컨텍스트`, `server 컨텍스트`, `location 컨텍스트` 에서 설정할 수 있습니다.
+
+<br>
+
+### [`index` 지시어](https://nginx.org/en/docs/http/ngx_http_index_module.html#index)
 
 `index 지시어`는 `request의 URI`가 `/`로 끝났을 때, `root` 지시자 또는 `alias` 지시자와 `request 의 URI`가 결합된 파일 경로에 존재하는 기본 응답파일을 명시합니다.
 
@@ -446,22 +822,229 @@ https://github.com/milanoderby/TIL/blob/master/Nginx/Nginx%20Server%20names.md
 
 <br>
 
-### [`error_page` 지시어](https://nginx.org/en/docs/http/ngx_http_core_module.html#error_page)
+### [`internal` 지시어](https://nginx.org/en/docs/http/ngx_http_core_module.html#internal)
 
-#### 문법
+- 내부 요청이 들어올 경우에만 현재 `location 설정`이 동작할 수 있도록 지정합니다. 
+- 외부 요청이 들어올 경우, client 오류응답 404가 반환됩니다.
+- `location` 컨텍스트에서 설정할 수 있습니다.
 
-`error_page` `http응답코드` `URI` 
+<br>
 
-#### 예시
+### [`set` 지시어](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#set)
 
 ```nginx
-error_page 404             /404.html;
-error_page 500 502 503 504 /50x.html;
+set $variable value;
 ```
 
-위와 같이 구성하면, 명시된 URI로 내부 리다이렉트(internal redirect)가 발생합니다. redirect될 때, request method는 `GET`으로 변경되어 호출됩니다.
+- 지정된 변수의 값을 설정합니다. 
+- 변수의 값에는 텍스트, 변수 등이 포함될 수 있습니다.
+- `server 컨텍스트`, `location 컨텍스트` 에서 설정할 수 있습니다.
 
-TODO: 추가 정리할 것
+<br>
+
+### [`if` 지시어](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#if)
+
+```nginx
+if (condition) { ... }
+```
+
+- `condition` 을 참/거짓을 판단하고 참이면, 명시한 블록이 실행됩니다.
+
+- `condition` 은 아래의 방식으로 참/거짓을 판단합니다.
+
+  - `condition` 위치에 `$variable_name` 가 존재할 경우, `variable_name`의 값이 `"0"` 또는 `""`라면  거짓으로 판단합니다.
+  - `condition` 위치에 `$variable_name` 과 `=` 연산자 또는 `!=` 연산자를 함께 사용하여 비교구문을 사용할 수 있습니다.
+  - `condition` 위치에 `$variable_name` 과 `~` 연산자 또는 `~*` 연산자를 함께 사용하여 정규표현식 매칭구문을 사용할 수 있습니다. `~` 연산자는 대/소문자를 구분하는 정규표현식 매칭입니다. `~*` 연산자는 대/소문자를 구분하지 않는 정규표현식 매칭입니다.
+  - `condition` 위치에 `$variable_name` 과 `!~` 연산자 또는 `!~*` 연산자를 함께 사용하여 정규표현식 매칭구문을 사용할 수 있습니다. `!~` 연산자는 대/소문자를 구분하면서 정규표현식 매칭되지 않을 때 블록을 수행합니다. `!~*` 연산자는 대/소문자를 구분하지 않는 정규표현식 매칭되지 않을 때 블록을 수행합니다.
+  - 정규표현식이 `}` 문자 또는 `;` 문자를 포함한다면 정규표현식 전체를 `'` 문자 또는 `"` 문자로 감싸야합니다.
+  - `condition` 위치에 `-f` 연산자 또는 `!-f` 연산자를 함께 사용하여 파일의 존재유무를 조건으로 사용할 수 있습니다.
+  - `condition` 위치에 `-d` 연산자 또는 `!-d` 연산자를 함께 사용하여 디렉토리의 존재유무를 조건으로 사용할 수 있습니다.
+  - `condition` 위치에 `-e` 연산자 또는 `!-e` 연산자를 함께 사용하여 파일, 디렉토리, 심볼릭 링크의 존재유무를 조건으로 사용할 수 있습니다.
+  - `condition` 위치에 `-x` 연산자 또는 `!-x` 연산자를 함께 사용하여 실행가능한 파일의 존재유무를 조건으로 사용할 수 있습니다.
+
+- 예시는 아래와 같습니다.
+
+  ```nginx
+  if ($http_user_agent ~ MSIE) {
+      rewrite ^(.*)$ /msie/$1 break;
+  }
+  
+  if ($http_cookie ~* "id=([^;]+)(?:;|$)") {
+      set $id $1;
+  }
+  
+  if ($request_method = POST) {
+      return 405;
+  }
+  
+  if ($slow) {
+      limit_rate 10k;
+  }
+  
+  if ($invalid_referer) {
+      return 403;
+  }
+  ```
+
+- `server 컨텍스트`, `location 컨텍스트` 에서 설정할 수 있습니다.
+
+<br>
+
+### [`break` 지시어](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#break)
+
+```nginx
+break;
+```
+
+- 현재 수행하고 있는 `ngx_http_rewrite_module 모듈의 지시어` 처리를 중단합니다.
+- **하지만, `location 블록` 안에서 `break;` 를 사용해도 `request의 처리`는 계속됩니다. 즉, `break;` 구문 이후에 남아있는 `location 블록 내 지시어`를 모두 수행하고 종료됩니다.**
+- `server 컨텍스트`, `location 컨텍스트`, `if 컨텍스트`에서 설정할 수 있습니다.
+
+<br>
+
+### [`return` 지시어](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#return)
+
+```nginx
+return code [text];
+return code URL;
+return URL;
+```
+
+- `request의 처리`를 중지하고 지정된 응답코드를 client에 반환합니다.
+- `code` 는 client에 반환되는 응답코드를 의미합니다.
+- `text` 는 client에 반환되는 응답 body 문구를 의미합니다.
+- client에 응답을 직접하는 것이 아니고 리다이렉트 기능을 사용하려면 `code`와 `URL`을 함께 명시합니다.
+  - 리다이렉트 시, 사용가능한 `code` 값은 301, 302, 303, 307, 308 입니다.
+  - `code` 값을 생략할 경우 기본 응답코드는 302가 됩니다.
+  - `URL` 은 리다이렉트할 URL을 의미합니다.
+  - `URL` 값은  `http://` 또는 `https://` 또는 `$scheme` 로 시작해야됩니다.
+  - 리디렉션 `URL` 을 이 `서버의 로컬 URI`로 지정할 수 있습니다. 이 때, 실제 리디렉션 URL은 `$scheme` , `server_name_in_redirect`, `port_in_redirect` 지시문에 따라 구성됩니다.
+- `code`를 비표준코드인 `444`로 지정하면 응답 헤더를 전송하지 않고 연결을 종료합니다.
+
+- `server 컨텍스트`, `location 컨텍스트`, `if 컨텍스트`에서 설정할 수 있습니다.
+
+<br>
+
+### [`rewrite` 지시어](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#rewrite)
+
+```nginx
+rewrite regex replacement [flag];
+```
+
+- 지정된 `정규표현식`이 `요청 URI`와 매칭되면 `요청 URI`가 `대체 문자열`로 변경됩니다.
+
+- `regex` 는 요청 URI와 매칭을 수행할 `정규표현식`을 의미합니다.
+
+- `replacement` 는 `정규표현식`이 `요청 URI`와 매칭되면 `요청 URI`를 대체할 `대체 문자열`을 의미합니다.
+
+- `flag` 지시어는 아래의 값 중 하나를 가질 수 있습니다.
+
+  - `last` 로 설정하면 `정규표현식과 매칭될 때, 문자열 변경을 수행 후`,  다음 처리는 중단하고 변경된 URI와 매칭되는 새 `location` 검색을 시작합니다.
+  - `break` 로 설정하면 `정규표현식과 매칭될 때, 문자열 변경을 수행 후`,  다음 처리는 중단합니다.
+  - `redirect` 로 설정하면 `정규표현식과 매칭될 때, 문자열 변경을 수행 후`,  다음 처리는 중단하고 변경된 URI와 함께 `일시적인 redirect를 뜻하는 응답코드 302`를 반환합니다.
+  - `permanent` 로 설정하면 `정규표현식과 매칭될 때, 문자열 변경을 수행 후`,  다음 처리는 중단하고 변경된 URI와 함께 `영구적인 redirect를 뜻하는 응답코드 301`를 반환합니다.
+  - `redirect 지시어` 와 `permanent 지시어` 로 반환하는 URI는 `$scheme` , `server_name_in_redirect`, `port_in_redirect` 지시어에 의해 실제 리디렉션 URL로 변경되어 응답됩니다.
+
+- `rewrite 지시어` 의 동작은 아래와 같습니다.
+
+  - `rewrite 지시어` 는 구성 파일에 나타나는 순서대로 순차적으로 실행됩니다.
+  - `request URI` 와 `rewrite의 정규표현식` 이 매칭될 경우, `flag` 에 의해 적절하게 처리됩니다.
+  - `rewrite 지시어` 에 의해 변경된 `replacement` 가 `http://`, `https://` , `$scheme` 이면 처리가 중단되고 client로 변경된 URL (`redirect 처리`)을 반환합니다.
+
+- 정규표현식에 의해 `캡처된 request URI`에 `request argument`를 포함하여 `replacement` 되는 구문에도 `request argument` 를 포함될 수 있습니다. 이러한 동작을 원치 않는다면, `request argument`가 추가되지 않도록 `replacement 지시어`의 끝에 `?`를 추가합니다.
+
+  - 예시는 아래와 같습니다.
+
+    ```nginx
+    rewrite ^/users/(.*)$ /show?user=$1? last;
+    ```
+
+- rewrite 설정 예시는 다음과 같습니다.
+
+  ```nginx
+  location /download/ {
+      rewrite ^(/download/.*)/media/(.*)\..*$ $1/mp3/$2.mp3 break;
+      rewrite ^(/download/.*)/audio/(.*)\..*$ $1/mp3/$2.ra  break;
+      return  403;
+  }
+  ```
+
+- `server 컨텍스트`, `location 컨텍스트`, `if 컨텍스트`에서 설정할 수 있습니다.
+
+<br>
+
+### [`rewrite_log` 지시어](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#rewrite_log)
+
+```nginx
+rewrite_log on | off;
+```
+
+- `ngx_http_rewrite_module 모듈 지시어`의 처리 결과를 `error_log`에 `notice 레벨`로 로깅하는 기능을 활성화 또는 비활성화합니다.
+
+- 기본 설정 값은 `rewrite_log off;` 입니다.
+- `http 컨텍스트`, `server 컨텍스트`, `location 컨텍스트`, `if 컨텍스트`에서 설정할 수 있습니다.
+
+<br>
+
+### [`error_page` 지시어](https://nginx.org/en/docs/http/ngx_http_core_module.html#error_page)
+
+```nginx
+error_page code ... [=[response]] uri;
+```
+
+- 지정된 오류에 대해 client에게 노출할 URI를 지정합니다.
+
+- `code`는 http 응답코드를 의미합니다. 
+
+- `uri`는 응답코드가 `code`와 같을 때 내부 리다이렉트할 URI를 의미합니다.
+
+- 예시는 아래와 같습니다.
+
+  ```nginx
+  error_page 404             /404.html;
+  error_page 500 502 503 504 /50x.html;
+  ```
+
+- 위와 같이 구성하면, 명시된 URI로 내부 리다이렉트(internal redirect)가 발생합니다. redirect될 때, request method는 `GET`으로 변경되어 호출됩니다.
+
+- `=response` 구문은 `code`로 전달받은 응답코드를 변경합니다. 예시는 아래와 같습니다.
+
+  ```nginx
+  error_page 404 =200 /empty.gif;
+  # 404 응답코드에 대해 /empty.gif 로 보내고, 응답코드는 200으로 변경됩니다.
+  ```
+
+- 오류 응답에 대한 처리가 프록시 서버에서 진행되고, 프록시 서버가 다른 응답 코드(예: 200, 302, 401, 404 등)를 반환할 경우, 해당 코드로 응답할 수 있습니다. 예시는 아래와 같습니다.
+
+  ```nginx
+  error_page 404 = /404.php;
+  ```
+
+- 내부 리다이렉션 중 **URI와 메서드를 변경할 필요가 없으면** `named location`으로 오류 처리를 전달할 수 있습니다. 예시는 아래와 같습니다.
+
+  ```nginx
+  location / {
+      error_page 404 = @fallback;
+  }
+  
+  location @fallback {
+      proxy_pass http://backend;
+  }
+  ```
+
+- 만약, uri 처리 중에 오류가 발생했다면 마지막 발생한 오류의 응답코드가 client에 반환됩니다.
+
+- 오류 처리를 위해 `내부 URI 리다이렉트`가 아닌 `URL 리다이렉트`를 사용할 수도 있습니다. 예시는 아래와 같습니다.
+
+  ```nginx
+  error_page 403      http://example.com/forbidden.html;
+  error_page 404 =301 http://example.com/notfound.html;
+  ```
+
+  - `URL 리다이렉트` 의 경우, 응답코드는 302로 client에게 반환됩니다. `=response` 구문을 이용하여 다른 `redirect 응답코드`(301, 302, 303, 307, 308)로 변경할 수는 있습니다.
+
+- 현재 컨텍스트에서 `error_page` 구문이 없을 경우, 상위 레벨의 컨텍스트 설정을 상속하여 사용합니다.
+- `http 컨텍스트`, `server 컨텍스트`, `location 컨텍스트` 에서 설정할 수 있습니다.
 
 <br>
 
@@ -502,7 +1085,7 @@ server {
 
 <br>
 
-## Reverse Proxy 서버 구성 추가 - proxy\.conf
+## Nginx Reverse Proxy 구성 추가 - /etc/nginx/conf.d/proxy.conf
 
 ### Reverse Proxy를 사용하여 얻는 효과
 
@@ -534,3 +1117,6 @@ proxy_pass_request_headers on;
 include       proxy.conf;
 ```
 
+<br>
+
+TODO: proxy 관련 설정 정리할 것

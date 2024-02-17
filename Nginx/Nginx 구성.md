@@ -428,7 +428,6 @@ gzip_vary on | off;
 * `gzip on | off`
     * gzip압축을 사용할지 여부를 설정합니다.
     * 기본 설정 값은 `gzip off;` 입니다.
-
 * `gzip_disable regex`
     * `regex` 에서 지정한 정규표현식이 `request의 User-Agent헤더 필드 값`과 매칭되면 gzip 압축을 비활성화합니다.
     * Microsoft IE 4 \~ 6 버전에서는 압축을 지원하지 않기 때문에 gzip 압축대상에서 예외처리합니다.
@@ -445,7 +444,9 @@ gzip_vary on | off;
 * `gzip_buffers`
     * 버퍼를 두어서, 압축의 속도를 빠르게 할 수 있습니다.
     * 파일 전송 시, 버퍼를 사용하여 전송속도를 빠르게하는 원리와 비슷합니다.
-    * 16 8k는 8KB짜리 버퍼를 16개 두겠다는 의미입니다.
+    * `gzip_buffers 16 8k`로 설정하면 8KB짜리 버퍼를 16개 두게 됩니다.
+    * 기본 설정 값은 `gzip_buffers 32 4k` 또는 `gzip_buffers 16 8k;` 입니다. 
+    * 기본 설정 값의 버퍼 크기는 메모리 페이지 1개의 크기와 같습니다.
 * `gzip_http_version`
     * 응답을 압축하는 데 필요한 `request의 최소 HTTP 버전`을 설정합니다.
     * `1.0` 또는 `1.1`로 설정할 수 있습니다.

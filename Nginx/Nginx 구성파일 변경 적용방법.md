@@ -1,4 +1,4 @@
-# Nginx 설정 변경방법
+# Nginx 구성파일 변경 적용방법
 
 1. nginx.conf 파일 변경
 

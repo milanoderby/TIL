@@ -347,8 +347,20 @@ server {
     }
     
     rewrite_log on;
-    location = /rewrite/url {
-        rewrite ^/rewrite/url$ /index last;
+    location = /rewrite/flag-last {
+        rewrite ^/rewrite/.*$ /index last;
+    }
+    
+    location = /rewrite/flag-break {
+        rewrite ^/rewrite/.*$ /index break;
+    }
+    
+    location = /rewrite/flag-redirect {
+        rewrite ^/rewrite/.*$ /index redirect;
+    }
+    
+    location = /rewrite/flag-permanent {
+        rewrite ^/rewrite/.*$ /index permanent;
     }
 
     #error_page  404              /404.html;
@@ -465,8 +477,20 @@ location = /redirect/internal {
 ### [`rewrite` 지시어](https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#rewrite)
 
 ```nginx
-location = /rewrite/url {
-	rewrite ^/rewrite/url$ /index last;
+location = /rewrite/flag-last {
+    rewrite ^/rewrite/.*$ /index last;
+}
+
+location = /rewrite/flag-break {
+    rewrite ^/rewrite/.*$ /index break;
+}
+
+location = /rewrite/flag-redirect {
+    rewrite ^/rewrite/.*$ /index redirect;
+}
+
+location = /rewrite/flag-permanent {
+    rewrite ^/rewrite/.*$ /index permanent;
 }
 ```
 

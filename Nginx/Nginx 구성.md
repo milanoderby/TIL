@@ -271,20 +271,12 @@ log_format name [escape=default|json|none] string ...;
                         '"$http_referer" "$http_user_agent"';
     ```
 
-  * 개인적으로 설정한다면 아래와 같은 형태로 할 것 같습니다.
+  * 변수로 사용될 수 있는 것들은 아래와 같습니다.
 
-    ```nginx
-    log_format improved '[$time_iso8601] $remote_addr $http_x_forwarded_for'
-                        '$request $status $request_time '
-                        '$http_referer $http_user_agent';
-    
-    #첫번째줄: 시간, 요청IP주소, 요청을 전달한 프록시서버 IP주소 목록
-    #두번째줄: 요청URL, 응답코드, 응답소요시간
-    #세번째줄: 요청을 수행한 referer페이지 URL, 요청한 장비 agent 정보
-    ```
-
-  * 변수로 사용될 수 있는 것들은 [참고자료](https://nginx.org/en/docs/http/ngx_http_core_module.html#variables)를 확인해주세요.
-
+    - [http core 모듈 관련 변수](https://github.com/milanoderby/TIL/blob/master/Nginx/Nginx%20%EA%B5%AC%EC%84%B1.md#ngx_http_core_module-%EB%AA%A8%EB%93%88%EC%97%90%EC%84%9C-%EC%A7%80%EC%9B%90%ED%95%98%EB%8A%94-%EB%B3%80%EC%88%98)
+    - [http proxy 모듈 관련 변수](https://github.com/milanoderby/TIL/blob/master/Nginx/Nginx%20%EA%B5%AC%EC%84%B1.md#ngx_http_proxy_module-%EB%AA%A8%EB%93%88%EC%97%90%EC%84%9C-%EC%A7%80%EC%9B%90%ED%95%98%EB%8A%94-%EB%B3%80%EC%88%98)
+    - [http upstream 모듈 관련 변수](https://github.com/milanoderby/TIL/blob/master/Nginx/Nginx%20%EA%B5%AC%EC%84%B1.md#ngx_http_upstream_module%EB%AA%A8%EB%93%88%EC%97%90%EC%84%9C-%EC%A7%80%EC%9B%90%ED%95%98%EB%8A%94-%EB%B3%80%EC%88%98)
+  
 * `http 컨텍스트` 에서 설정할 수 있습니다.
 
 <br>
@@ -702,7 +694,49 @@ deny address | CIDR | unix: | all;
 
 자세한 내용은 아래 페이지에서 참고 바랍니다.
 
-https://github.com/milanoderby/TIL/blob/master/Nginx/Nginx%20Server%20names.md
+https://github.com/milanoderby/TIL/blob/master/Nginx/Nginx%20ngx_http_index_module.md
+
+<br>
+
+### [`try_files` 지시어](https://nginx.org/en/docs/http/ngx_http_core_module.html#try_files)
+
+```nginx
+try_files file ... uri;
+try_files file ... =code;
+```
+
+- 지정된 순서대로 파일이 있는지 확인하고, 가장 먼저 발견된 파일을 요청 처리에 사용하는 지시어입니다.
+
+- `index 지시어` 는 `request의 URI` 가 `/`로 끝날 때, 적용이 되기 때문에 적용하기가 어려운 반면, `try_files 지시어` 는 그러한 조건이 없기 때문에 비교적 사용하기 쉽습니다.
+
+- `file ...` 는 응답에 사용할 파일을 지정합니다.
+
+- `uri` 는 위에서 지정한 파일들이 발견되지 않으면 내부 redirect 를 보낼 `URI` 입니다. 예시는 아래와 같습니다.
+
+  ```nginx
+  location /images/ {
+      try_files $uri /images/default.gif;
+  }
+  
+  location = /images/default.gif {
+      expires 30s;
+  }
+  ```
+
+  - 위의 예시에서 `URI 경로의 파일` 을 탐색하여 응답에 사용합니다.
+  - 만약, `URI 경로의 파일`이 없다면 `/images/default.gif` 경로로 내부 redirect를 수행합니다.
+  - `/images/default.gif` URI에서 `expires 30s` 명령어를 수행합니다.
+
+- `code` 는 위에서 지정한 파일들이 발견되지 않으면 응답할 `HTTP 응답 코드`를 의미합니다. 일반적으로 파일이 없음을 나타내는 `404` 로 명시하는 것이 좋습니다. 예시는 아래와 같습니다.
+
+  ```nginx
+  location /images/ {
+      try_files $uri /images/default.gif;
+  }
+  ```
+
+  - 위의 예시에서 `URI 경로의 파일` 을 탐색하여 응답에 사용합니다.
+  - 만약, `URI 경로의 파일`이 없다면 응답코드 `404`로 응답합니다.
 
 <br>
 
@@ -816,6 +850,8 @@ rewrite regex replacement [flag];
 ```
 
 - 지정된 `정규표현식`이 `요청 URI`와 매칭되면 `요청 URI`가 `대체 문자열`로 변경됩니다.
+
+- **`return 지시어 + 3xx 응답코드` 와의 차이점은 현재 `request의 URI`를 재작성하여 `다른 URI`로 바꾸어 다른 location이 탐색되도록 한다는 것입니다. 그래서, 브라우저에 노출되는 URI는 전혀 변경되지 않습니다.  하지만, flag의 값으로 `redirect`나 `permanent`를 설정하면 redirect가 발생하여 `return 지시어 + 3xx 응답코드`와 동일한 효과를 냅니다.**
 
 - `regex` 는 요청 URI와 매칭을 수행할 `정규표현식`을 의미합니다.
 
@@ -971,6 +1007,11 @@ server {
 
 ### [ngx_http_core_module 모듈에서 지원하는 변수](https://nginx.org/en/docs/http/ngx_http_core_module.html#variables)
 
+#### 시간 관련
+
+- `$time_iso8601` : ISO 8601 표준에 따라 `yyyy-MM-ddTHH:mm:ss±HHMM` 형태의 시간 값을 노출합니다. 예시는 다음과 같습니다. `2024-02-10T15:30:00+09:00` 개인적으로 위의 `$time_local` 형태 보다 익숙한 형태이므로 `time_iso8601`로 사용하는 것을 권합니다.
+- `time_local` : Nginx 에서 기본적으로 사용하는 형태의 시간 값을 노출합니다.
+
 #### client 관련
 
 - `$remote_addr` : client IP 주소
@@ -1013,6 +1054,7 @@ server {
 - `$http_cookie` : Cookie 값
   - `$cookie_name` : Cookie `name` 의 값
 - `$request_body` : request body
+- `$request_completion` : request가 완료되면 `“OK”`, 그렇지 않으면 `""(빈 문자열)`을 반환 합니다.
 
 <br>
 
@@ -1022,6 +1064,8 @@ server {
 - `$server_addr` : request를 처리하는 server의 주소
   - 이 변수의 값을 계산하려면 일반적으로 한 번의 시스템 호출이 필요합니다. 시스템 호출을 방지하려면 `listen 지시어` 에 IP주소를 명시하고, `bind` 파라미터를 사용해야 합니다.
 - `$server_port` : request를 처리하는 server의 포트번호
+- `$realpath_root` : 현재 request에 대해 `root` 또는 `alias` 지시문의 값에 해당하는 절대 경로
+- `$request_filename` : 현재 request에 대해 `root` 또는 `alias` 지시문의 값과 request의 URI를 기반으로 만들어지는 파일의 경로
 
 <br>
 

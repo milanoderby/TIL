@@ -1390,7 +1390,7 @@ proxy_ssl_verify_depth number;
 
   ```nginx
   upstream backend {
-      server backend1.example.com
+      server backend1.example.com;
       server backend2.example.com;
   
       server backup1.example.com   backup;
@@ -1428,7 +1428,7 @@ location / {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto http;
-    proxy_max_temp_file_size 0;
+    proxy_set_header Content-Type $content_type;
 }
 ```
 

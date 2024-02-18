@@ -1007,7 +1007,9 @@ server {
 - `$http_name` : 요청 헤더 필드 `name` 의 값
   - 헤더 필드의 이름에서 `-` 은 `_`로 변경하고, 모두 소문자로 변경하여 표현해야 합니다.
   - 사용 예시는 아래와 같습니다.
-  - 요청 헤더 필드 `Content-Type`의 값을 표현하려면, `http_content_type` 으로 사용해야 합니다.
+  - 요청 헤더 필드 `X-Forwarded-For`의 값을 표현하려면, `$http_x_forwarded_for` 으로 사용해야 합니다.
+- `$content_type` : 요청 헤더 필드 `Content-Type` 의 값
+- `$content_length` : 요청 헤더 필드 `Content-Length` 의 값
 - `$http_cookie` : Cookie 값
   - `$cookie_name` : Cookie `name` 의 값
 - `$request_body` : request body
@@ -1032,11 +1034,10 @@ server {
   - 응답 헤더 필드 `Content-Type`의 값을 표현하려면, `sent_http_content_type` 으로 사용해야 합니다.
 - `$bytes_sent` : 클라이언트로 전송된 바이트 수
 - `$body_bytes_sent` : 응답 헤더를 제외한 클라이언트에 전송된 바이트 수
-- `proxy_add_x_forwarded_for` : client 측에서 전송한 request의 `X-Forwarded-For 헤더 필드` 의 뒤에 `,`와 `$remote_addr` 변수를 추가한 값
 
 <br>
 
-## Nginx Reverse Proxy 구성 추가 - 관련 모듈: [ngx_http_proxy_module](https://nginx.org/en/docs/http/ngx_http_proxy_module.html)
+## Nginx Reverse Proxy 구성 - [ngx_http_proxy_module](https://nginx.org/en/docs/http/ngx_http_proxy_module.html)
 
 ### Reverse Proxy를 사용하여 얻는 효과
 
@@ -1375,7 +1376,7 @@ proxy_ssl_verify_depth number;
 
 <br>
 
-### ngx_http_proxy_module 모듈에서 지원하는 변수
+### [ngx_http_proxy_module 모듈에서 지원하는 변수](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#variables)
 
 - `$proxy_host` : `proxy_pass 지시어` 에 지정된 프록시 서버의 이름과 포트
 - `$proxy_port` : `proxy_pass 지시어` 에 지정된 프록시 서버의 포트
@@ -1383,7 +1384,7 @@ proxy_ssl_verify_depth number;
 
 <br>
 
-### Nginx Reverse Proxy 서버 그룹 구성 - 관련 모듈: [ngx_http_upstream_module](https://nginx.org/en/docs/http/ngx_http_upstream_module.html)
+## Nginx Reverse Proxy 서버 그룹 구성 - [ngx_http_upstream_module](https://nginx.org/en/docs/http/ngx_http_upstream_module.html)
 
 - 설정 예시는 아래와 같습니다.
 
@@ -1404,6 +1405,16 @@ proxy_ssl_verify_depth number;
   ```
 
 - 기본 설정 값 외에 다른 설정으로 변경이 필요할 때, docs를 참고합니다.
+
+<br>
+
+### [ngx_http_upstream_module모듈에서 지원하는 변수](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#variables)
+
+- `$upstream_addr` : upstream 서버의 IP와 포트
+- `$upstream_http_name` : upstream 서버가 전송한 응답 헤더 필드 `name` 의 값
+- `$upstream_cookie_name` : upstream 서버가 전송한 응답 헤더 필드 `Set-Cookie` 에 채운 `name` 이름을 가지는 쿠키의 값입니다.
+- `$upstream_status` : upstream 서버가 전송한 응답 코드
+- `$upstream_response_time` : upstream 서버로부터 응답을 받는데까지 소요된 시간 (초 단위, 소수점으로 밀리초단위까지 계산하여 노출)
 
 <br>
 

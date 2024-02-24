@@ -15,18 +15,21 @@ ngx_http_geoip_module 모듈은 이미 컴파일된 MaxMind 데이터베이스�
 ### 1. ngx_http_geoip_module 모듈 설정을 위해 필요한 패키지 설치
 
 ```nginx
-# ngx_http_geoip_module.so 라는 동적 모듈을 설치
+apt-get install vim
 apt-get install nginx-module-geoip
-
-# GeoLite2 무료 Geolocation DB를 다운로드하기 위해 설치
 apt-get install wget
-
-# GeoLite2 무료 Geolocation DB를 가공하는 명령어를 다운로드하기 위해 설치
 apt-get install git
-
-# GeoLite2 무료 Geolocation DB를 가공하는 명령어를 수행하기 위해 설치
 apt-get install python3
 ```
+
+- `vim`: nginx conf 파일 수정을 위해 설치
+
+- `nginx-module-geoip`: ngx_http_geoip_module.so 동적 모듈을 설치
+
+- `wget`: GeoLite2 무료 Geolocation DB를 다운로드하기 위해 설치
+- `git`: GeoLite2 무료 Geolocation DB를 가공하는 명령어를 다운로드하기 위해 설치
+
+- `python3`: GeoLite2 무료 Geolocation DB를 가공하는 명령어를 수행하기 위해 설치
 
 <br>
 
@@ -88,18 +91,18 @@ mkdir /etc/nginx/geoip && cd /etc/nginx/geoip
    1. GeoLite2 Country: CSV Format 다운로드 명령어 형식
 
       ```shell
-      wget --content-disposition --user=YOUR_ACCOUNT_ID --password=YOUR_LICENSE_KEY 'https://download.maxmind.com/geoip/databases/GeoLite2-Country-CSV/download?suffix=zip'
+      wget --content-disposition --user=YOUR_ACCOUNT_ID --password=YOUR_LICENSE_KEY 'https://download.maxmind.com/geoip/databases/GeoLite2-Country-CSV/download?suffix=zip' -O GeoLite2-Country-CSV.zip
       ```
 
    2. GeoLite2 City: CSV Format 다운로드 명령어 형식
 
       ```shell
-      wget --content-disposition --user=YOUR_ACCOUNT_ID --password=YOUR_LICENSE_KEY 'https://download.maxmind.com/geoip/databases/GeoLite2-City-CSV/download?suffix=zip'
+      wget --content-disposition --user=YOUR_ACCOUNT_ID --password=YOUR_LICENSE_KEY 'https://download.maxmind.com/geoip/databases/GeoLite2-City-CSV/download?suffix=zip' -O GeoLite2-City-CSV.zip
       ```
 
 <br>
 
-### 4. GeoLite2 무료 Geolocation DB를 가공하는 명령어를 다운로드 및 이동
+### 4. GeoLite2 무료 Geolocation DB를 가공하는 명령어를 다운로드 및 경로 이동
 
 ```shell
 git clone https://github.com/sherpya/geolite2legacy.git
@@ -108,7 +111,7 @@ git clone https://github.com/sherpya/geolite2legacy.git
 <br>
 
 ```shell
-cp /etc/nginx/geoip/geolite2legacy/geolite2legacy.py /etc/nginx/geoip/ && cp /etc/nginx/geoip/geolite2legacy/geoname2fips.csv /etc/nginx/geoip/
+cd /etc/nginx/geoip/geolite2legacy/
 ```
 
 <br>
@@ -116,7 +119,7 @@ cp /etc/nginx/geoip/geolite2legacy/geolite2legacy.py /etc/nginx/geoip/ && cp /et
 ### 5. GeoLite2 무료 Geolocation DB를 가공하는 명령어 수행
 
 ```shell
-python3 geolite2legacy.py -i GeoLite2-Country-CSV_*.zip -f geoname2fips.csv -o GeoLiteCountry.dat && python3 geolite2legacy.py -i GeoLite2-City-*.zip -f geoname2fips.csv -o GeoLiteCity.dat
+python3 geolite2legacy.py -i /etc/nginx/geoip/GeoLite2-Country-CSV.zip -f geoname2fips.csv -o /etc/nginx/geoip/GeoLiteCountry.dat && python3 geolite2legacy.py -i /etc/nginx/geoip/GeoLite2-City-CSV.zip -f geoname2fips.csv -o /etc/nginx/geoip/GeoLiteCity.dat
 ```
 
 <br>
@@ -124,7 +127,7 @@ python3 geolite2legacy.py -i GeoLite2-Country-CSV_*.zip -f geoname2fips.csv -o G
 ### 6. nginx conf 파일 수정
 
 ```nginx
-vim /etc/nginx/nginx.conf 
+vim /etc/nginx/nginx.conf
 ```
 
 <br>

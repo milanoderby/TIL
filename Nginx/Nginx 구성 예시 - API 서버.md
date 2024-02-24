@@ -7,25 +7,28 @@ API 서버를 위한 Nginx 구성 파일을 작성합니다.
 [Nginx 최초 구성 파일](https://github.com/milanoderby/TIL/blob/master/Nginx/Nginx%20%EA%B5%AC%EC%84%B1.md#nginx-%EC%B4%88%EA%B8%B0-%EA%B5%AC%EC%84%B1%ED%8C%8C%EC%9D%BC---etcnginxnginxconf) 과 **다른 내용에 대해서만 설명**을 하겠습니다.
 
 ```nginx
+load_module "/etc/nginx/modules/ngx_http_geoip_module.so";
+
 user  nginx;
 worker_processes  auto;
 
 error_log  /var/log/nginx/nginx-error.log notice;
 pid        /var/run/nginx.pid;
 
-
 events {
     worker_connections  1024;
 }
-
 
 http {
     include       /etc/nginx/mime.types;
     default_type  application/octet-stream;
     server_tokens off;
     charset utf-8;
+    
+    geoip_country /etc/nginx/geoip/GeoLiteCountry.dat;
+    geoip_city /etc/nginx/geoip/GeoLiteCity.dat;
 
-    log_format custom_json escape=json '{ '
+    log_format json_format escape=json '{'
         '"time": "$time_iso8601", '
         '"client": { '
             '"remote_addr": "$remote_addr", '
@@ -59,10 +62,22 @@ http {
             '"status": "$status", '
             '"upstream_status": "$upstream_status", '
             '"upstream_response_time": "$upstream_response_time" '
+        '}, '
+        '"geoip_country": { '
+            '"geoip_country_code": "$geoip_country_code", '
+            '"geoip_country_code3": "$geoip_country_code3", '
+            '"geoip_country_name": "$geoip_country_name" '
+        '}, '
+        '"geoip_city": { '
+            '"geoip_city": "$geoip_city", '
+            '"geoip_region_name": "$geoip_region_name", '
+            '"geoip_postal_code": "$geoip_postal_code", '
+            '"geoip_latitude": "$geoip_latitude", '
+            '"geoip_longitude": "$geoip_longitude" '
         '} '
     '}';
 
-    access_log  /var/log/nginx/nginx-access.log  custom_json;
+    access_log  /var/log/nginx/nginx-access.log  json_format;
 
     sendfile        on;
     #tcp_nopush     on;
@@ -111,7 +126,7 @@ server_tokens off;
 ### [`log_format` 지시어](https://nginx.org/en/docs/http/ngx_http_log_module.html#log_format)
 
 ```nginx
-log_format custom_json escape=json '{ '
+log_format json_format escape=json '{'
     '"time": "$time_iso8601", '
     '"client": { '
         '"remote_addr": "$remote_addr", '
@@ -123,8 +138,8 @@ log_format custom_json escape=json '{ '
         '"request_method": "$request_method", '
         '"scheme": "$scheme", '
         '"host": "$host", '
-		'"http_host": "$http_host", '
-		'"proxy_host": "$proxy_host", '
+        '"http_host": "$http_host", '
+        '"proxy_host": "$proxy_host", '
         '"request_uri": "$request_uri", '
         '"content_type": "$content_type", '
         '"http_x_forwarded_for": "$http_x_forwarded_for", '
@@ -145,6 +160,18 @@ log_format custom_json escape=json '{ '
         '"status": "$status", '
         '"upstream_status": "$upstream_status", '
         '"upstream_response_time": "$upstream_response_time" '
+    '}, '
+    '"geoip_country": { '
+        '"geoip_country_code": "$geoip_country_code", '
+        '"geoip_country_code3": "$geoip_country_code3", '
+        '"geoip_country_name": "$geoip_country_name" '
+    '}, '
+    '"geoip_city": { '
+        '"geoip_city": "$geoip_city", '
+        '"geoip_region_name": "$geoip_region_name", '
+        '"geoip_postal_code": "$geoip_postal_code", '
+        '"geoip_latitude": "$geoip_latitude", '
+        '"geoip_longitude": "$geoip_longitude" '
     '} '
 '}';
 
@@ -197,6 +224,18 @@ log_format custom_json escape=json '{ '
           "status": "$status",
           "upstream_status": "$upstream_status",
           "upstream_response_time": "$upstream_response_time"
+      },
+      "geoip_country": {
+          "geoip_country_code": "$geoip_country_code",
+          "geoip_country_code3": "$geoip_country_code3",
+          "geoip_country_name": "$geoip_country_name"
+      },
+      "geoip_city": {
+          "geoip_city": "$geoip_city",
+          "geoip_region_name": "$geoip_region_name",
+          "geoip_postal_code": "$geoip_postal_code",
+          "geoip_latitude": "$geoip_latitude",
+          "geoip_longitude": "$geoip_longitude"
       }
   }
   ```
@@ -211,13 +250,13 @@ log_format custom_json escape=json '{ '
 ### [`access_log` 지시어](https://nginx.org/en/docs/http/ngx_http_log_module.html#access_log)
 
 ```nginx
-access_log  /var/log/nginx/nginx-access.log  custom_json;
+access_log  /var/log/nginx/nginx-access.log  json_format;
 ```
 
 - Nginx에 access 로그를 저장할 파일의 경로와 로그 형식을 지정합니다.
 - `path` 는 access 로그를 저장할 파일 경로를 의미합니다. **해당 파일은 `user` 지시어에서 명시한 사용자의 권한으로 접근이 가능해야 합니다.**
 - **또한, 로그를 저장할 파일은 이미 생성되어 있어야 합니다.**
-- `format` 은 access 로그를 저장할 때, 사용할 로그 형식을 의미합니다. `log_format` 지시어에서 새로 정의한 `custom_json`값을 사용합니다.
+- `format` 은 access 로그를 저장할 때, 사용할 로그 형식을 의미합니다. `log_format` 지시어에서 새로 정의한 `json_format`값을 사용합니다.
 
 <br>
 

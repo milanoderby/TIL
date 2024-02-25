@@ -1,4 +1,4 @@
-# Nginx 구성 예시 - API 서버
+# Nginx 구성파일 예시 - API 서버
 
 API 서버를 위한 Nginx 구성 파일을 작성합니다.
 
@@ -326,6 +326,10 @@ server {
     listen       80 default_server;
     server_name  localhost;
     
+    location = /basic_status {
+        stub_status;
+    }
+    
     location = / {
         root /usr/share/nginx/html;
         try_files /index.html /index.htm =404;
@@ -400,6 +404,14 @@ location 지시어는 request를 처리할 location 블록을 선택할 때, 사
 자세한 내용은 아래 페이지에서 참고 바랍니다.
 
 https://github.com/milanoderby/TIL/blob/master/Nginx/Nginx%20location%20%EC%A7%80%EC%8B%9C%EC%96%B4.md
+
+<br>
+
+### stub_status 지시어
+
+자세한 내용은 아래 페이지에서 참고 바랍니다.
+
+https://github.com/milanoderby/TIL/blob/master/Nginx/Nginx%20ngx_http_stub_status_module.md#stub_status-%EC%A7%80%EC%8B%9C%EC%96%B4
 
 <br>
 

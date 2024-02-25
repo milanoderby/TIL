@@ -233,7 +233,7 @@ server {
 
 <br>
 
-### [`listen` 지시어](https://nginx.org/en/docs/http/ngx_http_core_module.html#listen)
+### listen 지시어
 
 listen 지시어는 request를 처리할 server 블록을 선택할 때, 사용되는 지시어입니다.
 
@@ -243,7 +243,7 @@ https://github.com/milanoderby/TIL/blob/master/Nginx/Nginx%20How%20nginx%20proce
 
 <br>
 
-### [`server_name` 지시어](https://nginx.org/en/docs/http/ngx_http_core_module.html#server_name)
+### server_name 지시어
 
 server_name 지시어는 request를 처리할 server 블록을 선택할 때, 사용되는 지시어입니다.
 
@@ -253,7 +253,7 @@ https://github.com/milanoderby/TIL/blob/master/Nginx/Nginx%20Server%20names.md
 
 <br>
 
-### [`location` 지시어](http://nginx.org/en/docs/http/ngx_http_core_module.html#location)
+### location 지시어
 
 location 지시어는 request를 처리할 location 블록을 선택할 때, 사용되는 지시어입니다.
 

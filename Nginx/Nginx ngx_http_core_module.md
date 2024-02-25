@@ -191,6 +191,16 @@ alias path;
 
 <br>
 
+### 접근 제한 기능을 제공하는 모듈
+
+- `접근 제한 기능`을 제공하는 모듈은 아래와 같이 존재합니다.
+  - client IP 기반의 접근 제한: https://nginx.org/en/docs/http/ngx_http_access_module.html
+  - password 기반의 접근 제한: https://nginx.org/en/docs/http/ngx_http_auth_basic_module.html
+  - sub request 기반의 접근 제한: https://nginx.org/en/docs/http/ngx_http_auth_request_module.html
+  - JWT 기반의 접근 제한: https://nginx.org/en/docs/http/ngx_http_auth_jwt_module.html
+
+<br>
+
 ### [`satisfy` 지시어](https://nginx.org/en/docs/http/ngx_http_core_module.html#satisfy)
 
 ```nginx

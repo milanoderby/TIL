@@ -101,3 +101,16 @@ events {
 - `use` 지시어는 `events 컨텍스트` 안에서 설정할 수 있습니다.
 
 <br>
+
+### [`include` 지시어](https://nginx.org/en/docs/ngx_core_module.html#include)
+
+```nginx
+include file
+```
+
+- 지정된 `file`의 내용을 그대로 가져옵니다.
+- `file`은 하나의 파일 또는 `*`를 이용한 여러 개의 파일을 지정할 수 있습니다.
+- 지정된 파일의 내용들은 올바른 문법의 directive와 block들로 구성되어야 합니다.
+- `모든 컨텍스트` 에서 설정할 수 있습니다.
+
+<br>

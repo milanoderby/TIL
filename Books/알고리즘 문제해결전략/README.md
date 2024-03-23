@@ -136,7 +136,7 @@
 
 |   제목    |                             링크                             | 난이도 | 풀이 여부 |
 | :-------: | :----------------------------------------------------------: | :----: | --------- |
-| 졸업 학기 | [GRADUATION](https://www.algospot.com/judge/problem/read/GRADUATION) |  ★★☆   |           |
+| 졸업 학기 | [GRADUATION](https://www.algospot.com/judge/problem/read/GRADUATION) |  ★★☆   | O         |
 
 
 
@@ -152,7 +152,7 @@
 
 |     제목      |                             링크                             | 난이도 | 풀이 여부 |
 | :-----------: | :----------------------------------------------------------: | :----: | --------- |
-| 조세푸스 문제 | [JOSEPHUS](https://www.algospot.com/judge/problem/read/JOSEPHUS) |  ★☆☆   |           |
+| 조세푸스 문제 | [JOSEPHUS](https://www.algospot.com/judge/problem/read/JOSEPHUS) |  ★☆☆   | O         |
 
 
 

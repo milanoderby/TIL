@@ -144,7 +144,7 @@
 
 |      제목       |                             링크                             | 난이도 | 풀이 여부 |
 | :-------------: | :----------------------------------------------------------: | :----: | --------- |
-| 크리스마스 인형 | [CHRISTMAS](https://www.algospot.com/judge/problem/read/CHRISTMAS) |  ★★☆   |           |
+| 크리스마스 인형 | [CHRISTMAS](https://www.algospot.com/judge/problem/read/CHRISTMAS) |  ★★☆   | O         |
 
 
 
@@ -160,7 +160,7 @@
 
 |        제목         |                             링크                             | 난이도 | 풀이 여부 |
 | :-----------------: | :----------------------------------------------------------: | :----: | --------- |
-| 짝이 맞지 않는 괄호 | [BRACKETS2](https://www.algospot.com/judge/problem/read/BRACKETS2) |  ★☆☆   |           |
+| 짝이 맞지 않는 괄호 | [BRACKETS2](https://www.algospot.com/judge/problem/read/BRACKETS2) |  ★☆☆   | O         |
 |   외계 신호 분석    |   [ITES](https://www.algospot.com/judge/problem/read/ITES)   |  ★★☆   |           |
 
 

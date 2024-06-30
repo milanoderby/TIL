@@ -30,6 +30,7 @@
 - [스프링 5 레시피 - 스프링 애플리케이션 개발에 유용한 161가지 문제 해결 기법](http://www.yes24.com/Product/Goods/63713129)
 - [스프링 마이크로서비스 코딩 공작소 Spring Microservices in Action - 스프링 부트와 스프링 클라우드, 도커, 아파치 카프카, 집킨, AWS로 컨테이너 기반의 MSA 구축](http://www.yes24.com/Product/Goods/67473377)
 - [JPA 프로그래밍 입문](http://www.yes24.com/Product/Goods/41787023) (1회독: 2022/10/09)
+- [스프링 시큐리티 인 액션 - 보안 기초부터 OAuth 2까지, 스프링 시큐리티를 활용한 안전한 앱 설계와 구현](https://www.yes24.com/Product/Goods/112200347) (1회독: 2024/06/30)
 
 <br>
 
@@ -50,8 +51,8 @@
 
 ### 읽고 있는 책
 
-- [Clean Code 클린 코드- 애자일 소프트웨어 장인 정신](http://www.yes24.com/Product/Goods/11681152)
 - [프로그래밍 대회에서 배우는 알고리즘 문제 해결 전략 세트](http://www.yes24.com/Product/Goods/8006522)
+- [아파치 카프카 애플리케이션 프로그래밍 with 자바 - 카프카의 개념부터 스트림즈·커넥트·스프링 카프카까지 데이터 파이프라인 구축 따라하기](https://www.yes24.com/Product/Goods/99122569)
 
 <br>
 
@@ -60,11 +61,11 @@
 - [Real MySQL 8.0 (1권) - 개발자와 DBA를 위한 MySQL 실전 가이드](http://www.yes24.com/Product/Goods/103415627)
 - [Real MySQL 8.0 (2권) - 개발자와 DBA를 위한 MySQL 실전 가이드](http://www.yes24.com/Product/Goods/103415767)
 - [데이터 중심 애플리케이션 설계 - 신뢰할 수 있고 확장 가능하며 유지보수하기 쉬운 시스템을 지탱하는 핵심 아이디어](http://www.yes24.com/Product/Goods/59566585)
-- [대규모 서비스를 지탱하는 기술 - 웹 개발자를 위한](http://www.yes24.com/Product/Goods/4667932)
-- [24시간 365일 서버/인프라를 지탱하는 기술](http://www.yes24.com/Product/Goods/3377489)
 - [코딩인터뷰 완전분석 - 189가지 프로그래밍 문제와 해법](http://www.yes24.com/Product/Goods/44305533)
 - [가상 면접 사례로 배우는 대규모 시스템 설계 기초](http://www.yes24.com/Product/Goods/102819435)
-- [HTTP 완벽 가이드](http://www.yes24.com/Product/Goods/15381085)
 - [자바 ORM 표준 JPA 프로그래밍 - 스프링 데이터 예제 프로젝트로 배우는 전자정부 표준 데이터베이스 프레임워크](http://www.yes24.com/Product/Goods/19040233)
-- [실전 카프카 개발부터 운영까지 - 데이터 플랫폼의 중추 아파치 카프카의 내부 동작과 개발, 운영, 보안의 모든 것](http://www.yes24.com/Product/Goods/104410708)
-- 스프링 배치 관련 서적
+- [스프링 배치 완벽 가이드 2/e - 클라우드 환경에서 활용하는 모던 배치 처리](https://www.yes24.com/Product/Goods/99422216)
+- [HTTP 완벽 가이드](http://www.yes24.com/Product/Goods/15381085)
+- [Clean Code 클린 코드- 애자일 소프트웨어 장인 정신](http://www.yes24.com/Product/Goods/11681152)
+- [대규모 서비스를 지탱하는 기술 - 웹 개발자를 위한](http://www.yes24.com/Product/Goods/4667932)
+- [24시간 365일 서버/인프라를 지탱하는 기술](http://www.yes24.com/Product/Goods/3377489)

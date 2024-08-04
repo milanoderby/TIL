@@ -1,4 +1,4 @@
-# yum 을 이용한 OpenJDK 설치
+# [CentOS] yum 을 이용한 OpenJDK 설치
 
 ### 1. 설치 가능한 OpenJDK 패키지 목록 확인
 
